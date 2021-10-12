@@ -61,89 +61,140 @@
         </nav>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Hi, Cuauhtemom.</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-              <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          <div>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+              <h1 class="h2">Teams</h1>
+              <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addTeamModal">Create new team</button>
+                  
+                </div>
               </div>
-              <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                This week
-              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1010</td>
+                    <td>The Incrdibles</td>
+                    <td><i class="bi bi-eye-fill"></i></td>
+                  </tr>
+                  <tr>
+                    <td>1013</td>
+                    <td>La Galaxy</td>
+                    <td><i class="bi bi-eye-fill"></i></td>
+                  </tr>
+                  <tr>
+                    <td>1014</td>
+                    <td>Cherry</td>
+                    <td><i class="bi bi-eye-fill"></i></td>
+                  </tr>
+                  <tr>
+                    <td>1015</td>
+                    <td>White Socks</td>
+                    <td><i class="bi bi-eye-fill"></i></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <h2>Teams</h2>
-          <div class="table-responsive">
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Header</th>
-                  <th scope="col">Header</th>
-                  <th scope="col">Header</th>
-                  <th scope="col">Header</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>random</td>
-                  <td>data</td>
-                  <td>placeholder</td>
-                  <td>text</td>
-                </tr>
+          <div>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+              <h1 class="h2">Leaugues</h1>
+              <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                  <button type="button" class="btn btn-sm btn-outline-secondary">Create new leag</button>
+                  
+                </div>
+              </div>
+            </div>
 
-                <tr>
-                  <td>1,008</td>
-                  <td>random</td>
-                  <td>data</td>
-                  <td>placeholder</td>
-                  <td>text</td>
-                </tr>
-                <tr>
-                  <td>1,009</td>
-                  <td>placeholder</td>
-                  <td>irrelevant</td>
-                  <td>visual</td>
-                  <td>layout</td>
-                </tr>
-                <tr>
-                  <td>1,010</td>
-                  <td>data</td>
-                  <td>rich</td>
-                  <td>dashboard</td>
-                  <td>tabular</td>
-                </tr>
-                <tr>
-                  <td>1,013</td>
-                  <td>dashboard</td>
-                  <td>irrelevant</td>
-                  <td>text</td>
-                  <td>visual</td>
-                </tr>
-                <tr>
-                  <td>1,014</td>
-                  <td>dashboard</td>
-                  <td>illustrative</td>
-                  <td>rich</td>
-                  <td>data</td>
-                </tr>
-                <tr>
-                  <td>1,015</td>
-                  <td>random</td>
-                  <td>tabular</td>
-                  <td>information</td>
-                  <td>text</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">options</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1010</td>
+                    <td>The Incrdibles</td>
+                    <td><i class="bi bi-eye-fill"></i></td>
+                  </tr>
+                  <tr>
+                    <td>1013</td>
+                    <td>La Galaxy</td>
+                    <td><i class="bi bi-eye-fill"></i></td>
+                  </tr>
+                  <tr>
+                    <td>1014</td>
+                    <td>Cherry</td>
+                    <td><i class="bi bi-eye-fill"></i></td>
+                  </tr>
+                  <tr>
+                    <td>1015</td>
+                    <td>White Socks</td>
+                    <td><i class="bi bi-eye-fill"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
+          
         </main>
       </div>
     </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addTeamModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add new team</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Team Name</label>
+              <input type="text" name="teamName" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              
+            </div>
+            <select class="form-select mb-3" name="sportType" aria-label="Default select example">
+              <option selected>Select sport</option>
+              <option value="Soccer">Soccer</option>
+              <option value="Basketball">Basketball</option>
+              <option value="Football">Football</option>
+            </select>
+            <div class="mb-3">
+              <label for="formFileSm" class="form-label">Team image</label>
+              <input class="form-control form-control-sm" id="formFileSm" type="file">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

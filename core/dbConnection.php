@@ -3,8 +3,8 @@
 	{
 		private $host		= '127.0.0.1';
 		private $database	= 'clubtres';
-		private $usDb		= 'uname';
-		private $password	= 'bNgGAjd73XsGEDYn';
+		private $usDb		= 'root';
+		private $password	= '';
 
 		public function __construct()
 		{
