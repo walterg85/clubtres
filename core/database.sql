@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 11-10-2021 a las 23:53:46
+-- Tiempo de generación: 12-10-2021 a las 21:46:53
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -27,6 +27,52 @@ USE `clubtres`;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `league`
+--
+
+CREATE TABLE `league` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `sport` int(11) DEFAULT NULL,
+  `image` varchar(250) DEFAULT NULL,
+  `register_date` datetime DEFAULT NULL,
+  `season_start` date DEFAULT NULL,
+  `season_end` date DEFAULT NULL,
+  `subscription_limit` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `team`
+--
+
+CREATE TABLE `team` (
+  `id` int(11) NOT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `image` varchar(250) DEFAULT NULL,
+  `register_date` datetime DEFAULT NULL,
+  `active` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `team_league`
+--
+
+CREATE TABLE `team_league` (
+  `id` int(11) DEFAULT NULL,
+  `team_id` int(11) DEFAULT NULL,
+  `league_id` int(11) DEFAULT NULL,
+  `register_date` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `user`
 --
 
@@ -43,9 +89,37 @@ CREATE TABLE `user` (
   `active` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_team`
+--
+
+CREATE TABLE `user_team` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `team_id` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `role` varchar(250) DEFAULT NULL,
+  `register_date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `league`
+--
+ALTER TABLE `league`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `team`
+--
+ALTER TABLE `team`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `user`
@@ -55,13 +129,37 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indices de la tabla `user_team`
+--
+ALTER TABLE `user_team`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `league`
+--
+ALTER TABLE `league`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `team`
+--
+ALTER TABLE `team`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `user_team`
+--
+ALTER TABLE `user_team`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
