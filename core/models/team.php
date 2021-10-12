@@ -8,14 +8,13 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO team
-					(name, image, register_date, active)
+					(name, register_date, active)
 				VALUES
-					(:name, :image, now(), 1)
+					(:name, now(), 1)
 			';
 
 			$parametros = array(
-				':name'		=> $data['name'],
-				':image'	=> $data['image']		
+				':name'		=> $data['name']	
 			);
 			
 			try {
@@ -43,5 +42,20 @@
 			} catch (PDOException $e) {
 		        return [FALSE, 0];
 		    }
+		}
+
+		public function updateImage($teamId, $image){
+			$pdo = new Conexion();
+			$cmd = 'UPDATE team SET image =:image WHERE id =:teamId';
+
+			$parametros = array(
+				':image' => $image,
+				':teamId' => $teamId			
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
 		}
 	}

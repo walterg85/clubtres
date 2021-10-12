@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	
-	require_once '../models/team.php';
+	require_once '../models/league.php';
 	require_once '../utils/jwt.php';
 
 	header("Access-Control-Allow-Origin: *");
@@ -15,30 +15,30 @@
 			if($_POST['_method'] == 'POST'){
 
 				$data = array(
-					'name' => $_POST['inputName'],
-					'user_id' => $_SESSION['authData']->id
+					'name' => $_POST['inputNameL'],
+					'sport' => $_POST['sportType']
 				);
 
-				$teamModel = new Teamsmodel();
-				$tmpResponse = $teamModel->createTeam($data);
+				$leagueModel = new Leaguemodel();
+				$tmpResponse = $leagueModel->createLeague($data);
 
 				if($tmpResponse[0]){
-					$teamId = $tmpResponse[1];
+					$leagueId = $tmpResponse[1];
 
-					if (!empty($_FILES['imageteam'])){
-						$filename = $_FILES['imageteam']['name'];
-						$tempname = $_FILES['imageteam']['tmp_name'];    
-						$folder   = "assets/img/teams/{$teamId}";
+					if (!empty($_FILES['imageleague'])){
+						$filename = $_FILES['imageleague']['name'];
+						$tempname = $_FILES['imageleague']['tmp_name'];    
+						$folder   = "assets/img/leagues/{$leagueId}";
 	          
 	          			mkdir(dirname(__FILE__, 3) . "/{$folder}", 0777, true);          
 						if (move_uploaded_file($tempname, "../../{$folder}/{$filename}"))
-							$teamModel->updateImage($teamId, "{$folder}/{$filename}");
+							$leagueModel->updateImage($leagueId, "{$folder}/{$filename}");
 					}
 
 					$response = array(
 						'codeResponse' => 200,
-						'id' => $teamId,
-						'message' => 'Team successfully registered.'
+						'id' => $leagueId,
+						'message' => 'League successfully registered.'
 					);
 				}else{
 					$response = array(
