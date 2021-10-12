@@ -1,13 +1,10 @@
 <?php
-	class Usersmodel
-	{
-		public function __construct()
-	    {
+	class Usersmodel {
+		public function __construct() {
 	        require_once '../dbConnection.php';
 	    }
 
-		public function createUser($userData)
-		{
+		public function createUser($userData) {
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO user
@@ -17,13 +14,13 @@
 			';
 
 			$parametros = array(
-				':name' => $userData['owner'],
-				':last_name' => $userData['email'],
-				':email' => $userData['password'],
-				':password' => $userData['type']			
+				':name' => $userData['name'],
+				':last_name' => $userData['last_name'],
+				':email' => $userData['email'],
+				':password' => $userData['password']			
 			);
 			
-			try{
+			try {
 				$sql = $pdo->prepare($cmd);
 				$sql->execute($parametros);
 
@@ -31,5 +28,20 @@
 			} catch (PDOException $e) {
 		        return [FALSE, $e->getCode()];
 		    }
+		}
+
+		public function login($email) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, name, last_name, email, password FROM user WHERE email =:email AND active = 1';
+
+			$parametros = array(
+				':email' => $email
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
 		}
 	}
