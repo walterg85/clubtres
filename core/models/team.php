@@ -58,4 +58,19 @@
 
 			return TRUE;
 		}
+
+		public function getTeamId($teamId) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, name, image, active FROM team WHERE id =:teamId';
+
+			$parametros = array(
+				':teamId' => $teamId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
 	}

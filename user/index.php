@@ -19,15 +19,9 @@
                     <img src="../assets/img/user/default.jpg" class="d-block mx-lg-auto img-fluid shadow" id="userPhoto" alt="User picture" width="700" height="500" loading="lazy">
                 </div>
                 <div class="col-lg-6">
-                    <h1 class="fw-bold lh-1 mb-0" id="userName">Cuauhtemoc Hernandez</h1>
-                    <p class="h1 mt-0" id="userId">#39849</p>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" id="userStatus"><b>Status</b> </li>
-                        <li class="list-group-item" id="userMail"><b>Email</b> </li>
-                        <li class="list-group-item" id="userAge"><b>Member since:</b> </li>
-                        <li class="list-group-item" id="userTeams"><b>Teams member:</b> </li>
-                        <li class="list-group-item" id="userPlaying"><b>playing in league:</b> </li>
-                    </ul>
+                    <h1 class="fw-bold lh-1 mb-0" id="userName"></h1>
+                    <p class="h1 mt-0" id="userId"></p>
+                    <p class="lead" id="userStatus"></p>
                 </div>
             </div>
         </div>
@@ -36,11 +30,41 @@
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script type="text/javascript">
-        var uri = "<?php echo $_SERVER[REQUEST_URI]; ?>";
-        var host = "<?php $_SERVER[HTTP_HOST] ?>";
-        console.log(`uri ${uri}`);
-        console.log(`host ${host}`);
+        var userId = "<?php echo $_GET['id']; ?>";
+
+        $(document).ready(function(){
+            // Cargar datos del usuario
+            fnLoadData();
+        });
+
+        function fnLoadData(){
+            if(userId){
+                let objData = {
+                    "_method": "GET",
+                    "userId": userId
+                };
+
+                $.post("../core/controllers/user.php", objData, function(result) {
+                    if(result.data){
+                        $("#userName").html(`${result.data.name} ${result.data.last_name}`);
+                        $("#userId").html(`#${result.data.id}`);
+                        $("#userStatus").html( (result.data.active == 1) ? "Active" : "Disbaled" );
+                        // $("#userPhoto").attr("src", result.image);
+                    }else{
+                        $("#userName").html("");
+                        $("#userId").html("");
+                        $("#userStatus").html("");
+                    }
+                });
+            }else{
+                window.location.replace("../index.html");
+            }
+            
+        }
     </script>
 </body>
 </html>

@@ -43,7 +43,7 @@
 			header("Content-Type: application/json; charset=UTF-8");
 			
 			exit(json_encode($response));
-		}else if($put_vars['_method'] == 'VALIDATE'){
+		} else if($put_vars['_method'] == 'VALIDATE'){
 			$userModel = new Usersmodel();
 			$tmpResponse = $userModel->login($put_vars['email']);
 
@@ -70,6 +70,22 @@
 					$_SESSION['authData'] = $tmpResponse;
 				}
 			}
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			
+			exit(json_encode($response));
+		} else if($put_vars['_method'] == 'GET') {
+			$userModel = new Usersmodel();
+			$tmpResponse = $userModel->getUserId($put_vars['userId']);
+
+			if($tmpResponse)
+				$tmpResponse->id = str_pad($tmpResponse->id, 5, '0', STR_PAD_LEFT);			
+
+			$response = array(
+				'codeResponse' => 200,
+				'data' => $tmpResponse
+			);
 
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");

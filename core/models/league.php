@@ -42,4 +42,19 @@
 
 			return TRUE;
 		}
+
+		public function getLeagueId($leagueId) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, name, sport, image, status FROM league WHERE id =:leagueId';
+
+			$parametros = array(
+				':leagueId' => $leagueId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
 	}
