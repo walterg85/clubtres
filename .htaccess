@@ -1,9 +1,0 @@
-RewriteEngine on
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-
-#   Usuarios
-#   Entrada: user/ID_DEL_USUARIO/
-#   Salida: index.php?id=ID_DEL_USUARIO
-RewriteRule ^user/(.*)$  /index.php?id=$1 [L]

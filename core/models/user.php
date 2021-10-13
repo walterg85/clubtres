@@ -44,4 +44,19 @@
 
 			return $sql->fetch();
 		}
+
+		public function getUserId($userId) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, name, last_name, active FROM user WHERE id =:userId';
+
+			$parametros = array(
+				':userId' => $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
 	}
