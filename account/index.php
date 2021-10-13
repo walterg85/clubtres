@@ -38,19 +38,19 @@
           <div class="position-sticky pt-3">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="javascript:void(0);" id="linkHome">
                   <i class="bi bi-house-door-fill"></i>
                   Home
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="javascript:void(0);" id="linkLeague">
                   <i class="bi bi-people-fill"></i>
                   Leagues
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="javascript:void(0);" id="linkTeam">
                   <i class="bi bi-person-badge-fill"></i>
                   Teams
                 </a>
@@ -59,161 +59,11 @@
 
           </div>
         </nav>
-
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-          <div>
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 class="h2">Teams</h1>
-              <div class="btn-toolbar mb-2 mb-md-0">
-                <div class="btn-group me-2">
-                  <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addTeamModal">Create new team</button>
-                  
-                </div>
-              </div>
-            </div>
-
-            <div class="table-responsive">
-              <table class="table table-striped table-sm">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1010</td>
-                    <td>The Incrdibles</td>
-                    <td><i class="bi bi-eye-fill"></i></td>
-                  </tr>
-                  <tr>
-                    <td>1013</td>
-                    <td>La Galaxy</td>
-                    <td><i class="bi bi-eye-fill"></i></td>
-                  </tr>
-                  <tr>
-                    <td>1014</td>
-                    <td>Cherry</td>
-                    <td><i class="bi bi-eye-fill"></i></td>
-                  </tr>
-                  <tr>
-                    <td>1015</td>
-                    <td>White Socks</td>
-                    <td><i class="bi bi-eye-fill"></i></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div>
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 class="h2">Leaugues</h1>
-              <div class="btn-toolbar mb-2 mb-md-0">
-                <div class="btn-group me-2">
-                  <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addLeagueModal">Create new leag</button>
-                  
-                </div>
-              </div>
-            </div>
-
-            <div class="table-responsive">
-              <table class="table table-striped table-sm">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">options</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1010</td>
-                    <td>The Incrdibles</td>
-                    <td><i class="bi bi-eye-fill"></i></td>
-                  </tr>
-                  <tr>
-                    <td>1013</td>
-                    <td>La Galaxy</td>
-                    <td><i class="bi bi-eye-fill"></i></td>
-                  </tr>
-                  <tr>
-                    <td>1014</td>
-                    <td>Cherry</td>
-                    <td><i class="bi bi-eye-fill"></i></td>
-                  </tr>
-                  <tr>
-                    <td>1015</td>
-                    <td>White Socks</td>
-                    <td><i class="bi bi-eye-fill"></i></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          
-        </main>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" id="mainContenedor"></main>
       </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="addTeamModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Add new team</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="frmTeam">
-                        <div class="mb-3">
-                            <label for="inputName" class="form-label">Team Name</label>
-                            <input type="text" name="inputName" class="form-control" id="inputName">              
-                        </div>
-                        <div class="mb-3">
-                            <label for="imageteam" class="form-label">Team image</label>
-                            <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
-                        </div>
-                        <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="addLeagueModal" tabindex="-1" aria-labelledby="modalTitle2" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle2">Add new league</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="frmLeague">
-                        <div class="mb-3">
-                            <label for="inputNameL" class="form-label">League Name</label>
-                            <input type="text" name="inputNameL" class="form-control" id="inputNameL">              
-                        </div>
-                        <select class="form-select mb-3" name="sportType" id="sportType" aria-label="Default select example">
-                            <option value="0" selected>Select sport</option>
-                            <option value="1">Soccer</option>
-                            <option value="2">Basketball</option>
-                            <option value="3">Football</option>
-                        </select>
-                        <div class="mb-3">
-                            <label for="imageleague" class="form-label">League image</label>
-                            <input class="form-control form-control-sm" id="imageleague" name="imageleague" type="file" accept="image/*">
-                        </div>
-                        <button type="button" class="btn btn-primary" id="btnRegisterLeague">Submit</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -223,79 +73,18 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            // Registrar nuevo equipo
-            $("#btnRegisterTeam").on("click", fnRegisterTeam);
+            $("#linkHome").on("click", function(){
+                $( "#mainContenedor" ).load( `home.html?v=${Math.random()}` );
+            });
 
-            // Registrar nueva liga
-            $("#btnRegisterLeague").on("click", fnRegisterLeague);
+            $("#linkTeam").on("click", function(){
+                $( "#mainContenedor" ).load( `team.html?v=${Math.random()}` );
+            });
 
-            // Controlar tipo de objeto que intentan subir
-            $('input[type="file"]').on('change', function(){
-                let ext = $( this ).val().split('.').pop();
-
-                if ($( this ).val() != ''){
-                    if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
-                        if($(this)[0].files[0].size > 1048576){
-                            $( this ).val('');
-                            alert('Your selected file is larger than 1MB');
-                        }
-                    }else{
-                        $( this ).val('');
-                        alert(`${ext} files not allowed, only images`);
-                    }
-                }
+            $("#linkLeague").on("click", function(){
+                $( "#mainContenedor" ).load( `league.html?v=${Math.random()}` );
             });
         });
-
-        function fnRegisterTeam(){
-            let form = $("#frmTeam")[0],
-                formData = new FormData(form);
-
-            formData.append('_method', "POST");
-
-            $.ajax({
-                url: '../core/controllers/team.php',
-                data: formData,
-                type: 'POST',
-                dataType: 'json',
-                success: function(response){
-                    alert(response.message);
-                    $("#addTeamModal").modal("hide");
-                    $("#frmTeam")[0].reset()
-                },
-                error: function(xhr, status) {
-                    alert('There is a problem');
-                },
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-        }
-
-        function fnRegisterLeague(){
-            let form = $("#frmLeague")[0],
-                formData = new FormData(form);
-
-            formData.append('_method', "POST");
-
-            $.ajax({
-                url: '../core/controllers/league.php',
-                data: formData,
-                type: 'POST',
-                dataType: 'json',
-                success: function(response){
-                    alert(response.message);
-                    $("#addLeagueModal").modal("hide");
-                    $("#frmLeague")[0].reset()
-                },
-                error: function(xhr, status) {
-                    alert('There is a problem');
-                },
-                cache: false,
-                contentType: false,
-                processData: false
-            });
-        }
     </script>
   </body>
 </html>

@@ -12,8 +12,8 @@
   </head>
   <body>
     <div class="container">
-      <img class="img-fluid shadow" src="../assets/img/teams/team.jpg">
-      <h1 class="text-secondary my-3">Kung Fu Pandas #39849</h1>
+      <img class="img-thumbnail shadow" src="#" id="teamPhoto" width="150px">
+      <h1 class="text-secondary my-3" id="lblNombreTeam"></h1>
       <table class="table">
         <thead>
           <tr>
@@ -44,5 +44,44 @@
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script type="text/javascript">
+        var teamId = "<?php echo $_GET['id']; ?>";
+
+        $(document).ready(function(){
+            // Cargar datos del team
+            fnLoadData();
+        });
+
+        function fnLoadData(){
+            if(teamId){
+                let objData = {
+                    "teamId": teamId
+                };
+
+                $.get("../core/controllers/team.php", objData, function(result) {
+                    if(result.data){
+                        $("#lblNombreTeam").html(`${result.data.name}`);
+                        $("#lblNombreTeam").append(` #${result.data.id}`);
+
+                        if(result.data.image){
+                          $("#teamPhoto").attr("src", `../${result.data.image}`);
+                        }else{
+                          $("#teamPhoto").attr("src", `#`);
+                        }
+                    }else{
+                        $("#lblNombreTeam").html("");
+                        $("#teamPhoto").attr("src", `#`);
+                    }
+                });
+            }else{
+                window.location.replace("../index.html");
+            }
+            
+        }
+    </script>
   </body>
 </html>
