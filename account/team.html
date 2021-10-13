@@ -64,6 +64,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="imageteam" class="form-label">Team image</label>
+                        <img class="rounded w-100" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
                         <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
                     </div>
                     <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
@@ -91,13 +92,13 @@
                 <div id="cropper-buttons">
                     <div class="docs-buttons">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="setDragMode" data-option="move" title="Mover">
-                                <span data-toggle="tooltip" title="Desplasar imagen">
+                            <button type="button" class="btn btn-success mb-3" data-method="setDragMode" data-option="move" title="Move">
+                                <span data-toggle="tooltip" title="Shift image">
                                     <span class="fa fa-arrows-alt"></span>
                                 </span>
                             </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="setDragMode" data-option="crop" title="Cortar">
-                                <span data-toggle="tooltip" title="Cortar">
+                            <button type="button" class="btn btn-success mb-3" data-method="setDragMode" data-option="crop" title="Cut">
+                                <span data-toggle="tooltip" title="Cut">
                                     <span class="fa fa-crop-alt"></span>
                                 </span>
                             </button>
@@ -115,36 +116,65 @@
                             </button>
                         </div>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="-10" data-second-option="0" title="Mover a la izquierda">
-                                <span data-toggle="tooltip" title="Mover (-10, 0)">
+                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="-10" data-second-option="0" title="Move left">
+                                <span data-toggle="tooltip" title="Move (-10, 0)">
                                     <span class="fa fa-arrow-left"></span>
                                 </span>
                             </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="10" data-second-option="0" title="Mover a la derecha">
-                                <span data-toggle="tooltip" title="Mover (10, 0)">
+                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="10" data-second-option="0" title="Move right">
+                                <span data-toggle="tooltip" title="Move (10, 0)">
                                     <span class="fa fa-arrow-right"></span>
                                 </span>
                             </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="0" data-second-option="-10" title="Move hacia ariba">
-                                <span data-toggle="tooltip" title="Mover (0, -10)">
+                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="0" data-second-option="-10" title="Move up">
+                                <span data-toggle="tooltip" title="Move (0, -10)">
                                     <span class="fa fa-arrow-up"></span>
                                 </span>
                             </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="0" data-second-option="10" title="Mover hacia abajo">
-                                <span data-toggle="tooltip" title="Mover (0, 10)">
+                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="0" data-second-option="10" title="Move down">
+                                <span data-toggle="tooltip" title="Move (0, 10)">
                                     <span class="fa fa-arrow-down"></span>
                                 </span>
                             </button>
                         </div>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="rotate" data-option="-45" title="Rotar a la izquierda">
-                                <span data-toggle="tooltip" title="Rotar (-45)">
+                            <button type="button" class="btn btn-success mb-3" data-method="rotate" data-option="-45" title="Rotate left">
+                                <span data-toggle="tooltip" title="Rotate (-45)">
                                     <span class="fa fa-undo-alt"></span>
                                 </span>
                             </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="rotate" data-option="45" title="Rotar a la derecha">
-                                <span data-toggle="tooltip" title="Rotar (45)">
+                            <button type="button" class="btn btn-success mb-3" data-method="rotate" data-option="45" title="Rotate right">
+                                <span data-toggle="tooltip" title="Rotate (45)">
                                     <span class="fa fa-redo-alt"></span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success mb-3" data-method="scaleX" data-option="-1" title="Flip horizontal">
+                                <span data-toggle="tooltip" title="Scale X (-1)">
+                                    <span class="fa fa-arrows-alt-h"></span>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-success mb-3" data-method="scaleY" data-option="-1" title="Turn vertical">
+                                <span data-toggle="tooltip" title="Scale Y (-1)">
+                                    <span class="fa fa-arrows-alt-v"></span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success mb-3" data-method="disable" title="Deactivate">
+                                <span data-toggle="tooltip" title="To protect">
+                                    <span class="fa fa-lock"></span>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-success mb-3" data-method="enable" title="Activate">
+                                <span data-toggle="tooltip" title="Edit mode">
+                                    <span class="fa fa-unlock"></span>
+                                </span>
+                            </button>
+                            <button type="button" class="btn btn-success mb-3" data-method="reset" title="Restore">
+                                <span data-toggle="tooltip" title="Restore">
+                                    <span class="fa fa-sync-alt"></span>
                                 </span>
                             </button>
                         </div>
@@ -180,6 +210,9 @@
                 }
             }
         });
+
+        // Reiniciar el DOM
+        domReady();
     });
 
     function fnRegisterTeam(){
@@ -207,26 +240,66 @@
         });
     }
 
-    window.addEventListener("DOMContentLoaded", function(){
-        document.getElementById("crop").addEventListener("click", function(){
-            let initialPhotoURL,
-                canvas;
+    function domReady(){
+        console.log(1);
+        window.addEventListener("DOMContentLoaded", function(){
+            console.log("entro");
+            let picture,
+            image       = document.getElementById("image"),
+            inputFile   = document.getElementById("imageteam"),
+            $modal      = $('#modalCrop'),
+            cropper;
 
-            $modal.modal("hide");
+            inputFile.addEventListener("change", function(e){
+                picture    = document.getElementById("imgPreview");
+                let files = e.target.files,
+                    done  = function (url){
+                        inputFile.value = "";
+                        image.src = url;
+                        $modal.modal('show');
+                    },
+                    reader,
+                    file,
+                    url;
 
-            if(cropper){
-                canvas = cropper.getCroppedCanvas({
-                    width: 900,
-                    height: 400,
-                });
+                if (files && files.length > 0){
+                    file = files[0];
 
-                initialPhotoURL = avatar.src;
-                avatar.src = canvas.toDataURL();
+                    if (URL){
+                        done(URL.createObjectURL(file));
+                    }
+                    else if (FileReader){
+                        reader = new FileReader();
+                        reader.onload = function(e){
+                            done(reader.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
 
-                canvas.toBlob(function (blob){
-                    imagenesArr[avatar.dataset.foto] = blob;
-                });
-            }
+                console.log("entro");
+            });
+
+            document.getElementById("crop").addEventListener("click", function(){
+                let initialPhotoURL,
+                    canvas;
+
+                $modal.modal("hide");
+
+                if(cropper){
+                    canvas = cropper.getCroppedCanvas({
+                        width: 900,
+                        height: 400,
+                    });
+
+                    initialPhotoURL = picture.src;
+                    picture.src = canvas.toDataURL();
+
+                    canvas.toBlob(function (blob){
+                        imagenesArr[picture.dataset.foto] = blob;
+                    });
+                }
+            });
         });
-    });
+    }
 </script>
