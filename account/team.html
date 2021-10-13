@@ -1,6 +1,11 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" integrity="sha512-0SPWAwpC/17yYyZ/4HSllgaK7/gg9OlVozq8K7rf3J8LvCjYEEIfzzpnA2/SSjpGIunCSD18r3UhvDcu/xncWA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- cropperCSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- cropperJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- Icons CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <div>
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -64,7 +69,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="imageteam" class="form-label">Team image</label>
-                        <img class="rounded w-100" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
+                        <img class="rounded w-100 d-none" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
                         <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
                     </div>
                     <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
@@ -211,8 +216,80 @@
             }
         });
 
-        // Reiniciar el DOM
-        domReady();
+        // Image Cropper
+        let picture,
+        image       = $("#image")[0],
+        inputFile   = $("#imageteam")[0],
+        $modal      = $('#modalCrop'),
+        cropper     = null;
+
+        inputFile.addEventListener("change", function(e){
+            picture   = $("#imgPreview");
+            let files = e.target.files,
+                done  = function (url){
+                    inputFile.value = "";
+                    image.src = url;
+                    $modal.modal('show');
+                },
+                reader,
+                file,
+                url;
+
+            if (files && files.length > 0){
+                file = files[0];
+
+                if (URL){
+                    done(URL.createObjectURL(file));
+                }
+                else if (FileReader){
+                    reader = new FileReader();
+                    reader.onload = function(e){
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        $modal.on('shown.bs.modal', function(){
+            let URL         = window.URL || window.webkitURL,
+                container   = document.querySelector('.img-container'),
+                actions     = document.getElementById('cropper-buttons'),
+                options     = {
+                    aspectRatio: 1,
+                    viewMode: 2
+                };
+
+            cropper = new Cropper(image, options);
+
+        }).on('hidden.bs.modal', function(){
+            cropper.destroy();
+            cropper = null;
+        });
+
+        $("#cropImage").on("click", function(){
+            let initialPhotoURL,
+                canvas;
+
+            $modal.modal("hide");
+
+            if(cropper){
+                canvas = cropper.getCroppedCanvas({
+                    width: 900,
+                    height: 400,
+                });
+
+                initialPhotoURL = picture.attr("src");
+                picture
+                    .attr("src", canvas.toDataURL())
+                    .removeClass("d-none");
+
+                canvas.toBlob(function (blob){
+                    // imagenesArr[picture.dataset.foto] = blob;
+                    console.log(blob);
+                });
+            }
+        });
     });
 
     function fnRegisterTeam(){
@@ -239,67 +316,6 @@
             processData: false
         });
     }
-
-    function domReady(){
-        console.log(1);
-        window.addEventListener("DOMContentLoaded", function(){
-            console.log("entro");
-            let picture,
-            image       = document.getElementById("image"),
-            inputFile   = document.getElementById("imageteam"),
-            $modal      = $('#modalCrop'),
-            cropper;
-
-            inputFile.addEventListener("change", function(e){
-                picture    = document.getElementById("imgPreview");
-                let files = e.target.files,
-                    done  = function (url){
-                        inputFile.value = "";
-                        image.src = url;
-                        $modal.modal('show');
-                    },
-                    reader,
-                    file,
-                    url;
-
-                if (files && files.length > 0){
-                    file = files[0];
-
-                    if (URL){
-                        done(URL.createObjectURL(file));
-                    }
-                    else if (FileReader){
-                        reader = new FileReader();
-                        reader.onload = function(e){
-                            done(reader.result);
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                }
-
-                console.log("entro");
-            });
-
-            document.getElementById("crop").addEventListener("click", function(){
-                let initialPhotoURL,
-                    canvas;
-
-                $modal.modal("hide");
-
-                if(cropper){
-                    canvas = cropper.getCroppedCanvas({
-                        width: 900,
-                        height: 400,
-                    });
-
-                    initialPhotoURL = picture.src;
-                    picture.src = canvas.toDataURL();
-
-                    canvas.toBlob(function (blob){
-                        imagenesArr[picture.dataset.foto] = blob;
-                    });
-                }
-            });
-        });
-    }
 </script>
+
+The first argument is required and must be an <img> or <canvas> element
