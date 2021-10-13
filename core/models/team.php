@@ -73,4 +73,18 @@
 
 			return $sql->fetch();
 		}
+
+		public function getTeam($user_id) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, name, register_date, active FROM team WHERE id in(select team_id from user_team where user_id =:user_id);';
+
+			$parametros = array(
+				':user_id' => $user_id
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}

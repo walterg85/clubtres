@@ -8,49 +8,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <div>
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Teams</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group me-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addTeamModal">Create new team</button>
-        
-      </div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Teams</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addTeamModal">Create new team</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="table-responsive">
-    <table class="table table-striped table-sm">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">options</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1010</td>
-          <td>The Incrdibles</td>
-          <td><i class="bi bi-eye-fill"></i></td>
-        </tr>
-        <tr>
-          <td>1013</td>
-          <td>La Galaxy</td>
-          <td><i class="bi bi-eye-fill"></i></td>
-        </tr>
-        <tr>
-          <td>1014</td>
-          <td>Cherry</td>
-          <td><i class="bi bi-eye-fill"></i></td>
-        </tr>
-        <tr>
-          <td>1015</td>
-          <td>White Socks</td>
-          <td><i class="bi bi-eye-fill"></i></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm" id="teamList"></table>
+    </div>
 </div>
 
  <!-- Modal para registrar nuevo equipo -->
@@ -86,9 +55,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalLabel">Edit / Crop the photo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="img-container mb-3" style="max-height: 500px">
@@ -187,7 +154,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="cropImage">Apply</button>
             </div>
         </div>
@@ -195,6 +162,8 @@
 </div>
 
 <script type="text/javascript">
+    var teamPhoto   = null;
+
     $(document).ready(function(){
         // Registrar nuevo equipo
         $("#btnRegisterTeam").on("click", fnRegisterTeam);
@@ -221,8 +190,7 @@
         image       = $("#image")[0],
         inputFile   = $("#imageteam")[0],
         $modal      = $('#modalCrop'),
-        cropper     = null,
-        teamPhoto   = null;
+        cropper     = null;
 
         inputFile.addEventListener("change", function(e){
             picture   = $("#imgPreview");
@@ -426,13 +394,17 @@
                 });
             }
         });
+
+        // Lista de equipos del usuario logueado
+        fnListTeam();
     });
 
     function fnRegisterTeam(){
         let form = $("#frmTeam")[0],
             formData = new FormData(form);
 
-        formData.append('_method', "POST");
+        formData.append("_method", "POST");
+        formData.append("imageteam", teamPhoto, "teamPhoto.jpg");
 
         $.ajax({
             url: '../core/controllers/team.php',
@@ -442,7 +414,9 @@
             success: function(response){
                 alert(response.message);
                 $("#addTeamModal").modal("hide");
-                $("#frmTeam")[0].reset()
+                $("#frmTeam")[0].reset();
+
+                fnListTeam();
             },
             error: function(xhr, status) {
                 alert('There is a problem');
@@ -452,6 +426,62 @@
             processData: false
         });
     }
-</script>
 
-The first argument is required and must be an <img> or <canvas> element
+    function fnListTeam(){
+        $.ajax({
+            url: '../core/controllers/team.php',
+            data: { _method: 'GET' },
+            type: 'POST',
+            dataType: 'json',
+            success: function(response){
+                if (dataTables != null)
+                    dataTables.destroy();
+
+                dataTables = $("#teamList").DataTable({
+                    data: response.data,
+                    columns:
+                    [
+                        {
+                            data: 'id',
+                            title: '#',
+                            render: function(data, type, row){
+                                return pad(data, 5);
+                            }
+                        },
+                        {
+                            data: 'name',
+                            title: 'Name'
+                        },
+                        {
+                            data: 'register_date',
+                            title: 'Register date'
+                        },
+                        {
+                            data: 'active',
+                            title: 'Status',
+                            render: function(data, type, row){
+                                return (data== 1) ? "Active" : "Disabled";
+                            }
+                        },
+                        {
+                            title: '',
+                            data: 'active',
+                            orderable: false,
+                            class: "text-center",
+                            render: function ( data, type, row )
+                            {
+                                return `
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditTeam" title="Edit"><i class="bi bi-pencil"></i></a>
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteTeam' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
+                                `;
+                            }
+                        }
+                    ]
+                });
+            },
+            error: function(xhr, status) {
+                console.log(status);
+            }
+        });
+    }
+</script>

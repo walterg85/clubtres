@@ -16,6 +16,9 @@
     <link href="../assets/css/account.css" rel="stylesheet" >
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
+    <!-- Datatables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+
     <title>Account Page</title>
   </head>
   <body>
@@ -71,7 +74,13 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Datatables -->
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
     <script type="text/javascript">
+        var dataTables = null;
+
         $(document).ready(function(){
             $("#linkHome").on("click", function(){
                 $( "#mainContenedor" ).load( `home.html?v=${Math.random()}` );
@@ -85,6 +94,16 @@
                 $( "#mainContenedor" ).load( `league.html?v=${Math.random()}` );
             });
         });
+
+        function getData(obj){
+            let tr   = obj.parents("tr");
+            return dataTables.row( tr ).data();
+        }
+
+        function pad (str, max) {
+            str = str.toString();
+            return str.length < max ? pad("0" + str, max) : str;
+        }
     </script>
   </body>
 </html>
