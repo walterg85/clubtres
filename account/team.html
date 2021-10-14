@@ -29,6 +29,7 @@
             </div>
             <div class="modal-body">
                 <form id="frmTeam">
+                    <input type="hidden" name="idTeam" id="idTeam" value="0">
                     <div class="mb-3">
                         <label for="inputName" class="form-label">Team Name</label>
                         <input type="text" name="inputName" class="form-control" id="inputName">              
@@ -255,6 +256,21 @@
             },
             error: function(xhr, status) {
                 console.log(status);
+            },
+            complete: function(){
+                 $(document).on("click", ".btnEditTeam", function(){
+                    let data = getData($(this));
+
+                    $("#modalTitle").html(`Edit ${data.name} Team´s`);
+
+                    $("#inputName").val(data.name);
+                    $("#idTeam").val(data.id);
+                    $("#imgPreview")
+                        .attr("src", `../${data.image}`)
+                        .removeClass("d-none");
+
+                    $("#addTeamModal").modal("show");
+                });
             }
         });
     }
