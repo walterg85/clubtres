@@ -9,7 +9,7 @@
         <h1 class="h2">Teams</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addTeamModal">Create new team</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewTeam">Create new team</button>
             </div>
         </div>
     </div>
@@ -39,6 +39,10 @@
                         <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
                         <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
                     </div>
+                    <div class="form-check form-switch mb-3 d-none">
+                        <input class="form-check-input" type="checkbox" id="chkActive">
+                        <label class="form-check-label switch" for="chkActive">Active</label>
+                    </div> 
                     <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </form>
@@ -171,6 +175,23 @@
 
         // Lista de equipos del usuario logueado
         fnListTeam();
+
+        // resetear el formulario para nuevo team
+        $("#tmpNewTeam").on("click", function(){
+            $("#modalTitle").html(`Add new team`);
+
+            $("#inputName").val("");
+            $("#idTeam").val(0);
+            $("#imgPreview")
+                .attr("src", `#`)
+                .addClass("d-none");
+
+            teamPhoto = null;
+
+            $(".form-switch").addClass("d-none");
+
+            $("#addTeamModal").modal("show");
+        });
     });
 
     function fnRegisterTeam(){
@@ -178,7 +199,12 @@
             formData = new FormData(form);
 
         formData.append("_method", "POST");
-        formData.append("imageteam", teamPhoto, "teamPhoto.jpg");
+
+        if(teamPhoto)
+            formData.append("imageteam", teamPhoto, "teamPhoto.jpg");
+
+        let active = ($("#chkActive").is(':checked')) ? 1 : 0;
+        formData.append("chkActive", active);
 
         $.ajax({
             url: '../core/controllers/team.php',
@@ -251,26 +277,57 @@
                                 `;
                             }
                         }
-                    ]
+                    ],
+                    "fnDrawCallback":function(oSettings){
+                        $(".btnEditTeam").click(function(){
+                            $("#addTeamModal").modal("show");
+
+                            let data = getData($(this));
+
+                            $("#modalTitle").html(`Edit ${data.name} Team´s`);
+
+                            $("#inputName").val(data.name);
+                            $("#idTeam").val(data.id);
+                            $("#imgPreview")
+                                .attr("src", `../${data.image}`)
+                                .removeClass("d-none");
+
+                            if(data.active == 0){
+                                $("#chkActive").attr('checked', false);
+                                $(".form-switch").removeClass("d-none");
+                            }else{
+                                $("#chkActive").attr('checked', true);
+                                $(".form-switch").addClass("d-none");
+                            }
+
+                            teamPhoto = null;
+                        });
+
+                        $(".btnDeleteTeam").click(function(){
+                            let data = getData($(this));
+                            if (confirm(`do you want to deactivate this team (${data.name})?`)){
+                                $.ajax({
+                                    url: '../core/controllers/team.php',
+                                    data:{
+                                        idTeam: data.id,
+                                        _method: "DELETE"
+                                    },
+                                    type: 'POST',
+                                    success: function(response){
+                                        alert("Team deactivated");
+                                        fnListTeam();
+                                    },
+                                    error: function(xhr, status) {
+                                        console.log(status);
+                                    },
+                                });
+                            }
+                        });
+                    }
                 });
             },
             error: function(xhr, status) {
                 console.log(status);
-            },
-            complete: function(){
-                 $(document).on("click", ".btnEditTeam", function(){
-                    let data = getData($(this));
-
-                    $("#modalTitle").html(`Edit ${data.name} Team´s`);
-
-                    $("#inputName").val(data.name);
-                    $("#idTeam").val(data.id);
-                    $("#imgPreview")
-                        .attr("src", `../${data.image}`)
-                        .removeClass("d-none");
-
-                    $("#addTeamModal").modal("show");
-                });
             }
         });
     }
