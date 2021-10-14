@@ -9,7 +9,7 @@
         <h1 class="h2">Leaugues</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addLeagueModal">Create new league</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewLeague">Create new league</button>
             </div>
         </div>
     </div>
@@ -29,6 +29,7 @@
             </div>
             <div class="modal-body">
                 <form id="frmLeague">
+                    <input type="hidden" name="idLeague" id="idLeague" value="0">
                     <div class="mb-3">
                         <label for="inputNameL" class="form-label">League Name</label>
                         <input type="text" name="inputNameL" class="form-control" id="inputNameL">              
@@ -44,6 +45,10 @@
                         <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
                         <input class="form-control form-control-sm" id="imageleague" name="imageleague" type="file" accept="image/*">
                     </div>
+                    <div class="form-check form-switch mb-3 d-none">
+                        <input class="form-check-input" type="checkbox" id="chkActive">
+                        <label class="form-check-label switch" for="chkActive">Active</label>
+                    </div> 
                     <button type="button" class="btn btn-primary" id="btnRegisterLeague">Submit</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </form>
@@ -176,6 +181,24 @@
 
         // Lista de ligas
         fnListLeague();
+
+        // resetear el formulario para nueva liga
+        $("#tmpNewLeague").on("click", function(){
+            $("#modalTitle2").html(`Add new league`);
+
+            $("#inputNameL").val("");
+            $("#sportType").val("0");
+            $("#idLeague").val(0);
+            $("#imgPreview")
+                .attr("src", `#`)
+                .addClass("d-none");
+
+            leaguePhoto = null;
+
+            $(".form-switch").addClass("d-none");
+
+            $("#addLeagueModal").modal("show");
+        });
     });
 
     function fnRegisterLeague(){
@@ -183,7 +206,12 @@
             formData = new FormData(form);
 
         formData.append('_method', "POST");
-        formData.append("imageleague", leaguePhoto, "leaguePhoto.jpg");
+
+        if(leaguePhoto)
+            formData.append("imageleague", leaguePhoto, "leaguePhoto.jpg");
+
+        let active = ($("#chkActive").is(':checked')) ? 1 : 0;
+        formData.append("chkActive", active);
 
         $.ajax({
             url: '../core/controllers/league.php',
@@ -278,7 +306,58 @@
                                 `;
                             }
                         }
-                    ]
+                    ],
+                    "fnDrawCallback":function(oSettings){
+                        $(".btnEditLeague").click(function(){
+                            $("#addLeagueModal").modal("show");
+
+                            let data = getData($(this));
+
+                            $("#modalTitle2").html(`Edit ${data.name} Team´s`);
+
+                            $("#inputNameL").val(data.name);
+                            $("#sportType").val(data.sport);
+                            $("#idLeague").val(data.id);
+
+                            $("#imgPreview").addClass("d-none");
+
+                            if(data.image)
+                                $("#imgPreview")
+                                    .attr("src", `../${data.image}`)
+                                    .removeClass("d-none");
+
+                            if(data.status == 0){
+                                $("#chkActive").attr('checked', false);
+                                $(".form-switch").removeClass("d-none");
+                            }else{
+                                $("#chkActive").attr('checked', true);
+                                $(".form-switch").addClass("d-none");
+                            }
+
+                            leaguePhoto = null;
+                        });
+
+                        $(".btnDeleteLeague").click(function(){
+                            let data = getData($(this));
+                            if (confirm(`do you want to deactivate this league (${data.name})?`)){
+                                $.ajax({
+                                    url: '../core/controllers/league.php',
+                                    data:{
+                                        idLeague: data.id,
+                                        _method: "DELETE"
+                                    },
+                                    type: 'POST',
+                                    success: function(response){
+                                        alert("League deactivated");
+                                        fnListLeague();
+                                    },
+                                    error: function(xhr, status) {
+                                        console.log(status);
+                                    },
+                                });
+                            }
+                        });
+                    }
                 });
             },
             error: function(xhr, status) {
