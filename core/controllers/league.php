@@ -16,7 +16,9 @@
 
 				$data = array(
 					'name' => $_POST['inputNameL'],
-					'sport' => $_POST['sportType']
+					'sport' => $_POST['sportType'],
+					'idLeague' => $_POST['idLeague'],
+					'chkActive' => $_POST['chkActive']
 				);
 
 				$leagueModel = new Leaguemodel();
@@ -26,6 +28,8 @@
 					$leagueId = $tmpResponse[1];
 
 					if (!empty($_FILES['imageleague'])){
+						unlink("../../{$folder}/{$filename}");
+
 						$filename = $_FILES['imageleague']['name'];
 						$tempname = $_FILES['imageleague']['tmp_name'];    
 						$folder   = "assets/img/leagues/{$leagueId}";
@@ -64,6 +68,12 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
+			}else if($_POST['_method'] == 'DELETE'){
+				$leagueModel = new Leaguemodel();
+				$leagueModel->deleteLeague( $_POST['idLeague'] );
+
+				header('HTTP/1.1 200 Ok');				
+				exit();
 			}
 
 		} else {

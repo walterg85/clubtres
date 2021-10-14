@@ -288,9 +288,13 @@
 
                             $("#inputName").val(data.name);
                             $("#idTeam").val(data.id);
-                            $("#imgPreview")
-                                .attr("src", `../${data.image}`)
-                                .removeClass("d-none");
+
+                            $("#imgPreview").addClass("d-none");
+
+                            if(data.image)
+                                $("#imgPreview")
+                                    .attr("src", `../${data.image}`)
+                                    .removeClass("d-none");
 
                             if(data.active == 0){
                                 $("#chkActive").attr('checked', false);
