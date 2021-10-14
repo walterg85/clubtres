@@ -1,3 +1,9 @@
+<style type="text/css">
+    .dropdown-menu {
+        width: 20rem !important;
+    }
+</style>
+
 <!-- cropperCSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -75,7 +81,8 @@
 <script type="text/javascript">
     var teamPhoto   = null,
         maxCroppedWidth = 900,
-        maxCroppedHeight = 400;
+        maxCroppedHeight = 400,
+        dataTables = null;
 
     $(document).ready(function(){
         // Registrar nuevo equipo
@@ -272,8 +279,22 @@
                             render: function ( data, type, row )
                             {
                                 return `
-                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditTeam" title="Edit"><i class="bi bi-pencil"></i></a>
-                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteTeam' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
+                                    <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditTeam" title="Edit"><i class="bi bi-pencil"></i></a>
+
+                                    <div class="btn-group" role="group">
+                                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-person-plus-fill"></i>
+                                        </button>
+                                        <form class="dropdown-menu p-4 dropdown-menu-lg-end">
+                                            <div class="mb-3">
+                                                <label for="inputPlayerId" class="form-label">Enter player id</label>
+                                                <input type="email" class="form-control" id="inputPlayerId" placeholder="Player ID">
+                                            </div>
+                                            <button type="button" class="btn btn-success">Invite</button>
+                                        </form>
+                                    </div>
+
+                                    <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteTeam' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
                                 `;
                             }
                         }
