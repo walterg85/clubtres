@@ -16,7 +16,9 @@
 
 				$data = array(
 					'name' => $_POST['inputName'],
-					'user_id' => $_SESSION['authData']->id
+					'user_id' => $_SESSION['authData']->id,
+					'idTeam' => $_POST['idTeam'],
+					'chkActive' => $_POST['chkActive']
 				);
 
 				$teamModel = new Teamsmodel();
@@ -26,6 +28,8 @@
 					$teamId = $tmpResponse[1];
 
 					if (!empty($_FILES['imageteam'])){
+						unlink("../../{$folder}/{$filename}");
+
 						$filename = $_FILES['imageteam']['name'];
 						$tempname = $_FILES['imageteam']['tmp_name'];    
 						$folder   = "assets/img/teams/{$teamId}";
@@ -64,6 +68,12 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
+			}else if($_POST['_method'] == 'DELETE'){
+				$teamsModel = new Teamsmodel();
+				$teamsModel->deleteTeam( $_POST['idTeam'] );
+
+				header('HTTP/1.1 200 Ok');				
+				exit();
 			}
 		} else {
 			$response = array(

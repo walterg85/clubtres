@@ -6,43 +6,59 @@
 
 		public function createTeam($data) {
 			$pdo = new Conexion();
-			
-			$cmd = '
-				INSERT INTO team
-					(name, register_date, active)
-				VALUES
-					(:name, now(), 1)
-			';
-
-			$parametros = array(
-				':name'		=> $data['name']	
-			);
-			
-			try {
-				$sql = $pdo->prepare($cmd);
-				$sql->execute($parametros);
-
-				$teamId = $pdo->lastInsertId();
-
-				$cmd 	= '
-					INSERT INTO user_team
-						(user_id, team_id, type, role, register_date, status)
+			if( $data['idTeam'] == 0 ){
+				$cmd = '
+					INSERT INTO team
+						(name, register_date, active)
 					VALUES
-						(:user_id, :team_id, 1, "owner", now(), 1)
+						(:name, now(), 1)
 				';
 
 				$parametros = array(
-					':user_id'		=> $data['user_id'],
-					':team_id'	=> $teamId		
+					':name'		=> $data['name']	
+				);
+				
+				try {
+					$sql = $pdo->prepare($cmd);
+					$sql->execute($parametros);
+
+					$teamId = $pdo->lastInsertId();
+
+					$cmd 	= '
+						INSERT INTO user_team
+							(user_id, team_id, type, role, register_date, status)
+						VALUES
+							(:user_id, :team_id, 1, "owner", now(), 1)
+					';
+
+					$parametros = array(
+						':user_id'		=> $data['user_id'],
+						':team_id'	=> $teamId		
+					);
+
+					$sql = $pdo->prepare($cmd);
+					$sql->execute($parametros);
+
+					return [TRUE, $teamId];
+				} catch (PDOException $e) {
+			        return [FALSE, 0];
+			    }
+			} else {
+				$cmd = '
+					UPDATE team SET name =:name, active =:active WHERE id =:id
+				';
+
+				$parametros = array(
+					':id'		=> $data['idTeam'],
+					':name'		=> $data['name'],
+					':active'	=> $data['chkActive']
 				);
 
 				$sql = $pdo->prepare($cmd);
 				$sql->execute($parametros);
 
-				return [TRUE, $teamId];
-			} catch (PDOException $e) {
-		        return [FALSE, 0];
-		    }
+				return [TRUE, $data['idTeam']];
+			}
 		}
 
 		public function updateImage($teamId, $image){
@@ -87,5 +103,19 @@
 			$sql->execute($parametros);
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function deleteTeam($teamId) {
+			$pdo = new Conexion();
+			$cmd = 'UPDATE team SET active = 0 WHERE id =:teamId';
+
+			$parametros = array(
+				':teamId' => $teamId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
 		}
 	}
