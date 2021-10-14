@@ -57,4 +57,14 @@
 
 			return $sql->fetch();
 		}
+
+		public function getLeague() {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, name, sport, register_date, status FROM league;';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}

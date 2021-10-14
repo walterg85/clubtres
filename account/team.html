@@ -4,9 +4,6 @@
 <!-- cropperJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<!-- Icons CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Teams</h1>
@@ -98,10 +95,10 @@
 
         // Image Cropper
         let picture = null,
-        image       = $("#image")[0],
-        inputFile   = $("#imageteam")[0],
-        $modal      = $('#modalCrop'),
-        cropper     = null;
+            image       = $("#image")[0],
+            inputFile   = $("#imageteam")[0],
+            $modal      = $('#modalCrop'),
+            cropper     = null;
 
         inputFile.addEventListener("change", function(e){
             picture   = $("#imgPreview");
