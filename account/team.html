@@ -61,97 +61,6 @@
                 <div class="img-container mb-3" style="max-height: 500px">
                     <img id="image" src="#">
                 </div>
-                <div id="cropper-buttons">
-                    <div class="docs-buttons">
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="setDragMode" data-option="move" title="Move">
-                                <span data-toggle="tooltip" title="Shift image">
-                                    <span class="fa fa-arrows-alt"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="setDragMode" data-option="crop" title="Cut">
-                                <span data-toggle="tooltip" title="Cut">
-                                    <span class="fa fa-crop-alt"></span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="zoom" data-option="0.1" title="Zoom In">
-                                <span data-toggle="tooltip" title="Zoom(+0.1)">
-                                    <span class="fa fa-search-plus"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="zoom" data-option="-0.1" title="Zoom Out">
-                                <span data-toggle="tooltip" title="Zoom(-0.1)">
-                                    <span class="fa fa-search-minus"></span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="-10" data-second-option="0" title="Move left">
-                                <span data-toggle="tooltip" title="Move (-10, 0)">
-                                    <span class="fa fa-arrow-left"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="10" data-second-option="0" title="Move right">
-                                <span data-toggle="tooltip" title="Move (10, 0)">
-                                    <span class="fa fa-arrow-right"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="0" data-second-option="-10" title="Move up">
-                                <span data-toggle="tooltip" title="Move (0, -10)">
-                                    <span class="fa fa-arrow-up"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="move" data-option="0" data-second-option="10" title="Move down">
-                                <span data-toggle="tooltip" title="Move (0, 10)">
-                                    <span class="fa fa-arrow-down"></span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="rotate" data-option="-45" title="Rotate left">
-                                <span data-toggle="tooltip" title="Rotate (-45)">
-                                    <span class="fa fa-undo-alt"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="rotate" data-option="45" title="Rotate right">
-                                <span data-toggle="tooltip" title="Rotate (45)">
-                                    <span class="fa fa-redo-alt"></span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="scaleX" data-option="-1" title="Flip horizontal">
-                                <span data-toggle="tooltip" title="Scale X (-1)">
-                                    <span class="fa fa-arrows-alt-h"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="scaleY" data-option="-1" title="Turn vertical">
-                                <span data-toggle="tooltip" title="Scale Y (-1)">
-                                    <span class="fa fa-arrows-alt-v"></span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-success mb-3" data-method="disable" title="Deactivate">
-                                <span data-toggle="tooltip" title="To protect">
-                                    <span class="fa fa-lock"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="enable" title="Activate">
-                                <span data-toggle="tooltip" title="Edit mode">
-                                    <span class="fa fa-unlock"></span>
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-success mb-3" data-method="reset" title="Restore">
-                                <span data-toggle="tooltip" title="Restore">
-                                    <span class="fa fa-sync-alt"></span>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -162,7 +71,9 @@
 </div>
 
 <script type="text/javascript">
-    var teamPhoto   = null;
+    var teamPhoto   = null,
+        maxCroppedWidth = 900,
+        maxCroppedHeight = 400;
 
     $(document).ready(function(){
         // Registrar nuevo equipo
@@ -225,147 +136,11 @@
                 container   = document.querySelector('.img-container'),
                 download    = document.getElementById('download');
                 actions     = document.getElementById('cropper-buttons'),
-                minCroppedWidth = 900;
-                minCroppedHeight = 400;
-                maxCroppedWidth = 900;
-                maxCroppedHeight = 400,
                 options     = {
-                    // aspectRatio: 1,
-                    viewMode: 3,
-                    data: {
-                        width: (minCroppedWidth + maxCroppedWidth) / 2,
-                        height: (minCroppedHeight + maxCroppedHeight) / 2,
-                    },
-                    crop: function (event) {
-                        var width = event.detail.width;
-                        var height = event.detail.height;
-
-                        if (
-                            width < minCroppedWidth
-                            || height < minCroppedHeight
-                            || width > maxCroppedWidth
-                            || height > maxCroppedHeight
-                        ) {
-                            cropper.setData({
-                            width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
-                            height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height)),
-                            });
-                        }
-                        // data.textContent = JSON.stringify(cropper.getData(true));
-                    }
+                    aspectRatio: maxCroppedWidth / maxCroppedHeight,
                 };
 
             cropper = new Cropper(image, options);
-
-            // Metodos
-            actions.querySelector('.docs-buttons').onclick = function (event){
-                let e       = event || window.event,
-                    target  = e.target || e.srcElement,
-                    cropped = null,
-                    result  = null,
-                    input   = null,
-                    data    = null;
-
-                if (!cropper)
-                    return;
-
-                while (target !== this) {
-                    if (target.getAttribute('data-method'))
-                        break;
-
-                    target = target.parentNode;
-                }
-
-                if(target === this || target.disabled || target.className.indexOf('disabled') > -1)
-                    return;
-
-                data = {
-                    method:         target.getAttribute('data-method'),
-                    target:         target.getAttribute('data-target'),
-                    option:         target.getAttribute('data-option') || undefined,
-                    secondOption:   target.getAttribute('data-second-option') || undefined
-                };
-
-                cropped = cropper.cropped;
-
-                if(data.method){
-                    if (typeof data.target !== 'undefined') {
-                        input = document.querySelector(data.target);
-                        if (!target.hasAttribute('data-option') && data.target && input) {
-                            try {
-                                data.option = JSON.parse(input.value);
-                            } catch (e) {
-                                console.log("");
-                            }
-                        }
-                    }
-
-                    switch (data.method) {
-                        case 'rotate':
-                            if (cropped && options.viewMode > 0)
-                                cropper.clear();
-
-                            break;
-                        case 'getCroppedCanvas':
-                            try {
-                                data.option = JSON.parse(data.option);
-                            } catch (e) {
-                                console.log("");
-                            }
-
-                            if (uploadedImageType === 'image/jpeg') {
-                                if (!data.option)
-                                    data.option = {};
-
-                                data.option.fillColor = '#fff';
-                            }
-
-                            break;
-                    }
-
-                    result = cropper[data.method](data.option, data.secondOption);
-
-                    switch (data.method) {
-                        case 'rotate':
-                            if (cropped && options.viewMode > 0)
-                                cropper.crop();
-
-                            break;
-                        case 'scaleX':
-                        case 'scaleY':
-                            target.setAttribute('data-option', -data.option);
-                            break;
-                        case 'getCroppedCanvas':
-                            if (result) {
-                                $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
-
-                                if (!download.disabled) {
-                                    download.download = uploadedImageName;
-                                    download.href = result.toDataURL(uploadedImageType);
-                                }
-                            }
-
-                            break;
-                        case 'destroy':
-                            cropper = null;
-                            if (uploadedImageURL) {
-                                URL.revokeObjectURL(uploadedImageURL);
-                                uploadedImageURL = '';
-                                image.src = originalImageURL;
-                            }
-
-                            break;
-                    }
-
-                    if (typeof result === 'object' && result !== cropper && input) {
-                        try {
-                            input.value = JSON.stringify(result);
-                        } catch (e) {
-                            console.log("");
-                        }
-                    }
-                }
-            }
 
         }).on('hidden.bs.modal', function(){
             cropper.destroy();
@@ -380,8 +155,8 @@
 
             if(cropper){
                 canvas = cropper.getCroppedCanvas({
-                    width: 900,
-                    height: 400,
+                    width: maxCroppedWidth,
+                    height: maxCroppedHeight,
                 });
 
                 initialPhotoURL = picture.attr("src");
@@ -415,6 +190,7 @@
                 alert(response.message);
                 $("#addTeamModal").modal("hide");
                 $("#frmTeam")[0].reset();
+                $("#imgPreview").addClass("d-none");
 
                 fnListTeam();
             },
