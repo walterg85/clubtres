@@ -79,7 +79,7 @@
 
 		public function getLeague() {
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, name, sport, register_date, status, image FROM league;';
+			$cmd = 'SELECT id, name, sport, register_date, status, image FROM league WHERE status = 1;';
 
 			$sql = $pdo->prepare($cmd);
 			$sql->execute();
