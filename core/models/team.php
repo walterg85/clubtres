@@ -93,7 +93,7 @@
 
 		public function getTeam($user_id) {
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, name, register_date, active, image FROM team WHERE id in(select team_id from user_team where user_id =:user_id);';
+			$cmd = 'SELECT id, name, register_date, active, image FROM team WHERE id in(select team_id from user_team where user_id =:user_id) AND active = 1;';
 
 			$parametros = array(
 				':user_id' => $user_id
