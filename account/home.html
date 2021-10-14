@@ -1,5 +1,354 @@
+<!-- cropperCSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- cropperJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Teams</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewTeam">Create new team</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm" id="teamList"></table>
+    </div>
+</div>
+
+<div class="mt-5">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Leaugues</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewLeague">Create new league</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-sm" id="leagueList"></table>
+    </div>
+</div>
+
+ <!-- Modal para registrar nuevo equipo -->
+<div class="modal fade" id="addTeamModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add new team</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmTeam">
+                    <input type="hidden" name="idTeam" id="idTeam" value="0">
+                    <div class="mb-3">
+                        <label for="inputName" class="form-label">Team Name</label>
+                        <input type="text" name="inputName" class="form-control" id="inputName">              
+                    </div>
+                    <div class="mb-3">
+                        <label for="imageteam" class="form-label">Team image</label>
+                        <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
+                        <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
+                    </div>
+                    <div class="form-check form-switch mb-3 d-none">
+                        <input class="form-check-input" type="checkbox" id="chkActive">
+                        <label class="form-check-label switch" for="chkActive">Active</label>
+                    </div> 
+                    <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para editar las imagenes -->
+<div class="modal fade" id="modalCrop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Edit / Crop the photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container mb-3" style="max-height: 500px">
+                    <img id="image" src="#">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="cropImage">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+    var teamPhoto   = null,
+        maxCroppedWidth = 900,
+        maxCroppedHeight = 400,
+        dataTables = null;
+
     $(document).ready(function(){
-        
+        // Registrar nuevo equipo
+        $("#btnRegisterTeam").on("click", fnRegisterTeam);
+
+        // Controlar tipo de objeto que intentan subir
+        $('input[type="file"]').on('change', function(){
+            let ext = $( this ).val().split('.').pop();
+
+            if ($( this ).val() != ''){
+                if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
+                    if($(this)[0].files[0].size > 1048576){
+                        $( this ).val('');
+                        alert('Your selected file is larger than 1MB');
+                    }
+                }else{
+                    $( this ).val('');
+                    alert(`${ext} files not allowed, only images`);
+                }
+            }
+        });
+
+        // Image Cropper
+        let picture = null,
+            image       = $("#image")[0],
+            inputFile   = $("#imageteam")[0],
+            $modal      = $('#modalCrop'),
+            cropper     = null;
+
+        inputFile.addEventListener("change", function(e){
+            picture   = $("#imgPreview");
+            let files = e.target.files,
+                done  = function (url){
+                    inputFile.value = "";
+                    image.src = url;
+                    $modal.modal('show');
+                },
+                reader,
+                file,
+                url;
+
+            if (files && files.length > 0){
+                file = files[0];
+
+                if (URL){
+                    done(URL.createObjectURL(file));
+                }
+                else if (FileReader){
+                    reader = new FileReader();
+                    reader.onload = function(e){
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        $modal.on('shown.bs.modal', function(){
+            let URL         = window.URL || window.webkitURL,
+                container   = document.querySelector('.img-container'),
+                download    = document.getElementById('download');
+                actions     = document.getElementById('cropper-buttons'),
+                options     = {
+                    viewMode: 3,
+                    aspectRatio: maxCroppedWidth / maxCroppedHeight,
+                };
+
+            cropper = new Cropper(image, options);
+
+        }).on('hidden.bs.modal', function(){
+            cropper.destroy();
+            cropper = null;
+        });
+
+        $("#cropImage").on("click", function(){
+            let initialPhotoURL,
+                canvas;
+
+            $modal.modal("hide");
+
+            if(cropper){
+                canvas = cropper.getCroppedCanvas({
+                    width: maxCroppedWidth,
+                    height: maxCroppedHeight,
+                });
+
+                initialPhotoURL = picture.attr("src");
+                picture
+                    .attr("src", canvas.toDataURL())
+                    .removeClass("d-none");
+
+                canvas.toBlob(function (blob){
+                    teamPhoto = blob;
+                });
+            }
+        });
+
+        // Lista de equipos del usuario logueado
+        fnListTeam();
+
+        // resetear el formulario para nuevo team
+        $("#tmpNewTeam").on("click", function(){
+            $("#modalTitle").html(`Add new team`);
+
+            $("#inputName").val("");
+            $("#idTeam").val(0);
+            $("#imgPreview")
+                .attr("src", `#`)
+                .addClass("d-none");
+
+            teamPhoto = null;
+
+            $(".form-switch").addClass("d-none");
+
+            $("#addTeamModal").modal("show");
+        });
     });
+
+    function fnRegisterTeam(){
+        let form = $("#frmTeam")[0],
+            formData = new FormData(form);
+
+        formData.append("_method", "POST");
+
+        if(teamPhoto)
+            formData.append("imageteam", teamPhoto, "teamPhoto.jpg");
+
+        let active = ($("#chkActive").is(':checked')) ? 1 : 0;
+        formData.append("chkActive", active);
+
+        $.ajax({
+            url: '../core/controllers/team.php',
+            data: formData,
+            type: 'POST',
+            dataType: 'json',
+            success: function(response){
+                alert(response.message);
+                $("#addTeamModal").modal("hide");
+                $("#frmTeam")[0].reset();
+                $("#imgPreview").addClass("d-none");
+
+                fnListTeam();
+            },
+            error: function(xhr, status) {
+                alert('There is a problem');
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+    function fnListTeam(){
+        $.ajax({
+            url: '../core/controllers/team.php',
+            data: { _method: 'GET' },
+            type: 'POST',
+            dataType: 'json',
+            success: function(response){
+                if (dataTables != null)
+                    dataTables.destroy();
+
+                dataTables = $("#teamList").DataTable({
+                    data: response.data,
+                    columns:
+                    [
+                        {
+                            data: 'id',
+                            title: '#',
+                            render: function(data, type, row){
+                                return pad(data, 5);
+                            }
+                        },
+                        {
+                            data: 'name',
+                            title: 'Name'
+                        },
+                        {
+                            data: 'register_date',
+                            title: 'Register date'
+                        },
+                        {
+                            data: 'active',
+                            title: 'Status',
+                            render: function(data, type, row){
+                                return (data== 1) ? "Active" : "Disabled";
+                            }
+                        },
+                        {
+                            title: '',
+                            data: 'active',
+                            orderable: false,
+                            class: "text-center",
+                            render: function ( data, type, row )
+                            {
+                                return `
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditTeam" title="Edit"><i class="bi bi-pencil"></i></a>
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteTeam' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
+                                `;
+                            }
+                        }
+                    ],
+                    "fnDrawCallback":function(oSettings){
+                        $(".btnEditTeam").click(function(){
+                            $("#addTeamModal").modal("show");
+
+                            let data = getData($(this));
+
+                            $("#modalTitle").html(`Edit ${data.name} Team´s`);
+
+                            $("#inputName").val(data.name);
+                            $("#idTeam").val(data.id);
+
+                            $("#imgPreview").addClass("d-none");
+
+                            if(data.image)
+                                $("#imgPreview")
+                                    .attr("src", `../${data.image}`)
+                                    .removeClass("d-none");
+
+                            if(data.active == 0){
+                                $("#chkActive").attr('checked', false);
+                                $(".form-switch").removeClass("d-none");
+                            }else{
+                                $("#chkActive").attr('checked', true);
+                                $(".form-switch").addClass("d-none");
+                            }
+
+                            teamPhoto = null;
+                        });
+
+                        $(".btnDeleteTeam").click(function(){
+                            let data = getData($(this));
+                            if (confirm(`do you want to deactivate this team (${data.name})?`)){
+                                $.ajax({
+                                    url: '../core/controllers/team.php',
+                                    data:{
+                                        idTeam: data.id,
+                                        _method: "DELETE"
+                                    },
+                                    type: 'POST',
+                                    success: function(response){
+                                        alert("Team deactivated");
+                                        fnListTeam();
+                                    },
+                                    error: function(xhr, status) {
+                                        console.log(status);
+                                    },
+                                });
+                            }
+                        });
+                    }
+                });
+            },
+            error: function(xhr, status) {
+                console.log(status);
+            }
+        });
+    }
 </script>
