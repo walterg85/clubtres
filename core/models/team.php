@@ -6,6 +6,7 @@
 
 		public function createTeam($data) {
 			$pdo = new Conexion();
+			
 			$cmd = '
 				INSERT INTO team
 					(name, register_date, active)
@@ -76,7 +77,7 @@
 
 		public function getTeam($user_id) {
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, name, register_date, active FROM team WHERE id in(select team_id from user_team where user_id =:user_id);';
+			$cmd = 'SELECT id, name, register_date, active, image FROM team WHERE id in(select team_id from user_team where user_id =:user_id);';
 
 			$parametros = array(
 				':user_id' => $user_id
