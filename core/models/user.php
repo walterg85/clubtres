@@ -88,4 +88,36 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		public function updateInvitation($data, $userId){
+			$pdo = new Conexion();
+
+			$cmd = '
+				DELETE FROM invitation WHERE id =:id;
+			';
+
+			$parametros = array(
+				':id' => $data['invitationId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			if($data['event_type'] == 1 && $data['action'] == 1){
+				$cmd = '
+					INSERT INTO user_team (user_id, team_id, type, role, register_date, status)
+					VALUES (:userId, :teamId, 2, "Invited", now(), 1);
+				';
+
+				$parametros = array(
+					':teamId' => $data['event_id'],
+					':userId' => $userId
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+			}
+
+			return TRUE;
+		}
 	}

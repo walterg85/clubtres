@@ -117,6 +117,19 @@
 			header("Content-Type: application/json; charset=UTF-8");
 			
 			exit(json_encode($response));
+		} else if($put_vars['_method'] == 'updateInvitation'){
+			$userModel = new Usersmodel();
+			$tmpResponse = $userModel->updateInvitation( $put_vars, $_SESSION['authData']->id );		
+
+			$response = array(
+				'codeResponse' => 200,
+				'message' => 'Updated invitation'
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			
+			exit(json_encode($response));
 		}
 	}
 
