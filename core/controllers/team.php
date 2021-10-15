@@ -103,6 +103,19 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
+			} else if($_POST['_method'] == 'getChilds'){
+				$teamsModel = new Teamsmodel();
+				$tmpResponse = $teamsModel->getChilds( $_POST['teamId'] );		
+
+				$response = array(
+					'codeResponse' => 200,
+					'data' => $tmpResponse
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
 			}
 		} else {
 			$response = array(

@@ -25,6 +25,13 @@
         .dropdown-menu {
             width: 20rem !important;
         }
+        td.details-control {
+            background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+        tr.shown td.details-control {
+            background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+        }
     </style>
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
