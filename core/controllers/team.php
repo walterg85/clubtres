@@ -74,6 +74,35 @@
 
 				header('HTTP/1.1 200 Ok');				
 				exit();
+			}else if($_POST['_method'] == 'PUT'){
+
+				$data = array(
+					'idTeam' => $_POST['idTeam'],
+					'idUser' => $_POST['idUser'],
+					'event' => 'Thue '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' user invites you to be part of the '. $_POST["nameTeam"] .' team, respond soon, await your response.',
+					'event_type' => 1,
+					'event_id' => 0
+				);
+
+				$teamModel = new Teamsmodel();
+				$tmpResponse = $teamModel->sendInvitation($data);
+
+				if($tmpResponse[0]){
+					$response = array(
+						'codeResponse' => 200,
+						'message' => 'Invitation sent, wait for the user to respond.'
+					);
+				}else{
+					$response = array(
+						'codeResponse' => 0,
+						'message' => 'Invitation not sent'
+					);
+				}
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
 			}
 		} else {
 			$response = array(
