@@ -21,6 +21,11 @@
 
     <title>Account Page</title>
   </head>
+  <style type="text/css">
+    .dropdown-menu {
+        width: 20rem !important;
+    }
+  </style>
   <body>
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Clubtres</a>
@@ -66,9 +71,6 @@
       </div>
     </div>
 
-   
-
-
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
@@ -93,9 +95,9 @@
             });
         });
 
-        function getData(obj){
+        function getData(obj, dtable){
             let tr   = obj.parents("tr");
-            return dataTables.row( tr ).data();
+            return dtable.row( tr ).data();
         }
 
         function pad (str, max) {
