@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-10-2021 a las 21:46:53
+-- Tiempo de generación: 14-10-2021 a las 23:36:50
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -21,8 +21,25 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `clubtres`
 --
+DROP DATABASE IF EXISTS `clubtres`;
 CREATE DATABASE IF NOT EXISTS `clubtres` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `clubtres`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `invitation`
+--
+
+DROP TABLE IF EXISTS `invitation`;
+CREATE TABLE `invitation` (
+  `id` int(11) NOT NULL,
+  `udestiny_id` int(11) DEFAULT NULL COMMENT 'invitado',
+  `uorigin_id` int(11) DEFAULT NULL COMMENT 'anfitrion',
+  `event` varchar(1500) DEFAULT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `event_type` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -30,6 +47,7 @@ USE `clubtres`;
 -- Estructura de tabla para la tabla `league`
 --
 
+DROP TABLE IF EXISTS `league`;
 CREATE TABLE `league` (
   `id` int(11) NOT NULL,
   `name` varchar(250) DEFAULT NULL,
@@ -39,6 +57,7 @@ CREATE TABLE `league` (
   `season_start` date DEFAULT NULL,
   `season_end` date DEFAULT NULL,
   `subscription_limit` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -48,6 +67,7 @@ CREATE TABLE `league` (
 -- Estructura de tabla para la tabla `team`
 --
 
+DROP TABLE IF EXISTS `team`;
 CREATE TABLE `team` (
   `id` int(11) NOT NULL,
   `name` varchar(250) DEFAULT NULL,
@@ -62,6 +82,7 @@ CREATE TABLE `team` (
 -- Estructura de tabla para la tabla `team_league`
 --
 
+DROP TABLE IF EXISTS `team_league`;
 CREATE TABLE `team_league` (
   `id` int(11) DEFAULT NULL,
   `team_id` int(11) DEFAULT NULL,
@@ -76,6 +97,7 @@ CREATE TABLE `team_league` (
 -- Estructura de tabla para la tabla `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `name` varchar(250) DEFAULT NULL,
@@ -95,6 +117,7 @@ CREATE TABLE `user` (
 -- Estructura de tabla para la tabla `user_team`
 --
 
+DROP TABLE IF EXISTS `user_team`;
 CREATE TABLE `user_team` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -108,6 +131,12 @@ CREATE TABLE `user_team` (
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `invitation`
+--
+ALTER TABLE `invitation`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `league`
@@ -137,6 +166,12 @@ ALTER TABLE `user_team`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `invitation`
+--
+ALTER TABLE `invitation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `league`

@@ -10,14 +10,15 @@
 			if( $data['idLeague'] == 0 ){
 				$cmd = '
 					INSERT INTO league
-						(name, sport, register_date, status)
+						(name, sport, register_date, status, user_id)
 					VALUES
-						(:name, :sport, now(), 1)
+						(:name, :sport, now(), 1, :user_id)
 				';
 
 				$parametros = array(
 					':name'		=> $data['name'],
-					':sport'	=> $data['sport']
+					':sport'	=> $data['sport'],
+					':user_id'  => $data['user_id']
 				);
 				
 				try {
@@ -77,12 +78,16 @@
 			return $sql->fetch();
 		}
 
-		public function getLeague() {
+		public function getLeague( $user_id ) {
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, name, sport, register_date, status, image FROM league WHERE status = 1;';
+			$cmd = 'SELECT id, name, sport, register_date, status, image FROM league WHERE status = 1 AND user_id =:user_id;';
+
+			$parametros = array(
+				':user_id' => $user_id
+			);
 
 			$sql = $pdo->prepare($cmd);
-			$sql->execute();
+			$sql->execute($parametros);
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}

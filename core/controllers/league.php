@@ -18,7 +18,8 @@
 					'name' => $_POST['inputNameL'],
 					'sport' => $_POST['sportType'],
 					'idLeague' => $_POST['idLeague'],
-					'chkActive' => $_POST['chkActive']
+					'chkActive' => $_POST['chkActive'],
+					'user_id' => $_SESSION['authData']->id
 				);
 
 				$leagueModel = new Leaguemodel();
@@ -57,7 +58,7 @@
 				exit(json_encode($response));
 			}else if($_POST['_method'] == 'GET'){
 				$leagueModel = new Leaguemodel();
-				$tmpResponse = $leagueModel->getLeague();		
+				$tmpResponse = $leagueModel->getLeague( $_SESSION['authData']->id );		
 
 				$response = array(
 					'codeResponse' => 200,
