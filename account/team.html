@@ -346,7 +346,38 @@
                                 inputText = $(`#inputPlayerId${data.id}`).val();
 
                             if( inputText.length > 0 ){
-                                
+                                let objData = {
+                                    "_method": "GET",
+                                    "userId": inputText
+                                };
+
+                                $.post("../core/controllers/user.php", objData, function(result) {
+                                    if(result.data){
+                                        let nameInvited = `${result.data.name} ${result.data.last_name}`;
+
+                                        if (confirm(`Will you surely invite ${nameInvited} to be part of your team?`)){
+                                            $.ajax({
+                                                url: '../core/controllers/team.php',
+                                                data:{
+                                                    idTeam: data.id,
+                                                    idUser: inputText,
+                                                    nameTeam: data.name,
+                                                    _method: "PUT"
+                                                },
+                                                type: 'POST',
+                                                success: function(response){
+                                                    alert(response.message);
+                                                    $(`#inputPlayerId${data.id}`).val("");
+                                                },
+                                                error: function(xhr, status) {
+                                                    alert("Invitation not sent");
+                                                },
+                                            });
+                                        }
+                                    }else{
+                                        alert("The Id number provided does not exist");
+                                    }
+                                });
                             }else{
                                 alert("Enter a correct Id");
                             }

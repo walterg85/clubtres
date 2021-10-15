@@ -118,4 +118,32 @@
 
 			return TRUE;
 		}
+
+		public function sendInvitation($data){
+			$pdo = new Conexion();
+
+			$cmd = '
+				INSERT INTO invitation
+					(udestiny_id, uorigin_id, event, event_id, event_type)
+				VALUES
+					(:udestiny_id, :uorigin_id, :event, :event_id, :event_type)
+			';
+
+			$parametros = array(
+				':udestiny_id'		=> $data['idUser'],
+				':uorigin_id'		=> $data['idTeam'],
+				':event'		=> $data['event'],
+				':event_id'		=> $data['event_id'],
+				':event_type'		=> $data['event_type']
+			);
+			
+			try {
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+
+				return [TRUE, $pdo->lastInsertId()];
+			} catch (PDOException $e) {
+		        return [FALSE, 0];
+		    }
+		}
 	}
