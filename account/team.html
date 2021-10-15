@@ -191,6 +191,26 @@
 
             $("#addTeamModal").modal("show");
         });
+
+        $('#teamList').on('click', 'tbody td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var row = dataTableTeam.row( tr );
+     
+            if ( row.child.isShown() ) {
+                row.child.hide();
+            }
+            else {
+                let cdata = row.data(),
+                    objData = {
+                        "_method": "getChilds",
+                        "teamId": cdata.id
+                    };
+
+                $.post("../core/controllers/team.php", objData, function(result) {
+                    row.child(teamMember(result.data)).show();
+                });
+            }
+        });
     });
 
     function fnRegisterTeam(){
@@ -242,6 +262,12 @@
                     columns:
                     [
                         {
+                            "className": 'dt-control',
+                            "orderable": false,
+                            "data": null,
+                            "defaultContent": ''
+                        },
+                        {
                             data: 'id',
                             title: '#',
                             render: function(data, type, row){
@@ -270,24 +296,28 @@
                             class: "text-center",
                             render: function ( data, type, row )
                             {
-                                return `
-                                    <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditTeam" title="Edit"><i class="bi bi-pencil"></i></a>
+                                let btnOptions = '';
+                                if(row.type == 1)
+                                    btnOptions = `
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditTeam" title="Edit"><i class="bi bi-pencil"></i></a>
 
-                                    <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-person-plus-fill"></i>
-                                        </button>
-                                        <form class="dropdown-menu p-4 dropdown-menu-lg-end">
-                                            <div class="mb-3">
-                                                <label for="inputPlayerId${row.id}" class="form-label">Enter player id</label>
-                                                <input type="email" class="form-control" id="inputPlayerId${row.id}" placeholder="Player ID">
-                                            </div>
-                                            <button type="button" class="btn btn-success tmpInviteTeam">Invite</button>
-                                        </form>
-                                    </div>
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-person-plus-fill"></i>
+                                            </button>
+                                            <form class="dropdown-menu p-4 dropdown-menu-lg-end">
+                                                <div class="mb-3">
+                                                    <label for="inputPlayerId${row.id}" class="form-label">Enter player id</label>
+                                                    <input type="email" class="form-control" id="inputPlayerId${row.id}" placeholder="Player ID">
+                                                </div>
+                                                <button type="button" class="btn btn-success tmpInviteTeam">Invite</button>
+                                            </form>
+                                        </div>
 
-                                    <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteTeam' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
-                                `;
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteTeam' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
+                                    `;
+
+                                return btnOptions;
                             }
                         }
                     ],
@@ -389,5 +419,16 @@
                 console.log(status);
             }
         });
+    }
+
+    function teamMember(data){
+        let table = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">',
+            rows = '';
+
+        $.each( data, function( index, item){
+            rows += `<tr><td>Name:</td><td>${item.usName} (${item.role})</td></tr>`;
+        });
+
+        return `${table} ${rows}</table>`;
     }
 </script>

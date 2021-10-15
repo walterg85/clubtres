@@ -93,7 +93,11 @@
 
 		public function getTeam($user_id) {
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, name, register_date, active, image FROM team WHERE id in(select team_id from user_team where user_id =:user_id) AND active = 1;';
+			$cmd = '
+				SELECT t.id, t.name, t.register_date, t.active, t.image, (SELECT ut.type FROM user_team AS ut WHERE ut.team_id = t.id AND ut.user_id =:user_id) AS type
+				FROM team AS t
+				WHERE t.id in(select team_id from user_team where user_id =:user_id) AND t.active = 1;
+			';
 
 			$parametros = array(
 				':user_id' => $user_id
@@ -145,5 +149,24 @@
 			} catch (PDOException $e) {
 		        return [FALSE, 0];
 		    }
+		}
+
+		public function getChilds($teamId){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT CONCAT (u.name, " ", u.last_name) AS usName, ut.role
+				FROM user AS u
+				INNER JOIN user_team AS ut ON ut.user_id = u.id
+				WHERE ut.team_id =:teamId;
+			';
+
+			$parametros = array(
+				':teamId' => $teamId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
 	}
