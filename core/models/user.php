@@ -59,4 +59,33 @@
 
 			return $sql->fetch();
 		}
+
+		public function countInvitation($userId){
+			$pdo = new Conexion();
+			$cmd = 'SELECT COUNT(id) AS notifications FROM invitation WHERE udestiny_id =:userId;';
+
+			$parametros = array(
+				':userId' => $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
+
+		public function getInvitation($userId){
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, uorigin_id, event, event_id, event_type, register_date, (SELECT CONCAT(NAME, " ", last_name) FROM user WHERE id = uorigin_id) AS fromName  FROM invitation WHERE udestiny_id =:userId';
+
+			$parametros = array(
+				':userId' => $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}

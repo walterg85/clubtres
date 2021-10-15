@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 14-10-2021 a las 23:36:50
+-- Tiempo de generación: 15-10-2021 a las 15:01:19
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -38,7 +38,8 @@ CREATE TABLE `invitation` (
   `uorigin_id` int(11) DEFAULT NULL COMMENT 'anfitrion',
   `event` varchar(1500) DEFAULT NULL,
   `event_id` int(11) DEFAULT NULL,
-  `event_type` int(11) DEFAULT NULL
+  `event_type` int(11) DEFAULT NULL,
+  `register_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
