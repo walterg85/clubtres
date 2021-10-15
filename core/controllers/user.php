@@ -91,6 +91,32 @@
 			header("Content-Type: application/json; charset=UTF-8");
 			
 			exit(json_encode($response));
+		} else if($put_vars['_method'] == 'countInvitation') {
+			$userModel = new Usersmodel();
+			$tmpResponse = $userModel->countInvitation( $_SESSION['authData']->id );	
+
+			$response = array(
+				'codeResponse' => 200,
+				'count' => $tmpResponse->notifications
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			
+			exit(json_encode($response));
+		} else if($put_vars['_method'] == 'getInvitation') {
+			$userModel = new Usersmodel();
+			$tmpResponse = $userModel->getInvitation( $_SESSION['authData']->id );		
+
+			$response = array(
+				'codeResponse' => 200,
+				'data' => $tmpResponse
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			
+			exit(json_encode($response));
 		}
 	}
 
