@@ -53,11 +53,11 @@
                             {
                                 if(data == 1 || data == 2){
                                     return `
-                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnAcept" title="Acept"><i class="bi bi-check-lg"></i> To Acept</a>
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnAcept" title="Acept"><i class="bi bi-check2-square"></i> To Acept</a>
                                         <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger btnRechaze" title="To refuse"><i class="bi bi-trash"></i> To refuse</a>
                                     `;
                                 }else{
-                                    return 'ok';
+                                    return `<a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnClose" title="Ok"><i class="bi bi-check2-square"></i> Ok</a>`;
                                 }
                             }
                         }
@@ -65,13 +65,57 @@
                     "fnDrawCallback":function(oSettings){
                         $(".btnAcept").click(function(){
                             let data = getData($(this), dataTableInvitation);
-                        });                        
+                            if (confirm(`Are you sure to accept ${data.fromName} invitation?`)) {
+                                let objData = {
+                                    "_method": "updateInvitation",
+                                    "action": 1,
+                                    "invitationId": data.id,
+                                    "event_id": data.event_id,
+                                    "event_type": data.event_type
+                                };
+
+                                updateInvitation(objData);                                
+                            }
+                        });
+
+                        $(".btnRechaze").click(function(){
+                            let data = getData($(this), dataTableInvitation);
+                            if (confirm(`you sure want to decline the ${data.fromName} invitation`)) {
+                                let objData = {
+                                    "_method": "updateInvitation",
+                                    "action": 2,
+                                    "invitationId": data.id
+                                };
+
+                                updateInvitation(objData);                                
+                            }
+                        });
+
+                        $(".btnClose").click(function(){
+                            let data = getData($(this), dataTableInvitation);
+                            if (confirm(`mark notification as read?`)) {
+                                let objData = {
+                                    "_method": "updateInvitation",
+                                    "action": 2,
+                                    "invitationId": data.id
+                                };
+
+                                updateInvitation(objData);                                
+                            }
+                        });                      
                     }
                 });
             },
             error: function(xhr, status) {
                 console.log(status);
             }
+        });
+    }
+
+    function updateInvitation(objData){
+        $.post("../core/controllers/user.php", objData, function(result) {
+            alert(result.message);
+            fnListInvitation();
         });
     }
 </script>
