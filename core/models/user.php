@@ -116,6 +116,19 @@
 
 				$sql = $pdo->prepare($cmd);
 				$sql->execute($parametros);
+			} else if($data['event_type'] > 1 && $data['action'] == 1){
+				$cmd = '
+					INSERT INTO team_league (team_id, league_id, register_date, status)
+					VALUES (:team_id, :league_id, now(), 1);
+				';
+
+				$parametros = array(
+					':league_id' => $data['event_id'],
+					':team_id' => $data['event_type']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
 			}
 
 			return TRUE;

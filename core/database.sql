@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-10-2021 a las 15:01:19
+-- Tiempo de generación: 18-10-2021 a las 23:02:15
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -85,10 +85,10 @@ CREATE TABLE `team` (
 
 DROP TABLE IF EXISTS `team_league`;
 CREATE TABLE `team_league` (
-  `id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL,
   `team_id` int(11) DEFAULT NULL,
   `league_id` int(11) DEFAULT NULL,
-  `register_date` int(11) DEFAULT NULL,
+  `register_date` datetime DEFAULT NULL,
   `status` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -152,6 +152,12 @@ ALTER TABLE `team`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `team_league`
+--
+ALTER TABLE `team_league`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `user`
 --
 ALTER TABLE `user`
@@ -184,6 +190,12 @@ ALTER TABLE `league`
 -- AUTO_INCREMENT de la tabla `team`
 --
 ALTER TABLE `team`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `team_league`
+--
+ALTER TABLE `team_league`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
