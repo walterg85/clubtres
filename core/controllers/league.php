@@ -75,6 +75,49 @@
 
 				header('HTTP/1.1 200 Ok');				
 				exit();
+			}else if($_POST['_method'] == 'PUT'){
+				require_once '../models/team.php';
+
+				$data = array(
+					'uorigin_id' => $_SESSION['authData']->id,
+					'udestiny_id' => $_POST['idUser'],
+					'event' => 'The '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' user invites you to be part of the '. $_POST["nameLeague"] .' league, respond soon, await your response.',
+					'event_type' => $_POST['idTeam'],
+					'event_id' => $_POST['idLeague']
+				);
+
+				$teamModel = new Teamsmodel();
+				$tmpResponse = $teamModel->sendInvitation($data);
+
+				if($tmpResponse[0]){
+					$response = array(
+						'codeResponse' => 200,
+						'message' => 'Invitation sent, wait for the user to respond.'
+					);
+				}else{
+					$response = array(
+						'codeResponse' => 0,
+						'message' => 'Invitation not sent'
+					);
+				}
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			} else if($_POST['_method'] == 'getChilds'){
+				$leagueModel = new Leaguemodel();
+				$tmpResponse = $leagueModel->getChilds( $_POST['teamId'] );		
+
+				$response = array(
+					'codeResponse' => 200,
+					'data' => $tmpResponse
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
 			}
 
 		} else {

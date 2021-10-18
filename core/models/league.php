@@ -81,7 +81,7 @@
 		public function getLeague( $user_id ) {
 			$pdo = new Conexion();
 			$cmd = '
-				SELECT id, name, sport, register_date, status, image, 1 AS type 
+				SELECT * FROM(SELECT id, name, sport, register_date, status, image, 1 AS type 
 				FROM league 
 				WHERE status = 1 AND user_id =:user_id
 
@@ -90,7 +90,8 @@
 				SELECT id, name, sport, register_date, status, image, 2 AS type 
 				FROM league 
 				WHERE status = 1 
-				AND id IN(SELECT league_id FROM team_league WHERE status = 1 AND team_id IN ( SELECT team_id FROM user_team WHERE user_id =:user_id AND status = 1))
+				AND id IN(SELECT league_id FROM team_league WHERE status = 1 AND team_id IN ( SELECT team_id FROM user_team WHERE user_id =:user_id AND status = 1)))
+				AS allData GROUP BY id
 			';
 
 			$parametros = array(

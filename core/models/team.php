@@ -78,7 +78,7 @@
 
 		public function getTeamId($teamId) {
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, name, image, active FROM team WHERE id =:teamId';
+			$cmd = 'SELECT id, name, image, active, (select user_id FROM user_team where team_id =:teamId AND type = 1) AS user_id FROM team WHERE id =:teamId';
 
 			$parametros = array(
 				':teamId' => $teamId

@@ -196,6 +196,26 @@
 
             $("#addLeagueModal").modal("show");
         });
+
+        $('#leagueList').on('click', 'tbody td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var row = dataTableLeague.row( tr );
+     
+            if ( row.child.isShown() ) {
+                row.child.hide();
+            }
+            else {
+                let cdata = row.data(),
+                    objData = {
+                        "_method": "getChilds",
+                        "leagueId": cdata.id
+                    };
+
+                $.post("../core/controllers/league.php", objData, function(result) {
+                    row.child(leagueMember(result.data, cdata.type)).show();
+                });
+            }
+        });
     });
 
     function fnRegisterLeague(){
@@ -391,7 +411,7 @@
                                     "teamId": inputText
                                 };
 
-                                $.post("../core/controllers/team.php", objData, function(result) {
+                                $.get("../core/controllers/team.php", objData, function(result) {
                                     if(result.data){
                                         let nameInvited = `${result.data.name}`;
 
@@ -401,7 +421,8 @@
                                                 data:{
                                                     idLeague: data.id,
                                                     idTeam: inputText,
-                                                    nameTeam: nameInvited,
+                                                    nameLeague: data.name,
+                                                    idUser: result.data.user_id,
                                                     _method: "PUT"
                                                 },
                                                 type: 'POST',
