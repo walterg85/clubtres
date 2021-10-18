@@ -135,7 +135,7 @@
         $modal.on('shown.bs.modal', function(){
             let URL         = window.URL || window.webkitURL,
                 container   = document.querySelector('.img-container'),
-                download    = document.getElementById('download');
+                download    = document.getElementById('download'),
                 actions     = document.getElementById('cropper-buttons'),
                 options     = {
                     viewMode: 3,
@@ -143,7 +143,6 @@
                 };
 
             cropper = new Cropper(image, options);
-
         }).on('hidden.bs.modal', function(){
             cropper.destroy();
             cropper = null;
@@ -422,11 +421,25 @@
     }
 
     function teamMember(data){
-        let table = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">',
+        let table = `<table class="table w-50">
+                        <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Type</th>
+                              <th scope="col"></th>
+                            </tr>
+                        </thead>
+                    `,
             rows = '';
 
         $.each( data, function( index, item){
-            rows += `<tr><td>Name:</td><td>${item.usName} (${item.role})</td></tr>`;
+            rows += `<tr>
+                        <th scope="row">${pad(item.id, 5)}</th>
+                        <td>${item.usName}</td>
+                        <td>${item.role}</td>
+                        <td>${(item.type == 2) ? '<a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btn-sm btnDeleteFromTeam" title="Delete from team"><i class="bi bi-person-x-fill"></i></a>' : ''}</td>
+                    </tr>`;
         });
 
         return `${table} ${rows}</table>`;

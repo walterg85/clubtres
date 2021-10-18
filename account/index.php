@@ -42,7 +42,7 @@
             <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
-                    <a class="nav-link px-3" href="javascript:void(0);">Sign out</a>
+                    <a class="nav-link px-3" href="javascript:void(0);" id="btnLogout">Sign out</a>
                 </div>
             </div>
         </header>
@@ -104,6 +104,12 @@
 
                 $("#linkInvitation").on("click", function(){
                     $( "#mainContenedor" ).load( `invitation.html?v=${Math.random()}` );
+                });
+
+                $("#btnLogout").on("click", function(){
+                    if (confirm(`do you really want to log out?`)){
+                        window.location.replace("logout.php");
+                    }
                 });
 
                 findNotifications();
