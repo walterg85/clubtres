@@ -16,7 +16,7 @@
     <table class="table table-striped table-sm" id="leagueList"></table>
 </div>
      
-<!-- Modal -->
+<!-- Modal para registrar nuevo League-->
 <div class="modal fade" id="addLeagueModal" tabindex="-1" aria-labelledby="modalTitle2" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -75,7 +75,7 @@
     </div>
 </div>
 
- <script type="text/javascript">
+<script type="text/javascript">
     var leaguePhoto   = null,
         maxCroppedWidth = 500,
         maxCroppedHeight = 400,
@@ -148,7 +148,6 @@
                 };
 
             cropper = new Cropper(image, options);
-
         }).on('hidden.bs.modal', function(){
             cropper.destroy();
             cropper = null;
@@ -177,7 +176,7 @@
             }
         });
 
-        // Lista de ligas propias del usuario
+        // Lista de ligas propias e invitadas del usuario
         fnListLeague();
 
         // resetear el formulario para nueva liga
@@ -248,6 +247,12 @@
                     columns:
                     [
                         {
+                            "className": 'dt-control',
+                            "orderable": false,
+                            "data": null,
+                            "defaultContent": ''
+                        },
+                        {
                             data: 'id',
                             title: '#',
                             render: function(data, type, row){
@@ -256,7 +261,10 @@
                         },
                         {
                             data: 'name',
-                            title: 'Name'
+                            title: 'Name',
+                            render: function(data, type, row){
+                                return `<a href="http://localhost/clubtres/league/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
+                            }
                         },
                         {
                             data: 'sport',
@@ -298,24 +306,27 @@
                             class: "text-center",
                             render: function ( data, type, row )
                             {
-                                return `
-                                    <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditLeague" title="Edit"><i class="bi bi-pencil"></i></a>
+                                let btnOptions = '';
+                                if(row.type == 1)
+                                    btnOptions = `
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditLeague" title="Edit"><i class="bi bi-pencil"></i></a>
 
-                                    <div class="btn-group" role="group">
-                                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-people"></i>
-                                        </button>
-                                        <form class="dropdown-menu p-4 dropdown-menu-lg-end">
-                                            <div class="mb-3">
-                                                <label for="inputPlayerId" class="form-label">Enter team id</label>
-                                                <input type="email" class="form-control" id="inputTeamId" placeholder="Team ID">
-                                            </div>
-                                            <button type="button" class="btn btn-success">Invite</button>
-                                        </form>
-                                    </div>
+                                        <div class="btn-group" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-people"></i>
+                                            </button>
+                                            <form class="dropdown-menu p-4 dropdown-menu-lg-end">
+                                                <div class="mb-3">
+                                                    <label for="inputTeamId${row.id}" class="form-label">Enter team id</label>
+                                                    <input type="email" class="form-control" id="inputTeamId${row.id}" placeholder="Team ID">
+                                                </div>
+                                                <button type="button" class="btn btn-success tmpInviteLeague">Invite</button>
+                                            </form>
+                                        </div>
 
-                                    <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteLeague' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
-                                `;
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteLeague' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
+                                    `;
+                                return btnOptions;
                             }
                         }
                     ],
@@ -367,6 +378,48 @@
                                         console.log(status);
                                     },
                                 });
+                            }
+                        });
+
+                        $(".tmpInviteLeague").click(function() {
+                            let data = getData($(this), dataTableLeague),
+                                inputText = $(`#inputTeamId${data.id}`).val();
+
+                            if( inputText.length > 0 ){
+                                let objData = {
+                                    "_method": "GET",
+                                    "teamId": inputText
+                                };
+
+                                $.post("../core/controllers/team.php", objData, function(result) {
+                                    if(result.data){
+                                        let nameInvited = `${result.data.name}`;
+
+                                        if (confirm(`Will you surely invite ${nameInvited} to be part of your League?`)){
+                                            $.ajax({
+                                                url: '../core/controllers/league.php',
+                                                data:{
+                                                    idLeague: data.id,
+                                                    idTeam: inputText,
+                                                    nameTeam: nameInvited,
+                                                    _method: "PUT"
+                                                },
+                                                type: 'POST',
+                                                success: function(response){
+                                                    alert(response.message);
+                                                    $(`#inputTeamId${data.id}`).val("");
+                                                },
+                                                error: function(xhr, status) {
+                                                    alert("Invitation not sent");
+                                                },
+                                            });
+                                        }
+                                    }else{
+                                        alert("The Id number provided does not exist");
+                                    }
+                                });
+                            }else{
+                                alert("Enter a correct Id");
                             }
                         });
                     }
