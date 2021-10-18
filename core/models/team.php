@@ -154,7 +154,7 @@
 		public function getChilds($teamId){
 			$pdo = new Conexion();
 			$cmd = '
-				SELECT u.id, CONCAT (u.name, " ", u.last_name) AS usName, ut.role, ut.type
+				SELECT u.id, ut.id AS registroId, CONCAT (u.name, " ", u.last_name) AS usName, ut.role, ut.type
 				FROM user AS u
 				INNER JOIN user_team AS ut ON ut.user_id = u.id
 				WHERE ut.team_id =:teamId AND ut.status = 1;
@@ -168,5 +168,21 @@
 			$sql->execute($parametros);
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function deleteChild($registroId){
+			$pdo = new Conexion();
+			$cmd = '
+				DELETE FROM user_team WHERE id =:registroId;
+			';
+
+			$parametros = array(
+				':registroId' => $registroId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
 		}
 	}

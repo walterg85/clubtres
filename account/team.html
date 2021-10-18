@@ -206,7 +206,22 @@
                     };
 
                 $.post("../core/controllers/team.php", objData, function(result) {
-                    row.child(teamMember(result.data)).show();
+                    row.child(teamMember(result.data, cdata.type)).show();
+                });
+            }
+        });
+
+        $(document).on('click', '.btnDeleteFromTeam',  function(){
+            let idRegistro = $(this).data("id-registro");
+            if (confirm(`You want to remove this user from the team?`)){
+                objData = {
+                    "_method": "deleteChild",
+                    "idRegistro": idRegistro
+                };
+
+                $.post("../core/controllers/team.php", objData, function(result) {
+                    alert(result.message);
+                    fnListTeam();
                 });
             }
         });
@@ -275,7 +290,10 @@
                         },
                         {
                             data: 'name',
-                            title: 'Name'
+                            title: 'Name',
+                            render: function(data, type, row){
+                                return `<a href="http://localhost/clubtres/team/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
+                            }
                         },
                         {
                             data: 'register_date',
@@ -420,7 +438,7 @@
         });
     }
 
-    function teamMember(data){
+    function teamMember(data, isOwner){
         let table = `<table class="table w-50">
                         <thead>
                             <tr>
@@ -434,12 +452,14 @@
             rows = '';
 
         $.each( data, function( index, item){
-            rows += `<tr>
-                        <th scope="row">${pad(item.id, 5)}</th>
-                        <td>${item.usName}</td>
-                        <td>${item.role}</td>
-                        <td>${(item.type == 2) ? '<a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btn-sm btnDeleteFromTeam" title="Delete from team"><i class="bi bi-person-x-fill"></i></a>' : ''}</td>
-                    </tr>`;
+            rows += `
+                <tr>
+                    <th scope="row">${pad(item.id, 5)}</th>
+                    <td><a href="http://localhost/clubtres/user/index.php?id=${item.id}" target="_blank" class="btn">${item.usName}</a></td>
+                    <td>${item.role}</td>
+                    <td class="text-center">${(item.type == 2 && isOwner == 1) ? '<a href="javascript:void(0);" class="btn text-danger btnDeleteFromTeam" title="Delete from team" data-id-registro="'+item.registroId+'"><i class="bi bi-person-x-fill"></i></a>' : ''}</td>
+                </tr>
+            `;
         });
 
         return `${table} ${rows}</table>`;

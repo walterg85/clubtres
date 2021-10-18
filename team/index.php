@@ -12,7 +12,7 @@
   </head>
   <body>
     <div class="container">
-      <img class="img-thumbnail shadow" src="#" id="teamPhoto" width="150px">
+      <center><img class="img-fluid shadow" src="#" id="teamPhoto" width="900px"></center>
       <h1 class="text-secondary my-3" id="lblNombreTeam"></h1>
       <table class="table">
         <thead>
