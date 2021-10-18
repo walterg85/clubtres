@@ -98,12 +98,18 @@
                 };
 
                 $.post("core/controllers/user.php", objData, function(result) {
-                    alert(result.message);
-                    if(result.codeResponse == 200)
+                    if(result.codeResponse == 200){
+                        $("#inputEmail").val( $("#inputRegEmail").val() );
+                        $("#inputPassword").val( $("#inputRegPassword").val() );
+
+                        fnValidateUser();
+
                         $("#registerModal").modal("hide");
+                      } else {
+                        alert(result.message);
+                      }
                 });
             }
-            
         }
 
         function fnValidateUser(){
@@ -114,9 +120,11 @@
             };
 
             $.post("core/controllers/user.php", objData, function(result) {
-                alert(result.message);
-                if(result.codeResponse == 200)
+                if(result.codeResponse == 200){
                     window.location.replace("account/index.php");
+                } else {
+                  alert(result.message);
+                }
             });            
         }
     </script>

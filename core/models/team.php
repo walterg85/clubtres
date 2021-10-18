@@ -28,7 +28,7 @@
 						INSERT INTO user_team
 							(user_id, team_id, type, role, register_date, status)
 						VALUES
-							(:user_id, :team_id, 1, "owner", now(), 1)
+							(:user_id, :team_id, 1, "Owner", now(), 1)
 					';
 
 					$parametros = array(
@@ -154,10 +154,10 @@
 		public function getChilds($teamId){
 			$pdo = new Conexion();
 			$cmd = '
-				SELECT CONCAT (u.name, " ", u.last_name) AS usName, ut.role
+				SELECT u.id, CONCAT (u.name, " ", u.last_name) AS usName, ut.role, ut.type
 				FROM user AS u
 				INNER JOIN user_team AS ut ON ut.user_id = u.id
-				WHERE ut.team_id =:teamId;
+				WHERE ut.team_id =:teamId AND ut.status = 1;
 			';
 
 			$parametros = array(
