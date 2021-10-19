@@ -139,7 +139,7 @@
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		public function deleteChild($data){
+		public function disableChild($data){
 			$pdo = new Conexion();
 			$cmd = '
 				UPDATE team_league SET status = 0 WHERE team_id =:team_id AND league_id =:league_id;
@@ -160,6 +160,23 @@
 			$pdo = new Conexion();
 			$cmd = '
 				UPDATE team_league SET status = 1 WHERE team_id =:team_id AND league_id =:league_id;
+			';
+
+			$parametros = array(
+				':team_id' => $data['idTeam'],
+				':league_id' => $data['idLeague']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function deleteChild($data){
+			$pdo = new Conexion();
+			$cmd = '
+				DELETE FROM team_league WHERE team_id =:team_id AND league_id =:league_id;
 			';
 
 			$parametros = array(

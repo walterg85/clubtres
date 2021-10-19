@@ -118,13 +118,13 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
-			}else if($_POST['_method'] == 'deleteChild'){
+			}else if($_POST['_method'] == 'disableChild'){
 				$leagueModel = new Leaguemodel();
-				$leagueModel->deleteChild( $_POST );		
+				$leagueModel->disableChild( $_POST );		
 
 				$response = array(
 					'codeResponse' => 200,
-					'message' => 'Team removed from league'
+					'message' => 'Team suspended for the league'
 				);
 
 				header('HTTP/1.1 200 Ok');
@@ -144,8 +144,20 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
-			}
+			}else if($_POST['_method'] == 'deleteChild'){
+				$leagueModel = new Leaguemodel();
+				$leagueModel->deleteChild( $_POST );		
 
+				$response = array(
+					'codeResponse' => 200,
+					'message' => 'Team eliminated from league'
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			}
 		} else {
 			$response = array(
 				'codeResponse' => 401,

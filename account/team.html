@@ -206,24 +206,24 @@
 
                 $.post("../core/controllers/team.php", objData, function(result) {
                     row.child(teamMember(result.data, cdata.type)).show();
+
+                    $(".btnDeleteFromTeam").click( function(){
+                        let idRegistro = $(this).data("id-registro");
+                        if (confirm(`You want to remove this user from the team?`)){
+                            objData = {
+                                "_method": "deleteChild",
+                                "idRegistro": idRegistro
+                            };
+
+                            $.post("../core/controllers/team.php", objData, function(result) {
+                                alert(result.message);
+                                fnListTeam();
+                            });
+                        }
+                    });
                 });
             }
-        });
-
-        $(document).on('click', '.btnDeleteFromTeam',  function(){
-            let idRegistro = $(this).data("id-registro");
-            if (confirm(`You want to remove this user from the team?`)){
-                objData = {
-                    "_method": "deleteChild",
-                    "idRegistro": idRegistro
-                };
-
-                $.post("../core/controllers/team.php", objData, function(result) {
-                    alert(result.message);
-                    fnListTeam();
-                });
-            }
-        });
+        });        
     });
 
     function fnRegisterTeam(){
