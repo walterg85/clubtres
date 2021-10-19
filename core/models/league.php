@@ -117,4 +117,59 @@
 
 			return TRUE;
 		}
+
+		public function getChilds($leagueId){
+			$pdo = new Conexion();
+			$cmd = '
+				-- SELECT id, name FROM team WHERE active = 1 AND id IN (SELECT DISTINCT(team_id) FROM team_league WHERE league_id =:leagueId AND STATUS = 1)
+				SELECT t.id, t.name, tl.`status`, tl.register_date
+				FROM team AS t
+				INNER JOIN  team_league AS tl ON tl.team_id = t.id
+				WHERE t.active = 1 AND tl.league_id =:leagueId
+				GROUP BY t.id
+			';
+
+			$parametros = array(
+				':leagueId' => $leagueId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function deleteChild($data){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE team_league SET status = 0 WHERE team_id =:team_id AND league_id =:league_id;
+			';
+
+			$parametros = array(
+				':team_id' => $data['idTeam'],
+				':league_id' => $data['idLeague']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function enableChild($data){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE team_league SET status = 1 WHERE team_id =:team_id AND league_id =:league_id;
+			';
+
+			$parametros = array(
+				':team_id' => $data['idTeam'],
+				':league_id' => $data['idLeague']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}

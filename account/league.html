@@ -212,7 +212,43 @@
                     };
 
                 $.post("../core/controllers/league.php", objData, function(result) {
-                    row.child(leagueMember(result.data, cdata.type)).show();
+                    row.child(leagueMember(result.data, cdata.type, cdata.id)).show();
+                });
+            }
+        });
+
+        $(document).on('click', '.btnDeleteFromLeague',  function(){
+            let idTeam = $(this).data("idteam"),
+                idLeague = $(this).data("leagueid");
+
+            if (confirm(`Do you want to suspend the league team?`)){
+                objData = {
+                    "_method": "deleteChild",
+                    "idTeam": idTeam,
+                    "idLeague":idLeague
+                };
+
+                $.post("../core/controllers/league.php", objData, function(result) {
+                    alert(result.message);
+                    fnListLeague();
+                });
+            }
+        });
+
+        $(document).on('click', '.btnEnableFromLeague',  function(){
+            let idTeam = $(this).data("idteam"),
+                idLeague = $(this).data("leagueid");
+
+            if (confirm(`Are you sure you want to reactivate this team to the league?`)){
+                objData = {
+                    "_method": "enableChild",
+                    "idTeam": idTeam,
+                    "idLeague":idLeague
+                };
+
+                $.post("../core/controllers/league.php", objData, function(result) {
+                    alert(result.message);
+                    fnListLeague();
                 });
             }
         });
@@ -450,5 +486,46 @@
                 console.log(status);
             }
         });
+    }
+
+    function leagueMember(data, isOwner, leagueId){
+        let table = `<table class="table w-50">
+                        <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Register date</th>
+                              <th scope="col"></th>
+                            </tr>
+                        </thead>
+                    `,
+            rows = '';
+
+        $.each( data, function( index, item){
+            let opciones = '';
+            if(isOwner == 1){
+                if(item.status == 1){
+                    opciones += `<a href="javascript:void(0);" class="btn text-danger btnDeleteFromLeague" title="Delete from league" data-idteam="${item.id}" data-leagueid="${leagueId}"><i class="bi bi-dash-circle-fill"></i></a>`;
+                }else{
+                    opciones += `<a href="javascript:void(0);" class="btn text-success btnEnableFromLeague" title="Enable for league" data-idteam="${item.id}" data-leagueid="${leagueId}"><i class="bi bi-arrow-repeat"></i></a>`;
+                }
+
+                opciones += `                    
+                    <a href="javascript:void(0);" class="btn text-secondary btnListTeamMember" title="Show team members" data-idteam="${item.id}" data-leagueid="${leagueId}"><i class="bi bi-person-lines-fill"></i></a>
+                `
+            }
+            rows += `
+                <tr>
+                    <th scope="row">${pad(item.id, 5)}</th>
+                    <td><a href="http://localhost/clubtres/team/index.php?id=${item.id}" target="_blank" class="btn">${item.name}</a></td>
+                    <td>${item.register_date}</td>
+                    <td class="text-center">
+                        ${opciones}
+                    </td>
+                </tr>
+            `;
+        });
+
+        return `${table} ${rows}</table>`;
     }
 </script>

@@ -107,11 +107,37 @@
 				exit(json_encode($response));
 			} else if($_POST['_method'] == 'getChilds'){
 				$leagueModel = new Leaguemodel();
-				$tmpResponse = $leagueModel->getChilds( $_POST['teamId'] );		
+				$tmpResponse = $leagueModel->getChilds( $_POST['leagueId'] );		
 
 				$response = array(
 					'codeResponse' => 200,
 					'data' => $tmpResponse
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			}else if($_POST['_method'] == 'deleteChild'){
+				$leagueModel = new Leaguemodel();
+				$leagueModel->deleteChild( $_POST );		
+
+				$response = array(
+					'codeResponse' => 200,
+					'message' => 'Team removed from league'
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			}else if($_POST['_method'] == 'enableChild'){
+				$leagueModel = new Leaguemodel();
+				$leagueModel->enableChild( $_POST );		
+
+				$response = array(
+					'codeResponse' => 200,
+					'message' => 'Team reactivated'
 				);
 
 				header('HTTP/1.1 200 Ok');
