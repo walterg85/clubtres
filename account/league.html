@@ -75,6 +75,36 @@
     </div>
 </div>
 
+<!-- Modal para listar los integrantes de un equipo-->
+<div class="modal fade" id="mdlUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Team member's</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                </div>
+                <table class="table w-100" id="tblTeaMember">
+                    <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Name</th>
+                          <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="bdyTeaMember"></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     var leaguePhoto   = null,
         maxCroppedWidth = 500,
@@ -266,6 +296,46 @@
                                 fnListLeague();
                             });
                         }
+                    });
+
+                    $(".btnListTeamMember").click( function(){
+                        $("#tblTeaMember").addClass("d-none");
+                        $(".progress").removeClass("d-none");
+                        $("#mdlUser").modal("show");
+
+                        let idTeam = $(this).data("idteam"),
+                            objData = {
+                                "_method": "getChilds",
+                                "teamId": idTeam
+                            };
+
+                        $.post("../core/controllers/team.php", objData, function(result) {
+                            let rows = '';
+                            $.each( result.data, function( index, item){
+                                let opciones = '';
+
+                                if(item.status == 1){
+                                    opciones += `<a href="javascript:void(0);" class="btn text-danger btnDisablePersonFromLeague" title="Temporarily disabled" data-registroid="${item.registroId}"><i class="bi bi-dash-circle-fill"></i></a>`;
+                                }else{
+                                    opciones += `<a href="javascript:void(0);" class="btn text-success btnEnablePersonFromLeague" title="Enable" data-registroid="${item.registroId}"><i class="bi bi-arrow-repeat"></i></a>`;
+                                }
+
+                                rows += `
+                                    <tr>
+                                        <th scope="row">${pad(item.id, 5)}</th>
+                                        <td><a href="http://localhost/clubtres/user/index.php?id=${item.id}" target="_blank" class="btn">${item.usName} ${(item.type == 1) ? '('+item.role+')' : ''}</a></td>
+                                        <td class="text-center">
+                                            ${opciones}
+                                        </td>
+                                    </tr>
+                                `;
+                            });
+                            $("#bdyTeaMember").html("");
+                            $(rows).appendTo("#bdyTeaMember");
+
+                            $("#tblTeaMember").removeClass("d-none");
+                            $(".progress").addClass("d-none");
+                        });
                     });
                 });
             }
