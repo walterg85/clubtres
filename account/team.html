@@ -207,7 +207,7 @@
                 $.post("../core/controllers/team.php", objData, function(result) {
                     row.child(teamMember(result.data, cdata.type)).show();
 
-                    $(".btnDeleteFromTeam").click( function(){
+                    $(".btnDeleteFromTeam").unbind().click( function(){
                         let idRegistro = $(this).data("id-registro");
                         if (confirm(`You want to remove this user from the team?`)){
                             objData = {
@@ -338,7 +338,7 @@
                         }
                     ],
                     "fnDrawCallback":function(oSettings){
-                        $(".btnEditTeam").click(function(){
+                        $(".btnEditTeam").unbind().click(function(){
                             $("#addTeamModal").modal("show");
 
                             let data = getData($(this), dataTableTeam);
@@ -366,7 +366,7 @@
                             teamPhoto = null;
                         });
 
-                        $(".btnDeleteTeam").click(function(){
+                        $(".btnDeleteTeam").unbind().click(function(){
                             let data = getData($(this), dataTableTeam);
                             if (confirm(`do you want to deactivate this team (${data.name})?`)){
                                 $.ajax({
@@ -387,7 +387,7 @@
                             }
                         });
 
-                        $(".tmpInviteTeam").click(function() {
+                        $(".tmpInviteTeam").unbind().click(function() {
                             let data = getData($(this), dataTableTeam),
                                 inputText = $(`#inputPlayerId${data.id}`).val();
 

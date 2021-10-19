@@ -126,6 +126,76 @@
 		public function sendInvitation($data){
 			$pdo = new Conexion();
 
+			if($data['event_type'] == 0){
+				$cmd = '
+					SELECT COUNT(id) AS existe, role FROM user_team WHERE user_id =:user_id AND team_id =:team_id
+				';
+
+				$parametros = array(
+					':user_id'		=> $data['udestiny_id'],
+					':team_id'		=> $data['event_id']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+				$sql->setFetchMode(PDO::FETCH_OBJ);
+				$response = $sql->fetch();
+
+				if($response->existe == 1){
+					 return [FALSE, 'They cannot add this user, he is already registered as an ' . $response->role];
+				}else{
+					$cmd = 'SELECT COUNT(id) AS invitado FROM invitation WHERE udestiny_id =:udestiny_id AND event_id =:event_id AND event_type =:event_type';
+
+					$parametros = array(
+						':udestiny_id'	=> $data['udestiny_id'],
+						':event_id'		=> $data['event_id'],
+						':event_type'	=> $data['event_type']
+					);
+
+					$sql = $pdo->prepare($cmd);
+					$sql->execute($parametros);
+					$sql->setFetchMode(PDO::FETCH_OBJ);
+					$response = $sql->fetch();
+
+					if($response->invitado == 1)
+						return [FALSE, 'You cannot send another invitation to the same user, they still have a pending invitation to join the same team'];
+				}
+			}else if($data['event_type'] > 0){
+				$cmd = '
+					SELECT COUNT(id) AS existe FROM team_league WHERE team_id =:team_id AND league_id =:league_id
+				';
+
+				$parametros = array(
+					':league_id'	=> $data['event_id'],
+					':team_id'		=> $data['event_type']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+				$sql->setFetchMode(PDO::FETCH_OBJ);
+				$response = $sql->fetch();
+
+				if($response->existe == 1){
+					 return [FALSE, 'You cannot invite the team in this league, because it is already registered'];
+				}else{
+					$cmd = 'SELECT COUNT(id) AS invitado FROM invitation WHERE udestiny_id =:udestiny_id AND event_id =:event_id AND event_type =:event_type';
+
+					$parametros = array(
+						':udestiny_id'	=> $data['udestiny_id'],
+						':event_id'		=> $data['event_id'],
+						':event_type'	=> $data['event_type']
+					);
+
+					$sql = $pdo->prepare($cmd);
+					$sql->execute($parametros);
+					$sql->setFetchMode(PDO::FETCH_OBJ);
+					$response = $sql->fetch();
+
+					if($response->invitado == 1)
+						return [FALSE, 'You cannot send another invitation to the team to join the league, they still have a pending invitation to join this league.'];
+				}
+			}
+
 			$cmd = '
 				INSERT INTO invitation
 					(udestiny_id, uorigin_id, event, event_id, event_type, register_date)
@@ -147,7 +217,7 @@
 
 				return [TRUE, $pdo->lastInsertId()];
 			} catch (PDOException $e) {
-		        return [FALSE, 0];
+		        return [FALSE, 'Invitation not sent'];
 		    }
 		}
 

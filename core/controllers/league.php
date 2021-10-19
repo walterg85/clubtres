@@ -98,7 +98,7 @@
 				}else{
 					$response = array(
 						'codeResponse' => 0,
-						'message' => 'Invitation not sent'
+						'message' => $tmpResponse[1]
 					);
 				}
 
