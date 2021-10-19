@@ -29,11 +29,11 @@
 					$leagueId = $tmpResponse[1];
 
 					if (!empty($_FILES['imageleague'])){
-						unlink("../../{$folder}/{$filename}");
-
 						$filename = $_FILES['imageleague']['name'];
 						$tempname = $_FILES['imageleague']['tmp_name'];    
 						$folder   = "assets/img/leagues/{$leagueId}";
+
+						unlink("../../{$folder}/{$filename}");
 	          
 	          			mkdir(dirname(__FILE__, 3) . "/{$folder}", 0777, true);          
 						if (move_uploaded_file($tempname, "../../{$folder}/{$filename}"))
@@ -157,7 +157,34 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
+			}else if($_POST['_method'] == 'disableMemberChild'){
+				$leagueModel = new Leaguemodel();
+				$leagueModel->disableMemberChild( $_POST['idRegistro'] );		
+
+				$response = array(
+					'codeResponse' => 200,
+					'message' => 'Suspended member'
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			}else if($_POST['_method'] == 'enableMemberChild'){
+				$leagueModel = new Leaguemodel();
+				$leagueModel->enableMemberChild( $_POST['idRegistro'] );		
+
+				$response = array(
+					'codeResponse' => 200,
+					'message' => 'Enabled member'
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
 			}
+
 		} else {
 			$response = array(
 				'codeResponse' => 401,

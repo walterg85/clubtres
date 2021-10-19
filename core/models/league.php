@@ -189,4 +189,36 @@
 
 			return TRUE;
 		}
+
+		public function disableMemberChild($idRegistro){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE user_team SET status = 0 WHERE id =:idRegistro;
+			';
+
+			$parametros = array(
+				':idRegistro' => $idRegistro
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function enableMemberChild($idRegistro){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE user_team SET status = 1 WHERE id =:idRegistro;
+			';
+
+			$parametros = array(
+				':idRegistro' => $idRegistro
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}
