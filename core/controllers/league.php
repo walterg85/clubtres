@@ -29,11 +29,11 @@
 					$leagueId = $tmpResponse[1];
 
 					if (!empty($_FILES['imageleague'])){
-						unlink("../../{$folder}/{$filename}");
-
 						$filename = $_FILES['imageleague']['name'];
 						$tempname = $_FILES['imageleague']['tmp_name'];    
 						$folder   = "assets/img/leagues/{$leagueId}";
+
+						unlink("../../{$folder}/{$filename}");
 	          
 	          			mkdir(dirname(__FILE__, 3) . "/{$folder}", 0777, true);          
 						if (move_uploaded_file($tempname, "../../{$folder}/{$filename}"))
