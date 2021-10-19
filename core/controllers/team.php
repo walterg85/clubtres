@@ -80,7 +80,7 @@
 					'uorigin_id' => $_SESSION['authData']->id,
 					'udestiny_id' => $_POST['idUser'],
 					'event' => 'The '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' user invites you to be part of the '. $_POST["nameTeam"] .' team, respond soon, await your response.',
-					'event_type' => 1,
+					'event_type' => 0,
 					'event_id' => $_POST['idTeam']
 				);
 

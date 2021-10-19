@@ -29,7 +29,7 @@
                     <input type="hidden" name="idTeam" id="idTeam" value="0">
                     <div class="mb-3">
                         <label for="inputName" class="form-label">Team Name</label>
-                        <input type="text" name="inputName" class="form-control" id="inputName">              
+                        <input type="text" name="inputName" class="form-control" id="inputName" autocomplete="off">              
                     </div>
                     <div class="mb-3">
                         <label for="imageteam" class="form-label">Team image</label>
@@ -324,7 +324,7 @@
                                             <form class="dropdown-menu p-4 dropdown-menu-lg-end">
                                                 <div class="mb-3">
                                                     <label for="inputPlayerId${row.id}" class="form-label">Enter player id</label>
-                                                    <input type="email" class="form-control" id="inputPlayerId${row.id}" placeholder="Player ID">
+                                                    <input type="email" class="form-control" id="inputPlayerId${row.id}" placeholder="Player ID" autocomplete="off">
                                                 </div>
                                                 <button type="button" class="btn btn-success tmpInviteTeam">Invite</button>
                                             </form>
@@ -454,7 +454,7 @@
             rows += `
                 <tr>
                     <th scope="row">${pad(item.id, 5)}</th>
-                    <td><a href="http://localhost/clubtres/user/index.php?id=${item.id}" target="_blank" class="btn">${item.usName}</a></td>
+                    <td><a href="http://localhost/clubtres/user/index.php?id=${item.id}" target="_blank" class="btn ${(item.status == 1) ? '' : 'text-danger'}">${item.usName}</a></td>
                     <td>${item.role}</td>
                     <td class="text-center">${(item.type == 2 && isOwner == 1) ? '<a href="javascript:void(0);" class="btn text-danger btnDeleteFromTeam" title="Delete from team" data-id-registro="'+item.registroId+'"><i class="bi bi-person-x-fill"></i></a>' : ''}</td>
                 </tr>

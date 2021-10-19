@@ -307,7 +307,8 @@
                             objData = {
                                 "_method": "getChilds",
                                 "teamId": idTeam
-                            };
+                            },
+                            currentBtn = $(this);
 
                         $.post("../core/controllers/team.php", objData, function(result) {
                             let rows = '';
@@ -323,18 +324,51 @@
                                 rows += `
                                     <tr>
                                         <th scope="row">${pad(item.id, 5)}</th>
-                                        <td><a href="http://localhost/clubtres/user/index.php?id=${item.id}" target="_blank" class="btn">${item.usName} ${(item.type == 1) ? '('+item.role+')' : ''}</a></td>
+                                        <td><a href="http://localhost/clubtres/user/index.php?id=${item.id}" target="_blank" class="btn ${(item.status == 1) ? '' : 'text-danger'}">${item.usName} ${(item.type == 1) ? '('+item.role+')' : ''}</a></td>
                                         <td class="text-center">
                                             ${opciones}
                                         </td>
                                     </tr>
                                 `;
                             });
+
                             $("#bdyTeaMember").html("");
                             $(rows).appendTo("#bdyTeaMember");
 
                             $("#tblTeaMember").removeClass("d-none");
                             $(".progress").addClass("d-none");
+
+                            $(".btnDisablePersonFromLeague").click( function() {
+                                let idRegistro = $(this).data("registroid");
+
+                                if (confirm(`Do you really want to suspend this team member?`)){
+                                    objData = {
+                                        "_method": "disableMemberChild",
+                                        "idRegistro": idRegistro
+                                    };
+
+                                    $.post("../core/controllers/league.php", objData, function(result) {
+                                        alert(result.message);
+                                        currentBtn.click();
+                                    });
+                                }
+                            });
+
+                            $(".btnEnablePersonFromLeague").click( function() {
+                                let idRegistro = $(this).data("registroid");
+
+                                if (confirm(`Do you really want to reactivate this team member?`)){
+                                    objData = {
+                                        "_method": "enableMemberChild",
+                                        "idRegistro": idRegistro
+                                    };
+
+                                    $.post("../core/controllers/league.php", objData, function(result) {
+                                        alert(result.message);
+                                        currentBtn.click();
+                                    });
+                                }
+                            });
                         });
                     });
                 });
@@ -462,7 +496,7 @@
                                             <form class="dropdown-menu p-4 dropdown-menu-lg-end">
                                                 <div class="mb-3">
                                                     <label for="inputTeamId${row.id}" class="form-label">Enter team id</label>
-                                                    <input type="email" class="form-control" id="inputTeamId${row.id}" placeholder="Team ID">
+                                                    <input type="email" class="form-control" id="inputTeamId${row.id}" placeholder="Team ID" autocomplete="off">
                                                 </div>
                                                 <button type="button" class="btn btn-success tmpInviteLeague">Invite</button>
                                             </form>
