@@ -32,7 +32,7 @@
 						$tempname = $_FILES['imageteam']['tmp_name'];    
 						$folder   = "assets/img/teams/{$teamId}";
 
-						unlink("../../{$folder}/{$filename}");
+						unlink("../../{$folder}/{$filename}"); 
 	          
 	          			mkdir(dirname(__FILE__, 3) . "/{$folder}", 0777, true);          
 						if (move_uploaded_file($tempname, "../../{$folder}/{$filename}"))
