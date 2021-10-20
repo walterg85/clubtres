@@ -72,6 +72,11 @@
                                     <i class="bi bi-bell-fill"></i> Invitations <span class="badge bg-danger bdg-Notification">0</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);" id="linkGames">
+                                    <i class="bi bi-cone-striped"></i> Games
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -110,6 +115,14 @@
                     if (confirm(`do you really want to log out?`)){
                         window.location.replace("logout.php");
                     }
+                });
+
+                $("#linkGames").on("click", function(){
+                    $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                });
+
+                $("#tmpNewLeague").click( function(){
+                    $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
                 });
 
                 findNotifications();

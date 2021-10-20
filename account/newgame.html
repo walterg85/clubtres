@@ -1,0 +1,39 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="lead">New game</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-success" id="btnSavegame">Save</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="btnCancelreg">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="bd-content ps-lg-4">
+    <div class="bd-game col-4">
+        <form class="row g-3">
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="inputLeague" class="form-label">* League</label>
+                    <select id="inputLeague" name="inputLeague" class="form-select"></select>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="inputTeam" class="form-label">* Team</label>
+                    <select id="inputTeam" name="inputTeam" class="form-select"></select>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="inputDate" class="form-label">* Event date</label>
+                    <input type="text" class="form-control" id="inputDate" name="inputDate" placeholder="">
+                </div>
+            </div>         
+        </form>
+    </div>
+    <div class="bd-game col-8" id="googleMaps">
+        <label for="inputLeague" class="form-label">* Indicates the place where the event will take place</label>
+    </div>
+</div>
