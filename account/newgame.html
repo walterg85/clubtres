@@ -39,7 +39,7 @@
                 <div class="col-12">
                     <div class="mb-3">
                         <label for="inputDate" class="form-label">* Event date</label>
-                        <input type="text" class="form-control" id="inputDate" name="inputDate" placeholder="">
+                        <input type="text" class="form-control" id="inputDate" name="inputDate" readonly="readonly">
                     </div>
                 </div>         
             </form>
@@ -109,12 +109,15 @@
                 "team1": $("#inputTeam").val(),
                 "team2": $("#inputTeam2").val(),
                 "date": $("#inputDate").val(),
-                "location": currentLocation
+                "location": JSON.stringify(currentLocation)
             };
 
             if (confirm(`Do you want to go ahead and register the event?`)){
                 $.post("../core/controllers/league.php", objData, function(result) {
                     alert(result.message)
+
+                    if(result.codeResponse == 200)
+                        $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
                 });
             }
         });

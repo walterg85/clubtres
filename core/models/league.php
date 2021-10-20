@@ -225,4 +225,26 @@
 
 			return TRUE;
 		}
+
+		public function addEvent($data){
+			$pdo = new Conexion();
+			$cmd = 'INSERT INTO games (league_id, teama_id, teamb_id, event_date, locations, registered_date, status) VALUES (:league_id, :teama_id, :teamb_id, :event_date, :locations, now(), 1)';
+
+			$parametros = array(
+				':league_id' => $data['leagueId'],
+				':teama_id' => $data['team1'],
+				':teamb_id' => $data['team2'],
+				':event_date' => $data['date'],
+				':locations' => $data['location']
+			);
+
+			try {
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+
+				return [TRUE, $pdo->lastInsertId()];
+			} catch (PDOException $e) {
+		        return [FALSE, 0];
+		    }
+		}
 	}
