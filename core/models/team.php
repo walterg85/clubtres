@@ -88,7 +88,11 @@
 			$sql->execute($parametros);
 			$sql->setFetchMode(PDO::FETCH_OBJ);
 
-			return $sql->fetch();
+			// Buscar los miembros de este equipo
+			$data = $sql->fetch();
+			$data->teamlist = $this->getChilds($teamId);
+
+			return $data;
 		}
 
 		public function getTeam($user_id) {
