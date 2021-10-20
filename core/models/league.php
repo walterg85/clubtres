@@ -75,7 +75,11 @@
 			$sql->execute($parametros);
 			$sql->setFetchMode(PDO::FETCH_OBJ);
 
-			return $sql->fetch();
+			// Buscar los equipos de la liga
+			$data = $sql->fetch();
+			$data->teamlist = $this->getChilds($leagueId);
+
+			return $data;
 		}
 
 		public function getLeague( $user_id ) {
