@@ -1,54 +1,75 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css" integrity="sha512-cOGz9gyEibwgs1MVDCcfmQv6mPyUkfvrV9TsRbTuOA12SQnLzBROihf6/jK57u0YxzlxosBFunSt4V75K6azMw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="../assets/plugins/datetimepicker/bootstrap-datetimepicker.min.css" />
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="lead">New game</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-success" id="btnSavegame">Save</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" id="btnSavegame">Save</button>
             <button type="button" class="btn btn-sm btn-outline-secondary" id="btnCancelreg">Cancel</button>
         </div>
     </div>
 </div>
 
 <div class="bd-content ps-lg-4">
-    <div class="bd-game col-4">
-        <form class="row g-3">
-            <div class="col-6">
-                <div class="mb-3">
-                    <label for="inputLeague" class="form-label">* League</label>
-                    <select id="inputLeague" name="inputLeague" class="form-select"></select>
+    <div class="row">
+        <div class="col-4">
+            <form class="row g-3">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="inputLeague" class="form-label">* League</label>
+                        <select id="inputLeague" name="inputLeague" class="form-select"></select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-6">
-                <div class="mb-3">
-                    <label for="inputTeam" class="form-label">* Team</label>
-                    <select id="inputTeam" name="inputTeam" class="form-select"></select>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="inputTeam" class="form-label">* Team</label>
+                        <select id="inputTeam" name="inputTeam" class="form-select"></select>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-12">
-                <div class="mb-3">
-                    <label for="inputDate" class="form-label">* Event date</label>
-                    <input type="text" class="form-control" id="inputDate" name="inputDate" placeholder="">
-                </div>
-            </div>         
-        </form>
-    </div>
-    <div class="bd-game col-8" id="googleMaps">
-        <label for="inputLeague" class="form-label">* Indicates the place where the event will take place</label>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="inputDate" class="form-label">* Event date</label>
+                        <input type="text" class="form-control" id="inputDate" name="inputDate" placeholder="">
+                    </div>
+                </div>         
+            </form>
+        </div>
+        <div class="col-8">
+            <label for="inputLeague" class="form-label">* Indicates the place where the event will take place</label>
+            <div id="map"></div>
+        </div>
     </div>
 </div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf9G5x_AO1KvzR_EOi5IQDhDEVP52bkek&callback=initMap&v=weekly" async ></script>
+<script src="../assets/plugins/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){
-        
-
-        $("#btnSavegame").on("click", function(){
-            $("#inputDate").datepicker();
+        $("#inputDate").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: true,
+            todayBtn: true,
+            pickerPosition: "bottom-left",
+            startDate:new Date()
         });
     });
+
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: { lat: -25.363882, lng: 131.044922 },
+        });
+
+        new google.maps.Marker({
+            position: map.getCenter(),
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+            },
+            draggable: true,
+            map: map,
+        });
+    }
 </script>
