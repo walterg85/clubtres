@@ -121,10 +121,6 @@
                     $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
                 });
 
-                $("#tmpNewLeague").click( function(){
-                    $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
-                });
-
                 findNotifications();
                 setInterval(findNotifications, 2500);
             });

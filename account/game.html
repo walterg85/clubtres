@@ -9,3 +9,11 @@
     </div>
     <table class="table table-striped table-sm" id="gameList"></table>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#tmpNewGame").click( function(){
+            $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
+        });
+    });
+</script>
