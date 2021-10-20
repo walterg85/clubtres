@@ -112,6 +112,8 @@
         dataTableLeague = null;
 
     $(document).ready(function(){
+        currentLeague= null;
+        
         // Registrar nueva liga
         $("#btnRegisterLeague").on("click", fnRegisterLeague);
 
@@ -502,7 +504,9 @@
                                             </form>
                                         </div>
 
-                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteLeague' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnAddGame" title="Add game"><i class="bi bi-cone-striped"></i></a>
+
+                                        <a href="javascript:void(0);" class="btn btn-outline-danger ${(data== 1) ? 'btnDeleteLeague' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
                                     `;
                                 return btnOptions;
                             }
@@ -601,6 +605,15 @@
                                 alert("Enter a correct Id");
                             }
                         });
+
+                        $(".btnAddGame").unbind().click(function(){
+                            let data = getData($(this), dataTableLeague);
+                            if (confirm(`You want to add a game to the ${data.name} league?`)){
+                                currentLeague = data.id;
+                                $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
+                            }
+                        });
+
                     }
                 });
             },

@@ -12,6 +12,8 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        currentLeague = null;
+        
         $("#tmpNewGame").click( function(){
             $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
         });
