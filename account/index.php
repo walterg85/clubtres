@@ -92,7 +92,7 @@
 
         <!-- Datatables -->
         <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
+        
         <script type="text/javascript">
             $(document).ready(function(){
                 $("#linkHome").on("click", function(){

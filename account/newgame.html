@@ -1,3 +1,4 @@
+<!-- datetimepicker -->
 <link rel="stylesheet" href="../assets/plugins/datetimepicker/bootstrap-datetimepicker.min.css" />
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -38,14 +39,22 @@
         </div>
         <div class="col-8">
             <label for="inputLeague" class="form-label">* Indicates the place where the event will take place</label>
-            <div id="map"></div>
+            <div id='clubMap' style='width: 100%; height: 50vh;'></div>
         </div>
     </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCf9G5x_AO1KvzR_EOi5IQDhDEVP52bkek&callback=initMap&v=weekly" async ></script>
+
+<!-- Bing Maps -->
+<script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AiUXV-3R30RqqrIouHt5Px3bZ5d1zd2dujqhVT4Vjj2wpHIZd0YE1YSguYh33-xu&callback=loadMapScenario' async defer></script>
+
+<!-- datetimepicker -->
 <script src="../assets/plugins/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 
 <script type="text/javascript">
+    var clubMap = null,
+        pushpin = null,
+        currentLocation = null;
+
     $(document).ready(function(){
         $("#inputDate").datetimepicker({
             format: "yyyy-mm-dd hh:ii",
@@ -56,20 +65,30 @@
         });
     });
 
-    function initMap() {
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 4,
-            center: { lat: -25.363882, lng: 131.044922 },
+    function loadMapScenario() {
+        let navigationBarMode = Microsoft.Maps.NavigationBarMode;
+
+        clubMap = new Microsoft.Maps.Map(document.getElementById('clubMap'), {
+            navigationBarMode: navigationBarMode.square,
+            supportedMapTypes: [Microsoft.Maps.MapTypeId.road, Microsoft.Maps.MapTypeId.aerial]
         });
 
-        new google.maps.Marker({
-            position: map.getCenter(),
-            icon: {
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 10,
-            },
-            draggable: true,
-            map: map,
-        });
+        Microsoft.Maps.Events.addHandler(clubMap, 'click',getLatlng );
+    }
+
+    function getLatlng(e) {
+        if (e.targetType == "map") {
+            if(pushpin)
+                clubMap.entities.remove(pushpin);
+
+            let point = new Microsoft.Maps.Point(e.getX(), e.getY()),
+                locTemp = e.target.tryPixelToLocation(point),
+                location = new Microsoft.Maps.Location(locTemp.latitude, locTemp.longitude);
+
+            currentLocation = {latitude: locTemp.latitude, longitude: locTemp.longitude};
+            pushpin = new Microsoft.Maps.Pushpin(location, {'draggable': false});
+
+            clubMap.entities.push(pushpin);
+        }
     }
 </script>
