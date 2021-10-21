@@ -105,28 +105,29 @@
                                 return `${row.team1} VS ${row.team2}`;
                             }
                         },
-                        // {
-                        //     data: 'status',
-                        //     title: 'Status',
-                        //     render: function(data, type, row){
-                        //         let status = "";
-                        //         switch (data) {
-                        //             case '1':
-                        //                 status = "Soccer";
-                        //                 break;
-                        //             case '2':
-                        //                 status = "Basketball";
-                        //                 break;
-                        //             case '3':
-                        //                 status = "Football";
-                        //                 break;
-                        //             default:
-                        //                 status = "Other";
-                        //         }
+                        {
+                            data: 'status',
+                            title: 'Status',
+                            render: function(data, type, row){
+                                if(data == 1){
+                                    let dateNow = new Date();
 
-                        //         return status;
-                        //     }
-                        // }
+                                    if(dateNow <= Date.parse(row.event_date)){
+                                        return 'Pending event';
+                                    }else{
+                                        dateNow.setHours( dateNow.getHours() + 1 );
+
+                                        if(dateNow >= Date.parse(row.event_date)){
+                                            return 'In progress';
+                                        }else{
+                                            return 'Past event';
+                                        }
+                                    }
+                                }else{
+                                    return 'Canceled'
+                                }
+                            }
+                        },
                         {
                             title: '',
                             data: 'status',
@@ -138,7 +139,8 @@
                                 if(row.type == 1)
                                     btnOptions += `
                                         <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditGame" title="Edit"><i class="bi bi-pencil"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-outline-danger ${(data== 1) ? 'btnCancelGame' : 'd-none' }" title="Disbale"><i class="bi bi-trash"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-outline-secondary ${(data== 1) ? 'btnCancelGame' : 'd-none' }" title="Disbale"><i class="bi bi-x-lg"></i></a>
+                                        <a href="javascript:void(0);" class="btn btn-outline-danger deleteGame" title="Delete Game"><i class="bi bi-trash"></i></a>
                                     `;
                                 return btnOptions;
                             }
@@ -149,12 +151,49 @@
                             let data = getData($(this), dataTableGames),
                                 jsLoc = JSON.parse(data.locations);
 
-                            let location = new Microsoft.Maps.Location(jsLoc.latitude, jsLoc.longitude),
-                                pushpin = new Microsoft.Maps.Pushpin(location, {'draggable': false});
+                            if(pushpin)
+                                clubMap.entities.remove(pushpin);
 
+                            let location = new Microsoft.Maps.Location(jsLoc.latitude, jsLoc.longitude);
+
+                            pushpin = new Microsoft.Maps.Pushpin(location, {'draggable': false});
                             clubMap.entities.push(pushpin);
 
                             $("#mdlMap").modal("show");
+                        });
+
+                        $(".btnCancelGame").unbind().click(function(){
+                            if (confirm(`do you want to cancel this event?`)){
+                                let data = getData($(this), dataTableGames),
+                                    objData = {
+                                        "_method": "cancelGame",
+                                        "gameId": data.id
+                                    };
+
+                                $.post("../core/controllers/league.php", objData, function(result) {
+                                    alert('Event canceled');
+                                    fnListGames();
+                                });
+                            }
+                        });
+
+                        $(".deleteGame").unbind().click(function(){
+                            if (confirm(`you want to delete this event?`)){
+                                let data = getData($(this), dataTableGames),
+                                    objData = {
+                                        "_method": "deleteGame",
+                                        "gameId": data.id
+                                    };
+
+                                $.post("../core/controllers/league.php", objData, function(result) {
+                                    alert('Event removed');
+                                    fnListGames();
+                                });
+                            }
+                        });
+
+                        $(".btnEditGame").unbind().click(function(){
+
                         });
                     }
                 });

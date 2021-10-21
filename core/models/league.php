@@ -282,4 +282,36 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		public function cancelGame($idGame){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE games SET status = 0 WHERE id =:idGame
+			';
+
+			$parametros = array(
+				':idGame' => $idGame
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function deleteGame($idGame){
+			$pdo = new Conexion();
+			$cmd = '
+				DELETE FROM games WHERE id =:idGame
+			';
+
+			$parametros = array(
+				':idGame' => $idGame
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}
