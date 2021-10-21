@@ -106,7 +106,7 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
-			} else if($_POST['_method'] == 'getChilds'){
+			}else if($_POST['_method'] == 'getChilds'){
 				$leagueModel = new Leaguemodel();
 				$tmpResponse = $leagueModel->getChilds( $_POST['leagueId'] );		
 
@@ -199,6 +199,19 @@
 						'message' => 'Unregistered event'
 					);
 				}
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			}else if($_POST['_method'] == 'getGames'){
+				$leagueModel = new Leaguemodel();
+				$tmpResponse = $leagueModel->getGames( $_POST['user_id'] );		
+
+				$response = array(
+					'codeResponse' => 200,
+					'data' => $tmpResponse
+				);
 
 				header('HTTP/1.1 200 Ok');
 				header("Content-Type: application/json; charset=UTF-8");

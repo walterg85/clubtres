@@ -247,4 +247,30 @@
 		        return [FALSE, 0];
 		    }
 		}
+
+		public function getGames($user_id){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 1 AS type
+				FROM games AS g
+				INNER JOIN league AS l ON g.league_id = l.id
+				WHERE l.user_id = 1
+
+				UNION DISTINCT
+
+				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 1 AS type
+				FROM league AS l
+				INNER JOIN  games AS g ON l.id = g.league_id
+				WHERE g.
+			';
+
+			$parametros = array(
+				':user_id' => $user_id
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}
