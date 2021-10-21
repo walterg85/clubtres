@@ -77,6 +77,11 @@
                                     <i class="bi bi-cone-striped"></i> Games
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);" id="linkBusiness">
+                                    <i class="bi bi-award"></i> Business
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -121,6 +126,10 @@
 
                 $("#linkGames").on("click", function(){
                     $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                });
+
+                $("#linkBusiness").on("click", function(){
+                    $( "#mainContenedor" ).load( `business.html?v=${Math.random()}` );
                 });
 
                 findNotifications();
