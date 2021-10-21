@@ -217,8 +217,31 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
-			}
+			}else if($_POST['_method'] == 'cancelGame'){
+				$leagueModel = new Leaguemodel();
+				$tmpResponse = $leagueModel->cancelGame( $_POST['gameId'] );		
 
+				$response = array(
+					'codeResponse' => 200
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			}else if($_POST['_method'] == 'deleteGame'){
+				$leagueModel = new Leaguemodel();
+				$tmpResponse = $leagueModel->deleteGame( $_POST['gameId'] );		
+
+				$response = array(
+					'codeResponse' => 200
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			}
 		} else {
 			$response = array(
 				'codeResponse' => 401,
