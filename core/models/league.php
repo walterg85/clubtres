@@ -251,14 +251,14 @@
 		public function getGames($user_id){
 			$pdo = new Conexion();
 			$cmd = '
-				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 1 AS type
+				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 1 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2
 				FROM games AS g
 				INNER JOIN league AS l ON g.league_id = l.id
 				WHERE l.user_id =:user_id
 
 				UNION DISTINCT
 
-				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type
+				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2
 				FROM league AS l
 				INNER JOIN  games AS g ON l.id = g.league_id
 				INNER JOIN user_team AS ut ON g.teama_id = ut.team_id
@@ -266,7 +266,7 @@
 
 				UNION DISTINCT
 
-				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type
+				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2
 				FROM league AS l
 				INNER JOIN  games AS g ON l.id = g.league_id
 				INNER JOIN user_team AS ut ON g.teamb_id = ut.team_id
