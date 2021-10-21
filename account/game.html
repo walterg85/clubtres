@@ -193,7 +193,11 @@
                         });
 
                         $(".btnEditGame").unbind().click(function(){
+                            let data = getData($(this), dataTableGames);
 
+                            localStorage.setItem('currentGame', JSON.stringify(data));
+
+                            $( "#mainContenedor" ).load( `editgame.html?v=${Math.random()}` );
                         });
                     }
                 });

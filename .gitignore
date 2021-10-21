@@ -1,4 +1,5 @@
 assets/img/leagues/*
 assets/img/teams/*
 assets/img/user/*
+assets/img/business/*
 core/dbConnection.php
