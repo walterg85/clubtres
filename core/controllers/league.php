@@ -241,6 +241,26 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
+			}else if($_POST['_method'] == 'updateEvent'){
+				$leagueModel = new Leaguemodel();
+				$tmpResponse = $leagueModel->updateEvent($_POST);
+
+				if($tmpResponse[0]){
+					$response = array(
+						'codeResponse' => 200,
+						'message' => 'Registered event'
+					);
+				}else{
+					$response = array(
+						'codeResponse' => 0,
+						'message' => 'Unregistered event'
+					);
+				}
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
 			}
 		} else {
 			$response = array(
