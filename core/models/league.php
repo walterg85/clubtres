@@ -254,14 +254,23 @@
 				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 1 AS type
 				FROM games AS g
 				INNER JOIN league AS l ON g.league_id = l.id
-				WHERE l.user_id = 1
+				WHERE l.user_id =:user_id
 
 				UNION DISTINCT
 
-				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 1 AS type
+				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type
 				FROM league AS l
 				INNER JOIN  games AS g ON l.id = g.league_id
-				WHERE g.
+				INNER JOIN user_team AS ut ON g.teama_id = ut.team_id
+				WHERE ut.user_id =:user_id AND ut.status = 1 AND l.user_id !=:user_id
+
+				UNION DISTINCT
+
+				SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type
+				FROM league AS l
+				INNER JOIN  games AS g ON l.id = g.league_id
+				INNER JOIN user_team AS ut ON g.teamb_id = ut.team_id
+				WHERE ut.user_id =:user_id AND ut.status = 1 AND l.user_id !=:user_id
 			';
 
 			$parametros = array(

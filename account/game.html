@@ -11,11 +11,80 @@
 </div>
 
 <script type="text/javascript">
+    var dataTableGames = null;
+
     $(document).ready(function(){
         currentLeague = null;
-        
+
         $("#tmpNewGame").click( function(){
             $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
         });
+
+        // Listar los juegos
+        fnListGames();
     });
+
+    function fnListGames(){
+        $.ajax({
+            url: '../core/controllers/league.php',
+            data: { _method: 'getGames' },
+            type: 'POST',
+            dataType: 'json',
+            success: function(response){
+                if (dataTableGames != null)
+                    dataTableGames.destroy();
+
+                dataTableGames = $("#gameList").DataTable({
+                    data: response.data,
+                    columns:
+                    [
+                        {
+                            data: 'id',
+                            title: '#',
+                            render: function(data, type, row){
+                                return pad(data, 5);
+                            }
+                        },
+                        {
+                            data: 'name',
+                            title: 'League',
+                        },
+                        {
+                            data: 'sport',
+                            title: 'Sport',
+                            render: function(data, type, row){
+                                let strSport = "";
+                                switch (data) {
+                                    case '1':
+                                        strSport = "Soccer";
+                                        break;
+                                    case '2':
+                                        strSport = "Basketball";
+                                        break;
+                                    case '3':
+                                        strSport = "Football";
+                                        break;
+                                    default:
+                                        strSport = "Other";
+                                }
+
+                                return strSport;
+                            }
+                        },
+                        {
+                            data: 'event_date',
+                            title: 'Event date'
+                        },
+                        {
+                            data: 'status',
+                            title: 'Status'
+                        }
+                    ]
+                });
+            },
+            error: function(xhr, status) {
+                console.log(status);
+            }
+        });
+    }
 </script>

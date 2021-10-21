@@ -206,7 +206,7 @@
 				exit(json_encode($response));
 			}else if($_POST['_method'] == 'getGames'){
 				$leagueModel = new Leaguemodel();
-				$tmpResponse = $leagueModel->getGames( $_POST['user_id'] );		
+				$tmpResponse = $leagueModel->getGames( $_SESSION['authData']->id );		
 
 				$response = array(
 					'codeResponse' => 200,
