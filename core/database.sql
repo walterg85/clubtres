@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-10-2021 a las 23:02:15
+-- Tiempo de generación: 20-10-2021 a las 21:53:45
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -24,6 +24,24 @@ SET time_zone = "+00:00";
 DROP DATABASE IF EXISTS `clubtres`;
 CREATE DATABASE IF NOT EXISTS `clubtres` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `clubtres`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `games`
+--
+
+DROP TABLE IF EXISTS `games`;
+CREATE TABLE `games` (
+  `id` int(11) NOT NULL,
+  `league_id` int(11) DEFAULT NULL,
+  `teama_id` int(11) DEFAULT NULL,
+  `teamb_id` int(11) DEFAULT NULL,
+  `event_date` datetime DEFAULT NULL,
+  `locations` varchar(500) DEFAULT NULL,
+  `registered_date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -134,6 +152,12 @@ CREATE TABLE `user_team` (
 --
 
 --
+-- Indices de la tabla `games`
+--
+ALTER TABLE `games`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `invitation`
 --
 ALTER TABLE `invitation`
@@ -173,6 +197,12 @@ ALTER TABLE `user_team`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `games`
+--
+ALTER TABLE `games`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `invitation`
