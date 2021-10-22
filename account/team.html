@@ -10,7 +10,7 @@
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewTeam">Create new team</button>
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeam" aria-controls="offcanvasTeam">panel nuevo</button>
+                <button class="btn btn-primary d-none" type="button" id="btnPanel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeam" aria-controls="offcanvasTeam">panel nuevo</button>
             </div>
         </div>
     </div>
@@ -70,14 +70,13 @@
     </div>
 </div>
 
+<!-- Panel lateral para invitar al usuario a crear un nuevo equipo -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasTeam" aria-labelledby="offcanvasWithBackdropLabel"  >
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Add a new Team</h5>
+        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Create a new team</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
-
-    </div>
+    <div class="offcanvas-body"></div>
 </div>
 
 <script type="text/javascript">
@@ -85,11 +84,7 @@
         maxCroppedWidth = 900,
         maxCroppedHeight = 400,
         dataTableTeam = null,
-        picture = null,
-        image       = null,
-        inputFile   = null,
-        $modal      = null,
-        cropper     = null;
+        countMyTeams = false;
 
     $(document).ready(function(){
         // Lista de equipos del usuario logueado
@@ -147,24 +142,25 @@
             }
         });
 
-        var teamOffcanvas = document.getElementById('offcanvasTeam');
-
-        teamOffcanvas.addEventListener('shown.bs.offcanvas', function () {
+        var myOffcanvas = document.getElementById('offcanvasTeam');
+        myOffcanvas.addEventListener('shown.bs.offcanvas', function () {
             let myForm = $(".mdbyTeam").html();
             $(".mdbyTeam").html("");
 
             $(".offcanvas-body").html(myForm);
-
-            initComponents();
+            
+            // Iniciar componentes compartidos
+            initComponent();
         });
 
-        teamOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
+        myOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
             let myForm = $(".offcanvas-body").html();
             $(".offcanvas-body").html("");
 
             $(".mdbyTeam").html(myForm);
-
-            initComponents();
+            
+            // Iniciar componentes compartidos
+            initComponent();
         });
     });
 
@@ -187,9 +183,15 @@
             dataType: 'json',
             success: function(response){
                 alert(response.message);
-                $("#addTeamModal").modal("hide");
+
                 $("#frmTeam")[0].reset();
                 $("#imgPreview").addClass("d-none");
+
+                if(!countMyTeams){
+                    $("#btnPanel").click();
+                }else{
+                    $("#addTeamModal").modal("hide");
+                }
 
                 fnListTeam();
             },
@@ -203,6 +205,7 @@
     }
 
     function fnListTeam(){
+        countMyTeams = false;
         $.ajax({
             url: '../core/controllers/team.php',
             data: { _method: 'GET' },
@@ -255,7 +258,9 @@
                             render: function ( data, type, row )
                             {
                                 let btnOptions = '';
-                                if(row.type == 1)
+                                if(row.type == 1){
+                                    if(data == 1)
+                                        countMyTeams = true;
                                     btnOptions = `
                                         <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditTeam" title="Edit"><i class="bi bi-pencil"></i></a>
 
@@ -274,6 +279,7 @@
 
                                         <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger ${(data== 1) ? 'btnDeleteTeam' : 'd-none' }" title="Delete"><i class="bi bi-trash"></i></a>
                                     `;
+                                }
 
                                 return btnOptions;
                             }
@@ -373,6 +379,14 @@
                     }
                 });
             },
+            complete: function() {
+                if(!countMyTeams){
+                    $("#btnPanel").click();
+                }else{
+                    // Iniciar componentes compartidos
+                    initComponent();
+                }
+            },
             error: function(xhr, status) {
                 console.log(status);
             }
@@ -406,12 +420,12 @@
         return `${table} ${rows}</table>`;
     }
 
-    function initComponents(){
+    function initComponent() {
         // Registrar nuevo equipo
-        $("#btnRegisterTeam").on("click", fnRegisterTeam);
+        $("#btnRegisterTeam").unbind().click( fnRegisterTeam);
 
         // Controlar tipo de objeto que intentan subir
-        $('input[type="file"]').change( function(){
+        $('input[type="file"]').unbind().change( function(){
             let ext = $( this ).val().split('.').pop();
 
             if ($( this ).val() != ''){
@@ -428,11 +442,11 @@
         });
 
         // Image Cropper
-        picture = null,
-        image       = $("#image")[0],
-        inputFile   = $("#imageteam")[0],
-        $modal      = $('#modalCrop'),
-        cropper     = null;
+        let picture = null,
+            image       = $("#image")[0],
+            inputFile   = $("#imageteam")[0],
+            $modal      = $('#modalCrop'),
+            cropper     = null;
 
         inputFile.addEventListener("change", function(e){
             picture   = $("#imgPreview");
@@ -462,7 +476,7 @@
             }
         });
 
-        $modal.on('shown.bs.modal', function(){
+        $modal.unbind().on('shown.bs.modal', function(){
             let URL         = window.URL || window.webkitURL,
                 container   = document.querySelector('.img-container'),
                 download    = document.getElementById('download'),
