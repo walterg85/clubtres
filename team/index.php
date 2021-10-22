@@ -64,7 +64,7 @@
                         $("#lblNombreTeam").append(` ${result.data.name}`);
 
                         if(result.data.image){
-                          $("#teamPhoto").attr("src", `../${result.data.image}`);
+                          $("#teamPhoto").attr("src", `../${result.data.image}?v=${Math.random()}`);
                         }else{
                           $("#teamPhoto").attr("src", `#`);
                         }
