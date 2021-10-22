@@ -335,7 +335,7 @@
 
                             if(data.image)
                                 $("#imgPreview")
-                                    .attr("src", `../${data.image}`)
+                                    .attr("src", `../${data.image}?v=${Math.random()}`)
                                     .removeClass("d-none");
 
                             businessPhoto = null;

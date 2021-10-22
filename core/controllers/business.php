@@ -92,6 +92,24 @@
 		}
 	}
 
+	if($_SERVER['REQUEST_METHOD'] == 'GET'){
+		$businessModel = new Businessmodel();
+		$tmpResponse = $businessModel->getBusinessId($_GET['businessId']);
+
+		if($tmpResponse)
+			$tmpResponse->id = str_pad($tmpResponse->id, 5, '0', STR_PAD_LEFT);			
+
+		$response = array(
+			'codeResponse' => 200,
+			'data' => $tmpResponse
+		);
+
+		header('HTTP/1.1 200 Ok');
+		header("Content-Type: application/json; charset=UTF-8");
+		
+		exit(json_encode($response));
+	}
+
 	header('HTTP/1.1 400 Bad Request');
 	header("Content-Type: application/json; charset=UTF-8");
 

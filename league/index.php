@@ -73,7 +73,7 @@
                         $("#lblName").append(` ${result.data.name}`);
 
                         if(result.data.image){
-                          $("#leaguePhoto").attr("src", `../${result.data.image}`);
+                          $("#leaguePhoto").attr("src", `../${result.data.image}?v=${Math.random()}`);
                         }else{
                           $("#leaguePhoto").attr("src", `#`);
                         }

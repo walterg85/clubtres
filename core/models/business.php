@@ -32,7 +32,25 @@
 				} catch (PDOException $e) {
 			        return [FALSE, 0];
 			    }
-			}		
+			}else {
+				$cmd = '
+					UPDATE business SET nombre =:nombre, Descripcion =:Descripcion, telefono =:telefono, Direccion =:Direccion, web =:web WHERE id =:idBusiness
+				';
+
+				$parametros = array(
+					':nombre'		=> $data['inputName'],
+					':Descripcion'	=> $data['inputDescription'],
+					':telefono'	=> $data['inputNumber'],
+					':Direccion'	=> $data['inputAddress'],
+					':web'	=> $data['inputWeb'],
+					':idBusiness' => $data['idBusiness']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+
+				return [TRUE, $data['idBusiness']];
+			}
 		}
 
 		public function updateImage($businessId, $image){
@@ -78,5 +96,22 @@
 			$sql->execute($parametros);
 
 			return TRUE;
+		}
+
+		public function getBusinessId($businessId) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, nombre, Direccion, Descripcion, telefono, image, web FROM business WHERE id =:businessId';
+
+			$parametros = array(
+				':businessId' => $businessId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			$data = $sql->fetch();
+
+			return $data;
 		}
 	}
