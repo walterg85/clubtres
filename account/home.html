@@ -1,16 +1,84 @@
+<div class="card my-md-4">
+    <h5 class="card-header">My teams</h5>
+    <div class="card-body">
+        <div class="row teamsContainer">
 
-
-    <div class="card my-md-4">
-        <h5 class="card-header">My teams</h5>
-        <div class="card-body">
-
-            <div class="card" style="width: 250px;">
-                <img src="../assets/img/teams/2/teamPhoto.jpg" class="card-img-top img-fluid" alt="..." >
-                <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-2 teamClone d-none">
+                <div class="card">
+                    <img src="#" class="card-img-top img-fluid teamPhoto" alt="Team photo" >
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                    </div>
+                </div>                
             </div>
 
+            <figure class="text-center teamAlert d-none">
+                <blockquote class="blockquote">
+                    <p>Does not manage any team</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Whenever you want, you can register a new team by <cite title="clicking here"> <a href="#" class="">clicking here</a> </cite>
+                </figcaption>
+            </figure>
+            
         </div>
     </div>
+</div>
+
+<div class="card my-md-4">
+    <h5 class="card-header">My leagues</h5>
+    <div class="card-body">
+        <div class="row leaguesContainer">
+
+            <div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-2 leagueClone d-none">
+                <div class="card">
+                    <img src="#" class="card-img-top img-fluid leaguePhoto" alt="League photo" >
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text"></p>
+                    </div>
+                </div>                
+            </div>
+
+            <figure class="text-center leagueAlert">
+                <blockquote class="blockquote">
+                    <p>Does not manage any league</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Whenever you want, you can register a new league by <cite title="clicking here"> <a href="#" class="">clicking here</a> </cite>
+                </figcaption>
+            </figure>
+            
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready( function(){
+        loadMyTeams();
+    });
+
+    function loadMyTeams(){
+        let objData = {
+                "_method": "GET"
+            };
+
+        $.post("../core/controllers/team.php", objData, function(result) {
+            if((result.data).length > 0){
+                $.each( result.data, function( index, item){
+                    if(item.type == 1){
+                        let myTeam = $(".teamClone").clone();
+
+                        myTeam.find(".card-title").html(`#${pad(item.id, 5)} ${item.name}`);
+                        myTeam.find(".teamPhoto").attr("src", `../${item.image}`);
+
+                        myTeam.removeClass("d-none teamClone");
+                        $(myTeam).appendTo(".teamsContainer");
+                    }
+                });
+            }else{
+                $(".teamAlert").removeClass("d-none");
+            }
+        });
+    }
+</script>
