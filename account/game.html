@@ -115,9 +115,10 @@
                                     if(dateNow <= Date.parse(row.event_date)){
                                         return 'Pending event';
                                     }else{
-                                        dateNow.setHours( dateNow.getHours() + 1 );
+                                        let dateEvent = new Date(row.event_date);                                        
+                                        dateEvent.setHours( dateEvent.getHours() + 1 );
 
-                                        if(dateNow >= Date.parse(row.event_date)){
+                                        if(dateNow <= dateEvent ){
                                             return 'In progress';
                                         }else{
                                             return 'Past event';

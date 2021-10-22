@@ -32,6 +32,9 @@
         tr.shown td.details-control {
             background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
         }
+        .offcanvas-end{
+            width: 500px !important;
+        }
     </style>
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
