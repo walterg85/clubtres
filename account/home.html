@@ -73,10 +73,9 @@
             };
 
         $.post("../core/controllers/team.php", objData, function(result) {
-            let count = 0;
 
-            $.each( result.data, function( index, item){
-                if(item.type == 1){
+            if( (result.data).length > 0 ){
+                $.each( result.data, function( index, item){
                     let myTeam = $(".teamClone").clone();
 
                     myTeam.find(".card-title").html(`#${pad(item.id, 5)} ${item.name}`);
@@ -85,13 +84,10 @@
 
                     myTeam.removeClass("d-none teamClone");
                     $(myTeam).appendTo(".teamsContainer");
-
-                    count += 1;
-                }
-            });
-
-            if(count == 0)
+                });
+            }else{
                 $(".teamAlert").removeClass("d-none");
+            }                
         });
     }
 
@@ -101,12 +97,11 @@
             };
 
         $.post("../core/controllers/league.php", objData, function(result) {
-            let count = 0;
 
-            $.each( result.data, function( index, item){
-                if(item.type == 1){
+            if( (result.data).length > 0 ){
+                $.each( result.data, function( index, item){
                     let myLeague = $(".leagueClone").clone(),
-                        strSport = "";
+                            strSport = "";
 
                     myLeague.find(".card-title").html(`#${pad(item.id, 5)} ${item.name}`);
                     if(item.image)
@@ -130,13 +125,11 @@
 
                     myLeague.removeClass("d-none leagueClone");
                     $(myLeague).appendTo(".leaguesContainer");
-
-                    count += 1;
-                }
-            });
-
-            if(count == 0)
+                });
+            } else {
                 $(".leagueAlert").removeClass("d-none");
+            }
+                
         });
     }
 </script>
