@@ -103,8 +103,8 @@
         maxCroppedHeight = 400,
         dataTableBusiness = null;
 
-    $(document).ready(function(){        
-        // Registrar nueva liga
+    $(document).ready(function(){
+        // Registrar business
         $("#btnRegisterBusiness").on("click", fnRegisterBusiness);
 
         // Controlar tipo de objeto que intentan subir
@@ -218,6 +218,9 @@
 
             $("#addBusinessModal").modal("show");
         });
+
+        // Listar comercios
+        fnListBusiness();
     });
 
     function fnRegisterBusiness(){
@@ -242,6 +245,8 @@
                 $("#addBusinessModal").modal("hide");
                 $("#frmBusiness")[0].reset();
                 $("#imgPreview").addClass("d-none");
+
+                fnListBusiness();
                 
             },
             error: function(xhr, status) {
@@ -253,5 +258,115 @@
         });
     }
 
+    function fnListBusiness(){
+        $.ajax({
+            url: '../core/controllers/business.php',
+            data: { _method: 'GET' },
+            type: 'POST',
+            dataType: 'json',
+            success: function(response){
+                if (dataTableBusiness != null)
+                    dataTableBusiness.destroy();
 
+                dataTableBusiness = $("#businessList").DataTable({
+                    data: response.data,
+                    columns:
+                    [
+                        {
+                            data: 'id',
+                            title: '#',
+                            render: function(data, type, row){
+                                return pad(data, 5);
+                            }
+                        },
+                        {
+                            data: 'nombre',
+                            title: 'Name',
+                            render: function(data, type, row){
+                                return `<a href="http://localhost/clubtres/business/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
+                            }
+                        },
+                        {
+                            data: 'Descripcion',
+                            title: 'Description'
+                        },
+                        {
+                            data: 'Direccion',
+                            title: 'Address'
+                        },
+                        {
+                            data: 'telefono',
+                            title: 'Phone'
+                        },
+                        {
+                            data: 'web',
+                            title: 'Web Page'
+                        },
+                        {
+                            title: '',
+                            data: null,
+                            orderable: false,
+                            class: "text-center",
+                            render: function ( data, type, row )
+                            {
+                                return `
+                                    <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnEditBusiness" title="Edit"><i class="bi bi-pencil"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-outline-danger btnDeleteBusiness" title="Delete"><i class="bi bi-trash"></i></a>
+                                `;
+                            }
+                        }
+                    ],
+                    "fnDrawCallback":function(oSettings){
+                        $(".btnEditBusiness").unbind().click(function(){
+                            $("#addBusinessModal").modal("show");
+
+                            let data = getData($(this), dataTableBusiness);
+
+                            $("#modalTitle2").html(`Edit ${data.nombre} Business`);
+
+                            $("#inputName").val(data.nombre);
+                            $("#inputDescription").val(data.Descripcion);
+                            $("#inputNumber").val(data.telefono);
+                            $("#inputAddress").val(data.Direccion);
+                            $("#inputWeb").val(data.web);
+                            $("#idBusiness").val(data.id);
+
+                            $("#imgPreview").addClass("d-none");
+
+                            if(data.image)
+                                $("#imgPreview")
+                                    .attr("src", `../${data.image}`)
+                                    .removeClass("d-none");
+
+                            businessPhoto = null;
+                        });
+
+                        $(".btnDeleteBusiness").unbind().click(function(){
+                            let data = getData($(this), dataTableBusiness);
+                            if (confirm(`Are you sure to eliminate this business? (${data.nombre})`)){
+                                $.ajax({
+                                    url: '../core/controllers/business.php',
+                                    data:{
+                                        idBusiness: data.id,
+                                        _method: "DELETE"
+                                    },
+                                    type: 'POST',
+                                    success: function(response){
+                                        alert("Business deleted");
+                                        fnListBusiness();
+                                    },
+                                    error: function(xhr, status) {
+                                        console.log(status);
+                                    },
+                                });
+                            }
+                        });
+                    }
+                });
+            },
+            error: function(xhr, status) {
+                console.log(status);
+            }
+        });
+    }
 </script>

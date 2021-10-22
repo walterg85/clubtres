@@ -49,4 +49,34 @@
 
 			return TRUE;
 		}
+
+		public function getBusiness( $user_id ) {
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT id, nombre, Descripcion, telefono, Direccion, web, image FROM business WHERE user_id =:user_id AND status = 1
+			';
+
+			$parametros = array(
+				':user_id' => $user_id
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function deleteBusiness($idBusiness) {
+			$pdo = new Conexion();
+			$cmd = 'UPDATE business SET status = 0 WHERE id =:idBusiness';
+
+			$parametros = array(
+				':idBusiness' => $idBusiness
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}
