@@ -5,7 +5,7 @@
 
             <div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-2 teamClone d-none">
                 <div class="card">
-                    <img src="#" class="card-img-top img-fluid teamPhoto" alt="Team photo" >
+                    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple30/v4/7b/4e/f1/7b4ef12e-ffaa-c75d-fe0d-82714e3b9f1c/source/256x256bb.jpg" class="card-img-top img-fluid teamPhoto" alt="Team photo" >
                     <div class="card-body">
                         <h5 class="card-title"></h5>
                     </div>
@@ -17,7 +17,7 @@
                     <p>Does not manage any team</p>
                 </blockquote>
                 <figcaption class="blockquote-footer">
-                    Whenever you want, you can register a new team by <cite title="clicking here"> <a href="#" class="">clicking here</a> </cite>
+                    Whenever you want, you can register a new team by <cite title="clicking here"> <a href="javascript:void(0);" id="btnTeam" class="">clicking here</a> </cite>
                 </figcaption>
             </figure>
             
@@ -32,7 +32,7 @@
 
             <div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-2 leagueClone d-none">
                 <div class="card">
-                    <img src="#" class="card-img-top img-fluid leaguePhoto" alt="League photo" >
+                    <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple30/v4/7b/4e/f1/7b4ef12e-ffaa-c75d-fe0d-82714e3b9f1c/source/256x256bb.jpg" class="card-img-top img-fluid leaguePhoto" alt="League photo" >
                     <div class="card-body">
                         <h5 class="card-title"></h5>
                         <p class="card-text"></p>
@@ -40,12 +40,12 @@
                 </div>                
             </div>
 
-            <figure class="text-center leagueAlert">
+            <figure class="text-center leagueAlert d-none">
                 <blockquote class="blockquote">
                     <p>Does not manage any league</p>
                 </blockquote>
                 <figcaption class="blockquote-footer">
-                    Whenever you want, you can register a new league by <cite title="clicking here"> <a href="#" class="">clicking here</a> </cite>
+                    Whenever you want, you can register a new league by <cite title="clicking here"> <a href="javascript:void(0);" id="btnLeague" class="">clicking here</a> </cite>
                 </figcaption>
             </figure>
             
@@ -56,6 +56,15 @@
 <script type="text/javascript">
     $(document).ready( function(){
         loadMyTeams();
+        loadMyLeagues();
+
+        $("#btnTeam").click( function(){
+            $( "#mainContenedor" ).load( `team.html?v=${Math.random()}` );
+        });
+
+        $("#btnLeague").click( function(){
+            $( "#mainContenedor" ).load( `league.html?v=${Math.random()}` );
+        });
     });
 
     function loadMyTeams(){
@@ -64,21 +73,70 @@
             };
 
         $.post("../core/controllers/team.php", objData, function(result) {
-            if((result.data).length > 0){
-                $.each( result.data, function( index, item){
-                    if(item.type == 1){
-                        let myTeam = $(".teamClone").clone();
+            let count = 0;
 
-                        myTeam.find(".card-title").html(`#${pad(item.id, 5)} ${item.name}`);
+            $.each( result.data, function( index, item){
+                if(item.type == 1){
+                    let myTeam = $(".teamClone").clone();
+
+                    myTeam.find(".card-title").html(`#${pad(item.id, 5)} ${item.name}`);
+                    if(item.image)
                         myTeam.find(".teamPhoto").attr("src", `../${item.image}`);
 
-                        myTeam.removeClass("d-none teamClone");
-                        $(myTeam).appendTo(".teamsContainer");
-                    }
-                });
-            }else{
+                    myTeam.removeClass("d-none teamClone");
+                    $(myTeam).appendTo(".teamsContainer");
+
+                    count += 1;
+                }
+            });
+
+            if(count == 0)
                 $(".teamAlert").removeClass("d-none");
-            }
+        });
+    }
+
+    function loadMyLeagues(){
+        let objData = {
+                "_method": "GET"
+            };
+
+        $.post("../core/controllers/league.php", objData, function(result) {
+            let count = 0;
+
+            $.each( result.data, function( index, item){
+                if(item.type == 1){
+                    let myLeague = $(".leagueClone").clone(),
+                        strSport = "";
+
+                    myLeague.find(".card-title").html(`#${pad(item.id, 5)} ${item.name}`);
+                    if(item.image)
+                        myLeague.find(".leaguePhoto").attr("src", `../${item.image}`);
+
+                    switch (item.sport) {
+                        case '1':
+                            strSport = "Soccer";
+                            break;
+                        case '2':
+                            strSport = "Basketball";
+                            break;
+                        case '3':
+                            strSport = "Football";
+                            break;
+                        default:
+                            strSport = "Other";
+                    }
+
+                    myLeague.find(".card-text").html(`${strSport} league`);
+
+                    myLeague.removeClass("d-none leagueClone");
+                    $(myLeague).appendTo(".leaguesContainer");
+
+                    count += 1;
+                }
+            });
+
+            if(count == 0)
+                $(".leagueAlert").removeClass("d-none");
         });
     }
 </script>

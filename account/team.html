@@ -10,6 +10,7 @@
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewTeam">Create new team</button>
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeam" aria-controls="offcanvasTeam">panel nuevo</button>
             </div>
         </div>
     </div>
@@ -24,7 +25,7 @@
                 <h5 class="modal-title" id="modalTitle">Add new team</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body mdbyTeam">
                 <form id="frmTeam">
                     <input type="hidden" name="idTeam" id="idTeam" value="0">
                     <div class="mb-3">
@@ -41,7 +42,7 @@
                         <label class="form-check-label switch" for="chkActive">Active</label>
                     </div> 
                     <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
                 </form>
             </div>
         </div>
@@ -69,107 +70,28 @@
     </div>
 </div>
 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasTeam" aria-labelledby="offcanvasWithBackdropLabel"  >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Add a new Team</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+    </div>
+</div>
+
 <script type="text/javascript">
     var teamPhoto   = null,
         maxCroppedWidth = 900,
         maxCroppedHeight = 400,
-        dataTableTeam = null;
+        dataTableTeam = null,
+        picture = null,
+        image       = null,
+        inputFile   = null,
+        $modal      = null,
+        cropper     = null;
 
     $(document).ready(function(){
-        // Registrar nuevo equipo
-        $("#btnRegisterTeam").on("click", fnRegisterTeam);
-
-        // Controlar tipo de objeto que intentan subir
-        $('input[type="file"]').on('change', function(){
-            let ext = $( this ).val().split('.').pop();
-
-            if ($( this ).val() != ''){
-                if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
-                    if($(this)[0].files[0].size > 1048576){
-                        $( this ).val('');
-                        alert('Your selected file is larger than 1MB');
-                    }
-                }else{
-                    $( this ).val('');
-                    alert(`${ext} files not allowed, only images`);
-                }
-            }
-        });
-
-        // Image Cropper
-        let picture = null,
-            image       = $("#image")[0],
-            inputFile   = $("#imageteam")[0],
-            $modal      = $('#modalCrop'),
-            cropper     = null;
-
-        inputFile.addEventListener("change", function(e){
-            picture   = $("#imgPreview");
-            let files = e.target.files,
-                done  = function (url){
-                    inputFile.value = "";
-                    image.src = url;
-                    $modal.modal('show');
-                },
-                reader,
-                file,
-                url;
-
-            if (files && files.length > 0){
-                file = files[0];
-
-                if (URL){
-                    done(URL.createObjectURL(file));
-                }
-                else if (FileReader){
-                    reader = new FileReader();
-                    reader.onload = function(e){
-                        done(reader.result);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        });
-
-        $modal.on('shown.bs.modal', function(){
-            let URL         = window.URL || window.webkitURL,
-                container   = document.querySelector('.img-container'),
-                download    = document.getElementById('download'),
-                actions     = document.getElementById('cropper-buttons'),
-                options     = {
-                    viewMode: 3,
-                    aspectRatio: maxCroppedWidth / maxCroppedHeight,
-                };
-
-            cropper = new Cropper(image, options);
-        }).on('hidden.bs.modal', function(){
-            cropper.destroy();
-            cropper = null;
-        });
-
-        $("#cropImage").on("click", function(){
-            let initialPhotoURL,
-                canvas;
-
-            $modal.modal("hide");
-
-            if(cropper){
-                canvas = cropper.getCroppedCanvas({
-                    width: maxCroppedWidth,
-                    height: maxCroppedHeight,
-                });
-
-                initialPhotoURL = picture.attr("src");
-                picture
-                    .attr("src", canvas.toDataURL())
-                    .removeClass("d-none");
-
-                canvas.toBlob(function (blob){
-                    teamPhoto = blob;
-                });
-            }
-        });
-
         // Lista de equipos del usuario logueado
         fnListTeam();
 
@@ -223,7 +145,27 @@
                     });
                 });
             }
-        });        
+        });
+
+        var teamOffcanvas = document.getElementById('offcanvasTeam');
+
+        teamOffcanvas.addEventListener('shown.bs.offcanvas', function () {
+            let myForm = $(".mdbyTeam").html();
+            $(".mdbyTeam").html("");
+
+            $(".offcanvas-body").html(myForm);
+
+            initComponents();
+        });
+
+        teamOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
+            let myForm = $(".offcanvas-body").html();
+            $(".offcanvas-body").html("");
+
+            $(".mdbyTeam").html(myForm);
+
+            initComponents();
+        });
     });
 
     function fnRegisterTeam(){
@@ -462,5 +404,101 @@
         });
 
         return `${table} ${rows}</table>`;
+    }
+
+    function initComponents(){
+        // Registrar nuevo equipo
+        $("#btnRegisterTeam").on("click", fnRegisterTeam);
+
+        // Controlar tipo de objeto que intentan subir
+        $('input[type="file"]').change( function(){
+            let ext = $( this ).val().split('.').pop();
+
+            if ($( this ).val() != ''){
+                if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
+                    if($(this)[0].files[0].size > 1048576){
+                        $( this ).val('');
+                        alert('Your selected file is larger than 1MB');
+                    }
+                }else{
+                    $( this ).val('');
+                    alert(`${ext} files not allowed, only images`);
+                }
+            }
+        });
+
+        // Image Cropper
+        picture = null,
+        image       = $("#image")[0],
+        inputFile   = $("#imageteam")[0],
+        $modal      = $('#modalCrop'),
+        cropper     = null;
+
+        inputFile.addEventListener("change", function(e){
+            picture   = $("#imgPreview");
+            let files = e.target.files,
+                done  = function (url){
+                    inputFile.value = "";
+                    image.src = url;
+                    $modal.modal('show');
+                },
+                reader,
+                file,
+                url;
+
+            if (files && files.length > 0){
+                file = files[0];
+
+                if (URL){
+                    done(URL.createObjectURL(file));
+                }
+                else if (FileReader){
+                    reader = new FileReader();
+                    reader.onload = function(e){
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        $modal.on('shown.bs.modal', function(){
+            let URL         = window.URL || window.webkitURL,
+                container   = document.querySelector('.img-container'),
+                download    = document.getElementById('download'),
+                actions     = document.getElementById('cropper-buttons'),
+                options     = {
+                    viewMode: 3,
+                    aspectRatio: maxCroppedWidth / maxCroppedHeight,
+                };
+
+            cropper = new Cropper(image, options);
+        }).on('hidden.bs.modal', function(){
+            cropper.destroy();
+            cropper = null;
+        });
+
+        $("#cropImage").unbind().click( function(){
+            let initialPhotoURL,
+                canvas;
+
+            $modal.modal("hide");
+
+            if(cropper){
+                canvas = cropper.getCroppedCanvas({
+                    width: maxCroppedWidth,
+                    height: maxCroppedHeight,
+                });
+
+                initialPhotoURL = picture.attr("src");
+                picture
+                    .attr("src", canvas.toDataURL())
+                    .removeClass("d-none");
+
+                canvas.toBlob(function (blob){
+                    teamPhoto = blob;
+                });
+            }
+        });
     }
 </script>
