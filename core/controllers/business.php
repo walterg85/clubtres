@@ -46,7 +46,7 @@
 					$response = array(
 						'codeResponse' => 200,
 						'id' => $businessId,
-						'message' => 'Business successfully registered.'
+						'message' => 'Datas successfully registered.'
 					);
 				}else{
 					$response = array(
@@ -59,6 +59,25 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
+			}else if($_POST['_method'] == 'GET'){
+				$businessModel = new Businessmodel();
+				$tmpResponse = $businessModel->getBusiness( $_SESSION['authData']->id );		
+
+				$response = array(
+					'codeResponse' => 200,
+					'data' => $tmpResponse
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			}else if($_POST['_method'] == 'DELETE'){
+				$businessModel = new Businessmodel();
+				$businessModel->deleteBusiness( $_POST['idBusiness'] );
+
+				header('HTTP/1.1 200 Ok');				
+				exit();
 			}
 		} else {
 			$response = array(
