@@ -3,7 +3,7 @@
         <h1 class="h2">Games</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewGame">Create new game</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary tmpNewGame">Create new game</button>
             </div>
         </div>
     </div>
@@ -28,6 +28,25 @@
     </div>
 </div>
 
+<!-- Modal para invitar al usuario a crear un nuevo evento -->
+<div class="modal fade" id="mdlEvent" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Do you want to register a game?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="lead">You have not registered any game, do you want to add a new event?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">At another time</button>
+                <button type="button" class="btn btn-primary tmpNewGame">Agree</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bing Maps -->
 <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AiUXV-3R30RqqrIouHt5Px3bZ5d1zd2dujqhVT4Vjj2wpHIZd0YE1YSguYh33-xu&callback=loadMapScenario' async defer></script>
 
@@ -39,7 +58,8 @@
     $(document).ready(function(){
         currentLeague = null;
 
-        $("#tmpNewGame").click( function(){
+        $(".tmpNewGame").click( function(){
+            $("#mdlEvent").modal("hide");
             $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
         });
 
@@ -54,6 +74,20 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
+                let existGame = false;
+
+                $.each( response.data, function( index, item){
+                    if(item.type == 1){
+                        existGame = true;
+                        return false;
+                    }
+                });
+
+                console.log(existGame);
+
+                if(!existGame)
+                    $("#mdlEvent").modal("show");
+
                 if (dataTableGames != null)
                     dataTableGames.destroy();
 
