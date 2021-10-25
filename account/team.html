@@ -408,7 +408,12 @@
                                 alert("Enter a correct Id");
                             }
                         });
-                    }
+                    },
+                    searching: false,
+                    pageLength: 20,
+                    info: false,
+                    lengthChange: false,
+                    paging: false
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {
