@@ -1,0 +1,32 @@
+{
+	"spanish":{
+		"login":{
+			"logotipo": "",
+			"txtprinipal":"",
+			"inpuitmail": "",
+			"inputPass": "",
+			"inputCheck":"",
+			"button" :"",
+			"link": "",
+			"coppy": ""
+		},
+		"menu":{
+
+		}
+	},
+	"English":{
+		"login":{
+			"logotipo": "",
+			"txtprinipal":"",
+			"inpuitmail": "",
+			"inputPass": "",
+			"inputCheck":"",
+			"button" :"",
+			"link": "",
+			"coppy": ""
+		},
+		"menu":{
+
+		}
+	}
+}

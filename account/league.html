@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <table class="table table-striped table-sm" id="leagueList"></table>
+    <table class="table" id="leagueList"><thead class="table-light"></thead></table>
 </div>
 
 <figure class="text-center leagueAlert d-none my-5">
@@ -402,6 +402,7 @@
 
                 dataTableLeague = $("#leagueList").DataTable({
                     data: response.data,
+                    order: [[ 1, "desc" ]],
                     columns:
                     [
                         {
