@@ -1,4 +1,4 @@
-<div>
+<div class="dvContro">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Games</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
@@ -15,7 +15,7 @@
         <p>Does not manage any game</p>
     </blockquote>
     <figcaption class="blockquote-footer">
-        Whenever you want, you can register a new game by <cite title="clicking here"> <a href="javascript:void(0);" id="btnPnlgame" class="">clicking here</a> </cite>
+        Whenever you want, you can register a new game by <cite title="clicking here"> <a href="javascript:void(0);" class="tmpNewGame">clicking here</a> </cite>
     </figcaption>
 </figure>
 
@@ -37,25 +37,6 @@
     </div>
 </div>
 
-<!-- Modal para invitar al usuario a crear un nuevo evento -->
-<div class="modal fade" id="mdlEvent" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Do you want to register a game?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p class="lead">You have not registered any game, do you want to add a new event?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">At another time</button>
-                <button type="button" class="btn btn-primary tmpNewGame">Agree</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Bing Maps -->
 <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AiUXV-3R30RqqrIouHt5Px3bZ5d1zd2dujqhVT4Vjj2wpHIZd0YE1YSguYh33-xu&callback=loadMapScenario' async defer></script>
 
@@ -68,7 +49,6 @@
         currentLeague = null;
 
         $(".tmpNewGame").click( function(){
-            $("#mdlEvent").modal("hide");
             $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
         });
 
@@ -83,19 +63,11 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
-                let existGame = false;
 
-                $.each( response.data, function( index, item){
-                    if(item.type == 1){
-                        existGame = true;
-                        return false;
-                    }
-                });
-
-                console.log(existGame);
-
-                if(!existGame)
-                    $("#mdlEvent").modal("show");
+                if( (response.data).length == 0 ){
+                    $(".gameAlert").removeClass("d-none");
+                    $(".dvContro").addClass("d-none");
+                }
 
                 if (dataTableGames != null)
                     dataTableGames.destroy();
@@ -243,7 +215,12 @@
 
                             $( "#mainContenedor" ).load( `editgame.html?v=${Math.random()}` );
                         });
-                    }
+                    },
+                    searching: false,
+                    pageLength: 20,
+                    info: false,
+                    lengthChange: false,
+                    paging: false
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {

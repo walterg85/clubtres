@@ -4,17 +4,26 @@
 <!-- cropperJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<div>
+<div class="dvContro">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Business</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewBusiness">Create new business</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary tmpNewBusiness">Create new business</button>
             </div>
         </div>
     </div>
     <table class="table table-striped table-sm" id="businessList"></table>
 </div>
+
+<figure class="text-center businessAlert d-none my-5">
+    <blockquote class="blockquote">
+        <p>Does not manage any business</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+        Whenever you want, you can register a new business by <cite title="clicking here"> <a href="javascript:void(0);" class="tmpNewBusiness">clicking here</a> </cite>
+    </figcaption>
+</figure>
      
 <!-- Modal para registrar nuevo Business -->
 <div class="modal fade" id="addBusinessModal" tabindex="-1" aria-labelledby="modalTitle2" aria-hidden="true">
@@ -199,7 +208,7 @@
         });
 
         // resetear el formulario para nuevo comercio
-        $("#tmpNewBusiness").on("click", function(){
+        $(".tmpNewBusiness").on("click", function(){
             $("#modalTitle2").html(`Add new business`);
 
             $("#inputName").val("");
@@ -265,6 +274,14 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
+                if( (response.data).length == 0 ){
+                    $(".businessAlert").removeClass("d-none");
+                    $(".dvContro").addClass("d-none");
+                }else{
+                     $(".businessAlert").addClass("d-none");
+                    $(".dvContro").removeClass("d-none");
+                }
+
                 if (dataTableBusiness != null)
                     dataTableBusiness.destroy();
 
@@ -361,7 +378,12 @@
                                 });
                             }
                         });
-                    }
+                    },
+                    searching: false,
+                    pageLength: 20,
+                    info: false,
+                    lengthChange: false,
+                    paging: false
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {
