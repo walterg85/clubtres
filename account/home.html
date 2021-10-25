@@ -88,6 +88,8 @@
             }else{
                 $(".teamAlert").removeClass("d-none");
             }                
+        }).fail( function(jqXHR, textStatus, errorThrown){
+            ajaxResponseError(jqXHR, textStatus);
         });
     }
 
@@ -130,6 +132,8 @@
                 $(".leagueAlert").removeClass("d-none");
             }
                 
+        }).fail( function(jqXHR, textStatus, errorThrown){
+            ajaxResponseError(jqXHR, textStatus);
         });
     }
 </script>

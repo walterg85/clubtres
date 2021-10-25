@@ -118,6 +118,8 @@
 
                     if(result.codeResponse == 200)
                         $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                }).fail( function(jqXHR, textStatus, errorThrown){
+                    ajaxResponseError(jqXHR, textStatus);
                 });
             }
         });
@@ -173,8 +175,8 @@
                     fnListTeams();
                 }
             },
-            error: function(xhr, status) {
-                console.log(status);
+            error: function(jqXHR, textStatus, errorThrown) {
+                ajaxResponseError(jqXHR, textStatus);
             }
         });
     }
@@ -197,6 +199,8 @@
 
             $(options).appendTo("#inputTeam");
             $(options).appendTo("#inputTeam2");
+        }).fail( function(jqXHR, textStatus, errorThrown){
+            ajaxResponseError(jqXHR, textStatus);
         });
     }
 </script>

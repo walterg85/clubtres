@@ -237,8 +237,8 @@
                     }
                 });
             },
-            error: function(xhr, status) {
-                console.log(status);
+            error: function(jqXHR, textStatus, errorThrown) {
+                ajaxResponseError(jqXHR, textStatus);
             }
         });
     }

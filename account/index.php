@@ -137,6 +137,8 @@
 
                 findNotifications();
                 setInterval(findNotifications, 2500);
+
+                $("#linkHome").click();
             });
 
             function getData(obj, dtable){
@@ -156,7 +158,34 @@
 
                 $.post("../core/controllers/user.php", objData, function(result) {
                     $(".bdg-Notification").html(result.count);
+                }).fail( function(jqXHR, textStatus, errorThrown){
+                    ajaxResponseError(jqXHR, textStatus);
                 });
+            }
+
+            function ajaxResponseError(jqXHR, textStatus){
+                let msgError = "";
+
+                if (jqXHR.status === 0) {
+                    msgError ="Not connect.\n Verify Network.";
+                } else if (jqXHR.status == 404) {
+                    msgError ="Requested page not found. [404]";
+                } else if (jqXHR.status == 500) {
+                    msgError ="Internal Server Error [500].";
+                } else if (jqXHR.status == 401) {
+                    msgError ="Unauthorized, the user does not have access to the information because they do not have the credentials";
+                    window.location.replace("../index.html");
+                } else if (textStatus === 'parsererror') {
+                    msgError ="Requested JSON parse failed.";
+                } else if (textStatus === 'timeout') {
+                    msgError ="Time out error.";
+                } else if (textStatus === 'abort') {
+                    msgError ="Ajax request aborted.";
+                } else {
+                    msgError =`Uncaught Error.\n ${jqXHR.responseText}`;
+                }
+
+                console.log(msgError);
             }
         </script>
     </body>
