@@ -123,6 +123,7 @@
 
                 $("#btnLogout").on("click", function(){
                     if (confirm(`do you really want to log out?`)){
+                        localStorage.removeItem("logged");
                         window.location.replace("logout.php");
                     }
                 });
@@ -173,6 +174,7 @@
                 } else if (jqXHR.status == 500) {
                     msgError ="Internal Server Error [500].";
                 } else if (jqXHR.status == 401) {
+                    localStorage.removeItem("logged");
                     msgError ="Unauthorized, the user does not have access to the information because they do not have the credentials";
                     window.location.replace("../index.html");
                 } else if (textStatus === 'parsererror') {
