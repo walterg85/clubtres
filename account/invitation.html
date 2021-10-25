@@ -106,8 +106,8 @@
                     }
                 });
             },
-            error: function(xhr, status) {
-                console.log(status);
+            error: function(jqXHR, textStatus, errorThrown) {
+                ajaxResponseError(jqXHR, textStatus);
             }
         });
     }
@@ -116,6 +116,8 @@
         $.post("../core/controllers/user.php", objData, function(result) {
             alert(result.message);
             fnListInvitation();
+        }).fail( function(jqXHR, textStatus, errorThrown){
+            ajaxResponseError(jqXHR, textStatus);
         });
     }
 </script>

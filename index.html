@@ -49,7 +49,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form class="needs-validation" novalidate>
               <div class="mb-3">
                 <input type="text" class="form-control" id="inputRegName" name="name" aria-describedby="emailHelp" placeholder="Name" required>
               </div>
@@ -61,7 +61,7 @@
               </div>
               
               <div class="mb-3">
-                <input type="password" class="form-control" id="inputRegPassword" placeholder="Password">
+                <input type="password" class="form-control" id="inputRegPassword" placeholder="Password" required>
               </div>
               <button type="button" class="btn btn-primary" id="btnRegister">Submit</button>
             </form>
@@ -85,31 +85,48 @@
 
             // Validar inicio de session
             $("#btnLogin").on("click", fnValidateUser);
+
+            // si ya esta logueado redirigirlo a Home
+            if(localStorage.getItem("logged"))
+                window.location.replace("account/index.php");
+
         });
 
         function fnRegisterUser(){
-            if (confirm(`Do you really want to create this user account?`)){
-                let objData = {
-                    "_method": "POST",
-                    "name": $("#inputRegName").val(),
-                    "last_name": $("#inputRegLastName").val(),
-                    "email": $("#inputRegEmail").val(),
-                    "password": $("#inputRegPassword").val()
-                };
+            let forms = document.querySelectorAll('.needs-validation'),
+                continuar = true;
 
-                $.post("core/controllers/user.php", objData, function(result) {
-                    if(result.codeResponse == 200){
-                        $("#inputEmail").val( $("#inputRegEmail").val() );
-                        $("#inputPassword").val( $("#inputRegPassword").val() );
+            Array.prototype.slice.call(forms).forEach(function (form){ 
+                if (!form.checkValidity()) {
+                    continuar = false;
+                }
 
-                        fnValidateUser();
+                form.classList.add('was-validated');
+            });
 
-                        $("#registerModal").modal("hide");
-                      } else {
-                        alert(result.message);
-                      }
-                });
-            }
+            if(!continuar)
+                return false;
+
+            let objData = {
+                "_method": "POST",
+                "name": $("#inputRegName").val(),
+                "last_name": $("#inputRegLastName").val(),
+                "email": $("#inputRegEmail").val(),
+                "password": $("#inputRegPassword").val()
+            };
+
+            $.post("core/controllers/user.php", objData, function(result) {
+                if(result.codeResponse == 200){
+                    $("#inputEmail").val( $("#inputRegEmail").val() );
+                    $("#inputPassword").val( $("#inputRegPassword").val() );
+
+                    fnValidateUser();
+
+                    $("#registerModal").modal("hide");
+                  } else {
+                    alert(result.message);
+                  }
+            });
         }
 
         function fnValidateUser(){
@@ -121,6 +138,7 @@
 
             $.post("core/controllers/user.php", objData, function(result) {
                 if(result.codeResponse == 200){
+                    localStorage.setItem("logged", true);
                     window.location.replace("account/index.php");
                 } else {
                   alert(result.message);

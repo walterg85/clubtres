@@ -299,6 +299,8 @@
                             });
                         });
                     });
+                }).fail( function(jqXHR, textStatus, errorThrown){
+                    ajaxResponseError(jqXHR, textStatus);
                 });
             }
         });
@@ -360,8 +362,8 @@
 
                 fnListLeague();
             },
-            error: function(xhr, status) {
-                alert('There is a problem');
+            error: function(jqXHR, textStatus, errorThrown) {
+                ajaxResponseError(jqXHR, textStatus);
             },
             cache: false,
             contentType: false,
@@ -593,8 +595,8 @@
                     }
                 });
             },
-            error: function(xhr, status) {
-                console.log(status);
+            error: function(jqXHR, textStatus, errorThrown) {
+                ajaxResponseError(jqXHR, textStatus);
             }
         });
     }
