@@ -274,12 +274,16 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
+                let mypaging = false;
                 if( (response.data).length == 0 ){
                     $(".businessAlert").removeClass("d-none");
                     $(".dvContro").addClass("d-none");
                 }else{
-                     $(".businessAlert").addClass("d-none");
+                    $(".businessAlert").addClass("d-none");
                     $(".dvContro").removeClass("d-none");
+
+                    if( (response.data).length > 20 )
+                        mypaging = true;
                 }
 
                 if (dataTableBusiness != null)
@@ -383,7 +387,7 @@
                     pageLength: 20,
                     info: false,
                     lengthChange: false,
-                    paging: false
+                    paging: mypaging
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {

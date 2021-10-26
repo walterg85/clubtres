@@ -379,6 +379,8 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
+                let mypaging = false;
+                
                 if( (response.data).length == 0 ){
                     $("#dvControl").addClass("d-none");
                     $(".leagueAlert").removeClass("d-none");
@@ -395,6 +397,9 @@
                     initComponent();
 
                     countMyLeague = true;
+
+                    if( (response.data).length > 20 )
+                        mypaging = true;
                 }
                 
                 if (dataTableLeague != null)
@@ -598,7 +603,7 @@
                     pageLength: 20,
                     info: false,
                     lengthChange: false,
-                    paging: false
+                    paging: mypaging
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {
