@@ -39,7 +39,7 @@
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 lblTitle" href="javascript:void(0);">Clubtres</a>
-            <a class="navbar-brand col-md-2 col-lg-1 me-0 px-3" href="javascript:void(0);" id="changeLang"></a>
+            <a class="navbar-brand col-md-2 col-lg-1 me-0 px-3 changeLang" href="javascript:void(0);"></a>
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -105,7 +105,8 @@
 
         <script type="text/javascript">
             var currentLeague = null,
-                lang = (window.navigator.language).substring(0,2);
+                lang = (window.navigator.language).substring(0,2),
+                currentSection = "";
             
             $(document).ready(function(){
                 $("#linkHome").on("click", function(){
@@ -150,7 +151,7 @@
                     localStorage.setItem("currentLag", lang);
                 }
 
-                $("#changeLang").click( function(){
+                $(".changeLang").click( function(){
                     if (localStorage.getItem("currentLag") == "es") {
                         localStorage.setItem("currentLag", "en");
                         lang = "en";
@@ -158,10 +159,10 @@
                         localStorage.setItem("currentLag", "es");
                         lang = "es";
                     }
-                    switchLanguage(lang, "main");
+                    switchLanguage(lang);
                 });
 
-                switchLanguage(lang, "main");
+                switchLanguage(lang);
             });
 
             function getData(obj, dtable){
@@ -212,23 +213,30 @@
                 console.log(msgError);
             }
 
-            function switchLanguage(lang, section){
+            function switchLanguage(lang){
             $.post("../assets/languages.json", {}, function(data) {
-                $("#changeLang").html(data[lang]["buttonText"]);
+                $(".changeLang").html(data[lang]["buttonText"]);
 
-                let myLang = data[lang][section];
+                let myLang = data[lang]["main"];
 
-                switch(section){
-                    case "main":
-                        $(".lblTitle").html(myLang.title);
-                        $("#btnLogout").html(myLang.logout);
+                $(".lblTitle").html(myLang.title);
+                $("#btnLogout").html(myLang.logout);
 
-                        $("#linkHome").html(`<i class="bi bi-house-door-fill"></i> ${myLang.linkHome}`);
-                        $("#linkLeague").html(`<i class="bi bi-people-fill"></i> ${myLang.linkLeague}`);
-                        $("#linkTeam").html(`<i class="bi bi-person-badge-fill"></i> ${myLang.linkTeam}`);
-                        $("#linkInvitation").html(`<i class="bi bi-bell-fill"></i> ${myLang.linkInvitation} <span class="badge bg-danger bdg-Notification">0</span>`);
-                        $("#linkGames").html(`<i class="bi bi-cone-striped"></i> ${myLang.linkGames}`);
-                        $("#linkBusiness").html(`<i class="bi bi-award"></i> ${myLang.linkBusiness}`);
+                $("#linkHome").html(`<i class="bi bi-house-door-fill"></i> ${myLang.linkHome}`);
+                $("#linkLeague").html(`<i class="bi bi-people-fill"></i> ${myLang.linkLeague}`);
+                $("#linkTeam").html(`<i class="bi bi-person-badge-fill"></i> ${myLang.linkTeam}`);
+                $("#linkInvitation").html(`<i class="bi bi-bell-fill"></i> ${myLang.linkInvitation} <span class="badge bg-danger bdg-Notification">0</span>`);
+                $("#linkGames").html(`<i class="bi bi-cone-striped"></i> ${myLang.linkGames}`);
+                $("#linkBusiness").html(`<i class="bi bi-award"></i> ${myLang.linkBusiness}`);
+
+                myLang = data[lang][currentSection];
+                switch(currentSection){
+                    case "home":
+                       $(".lblMyTeam").html();
+                       $(".teamAlert").find(".blockquote").html();
+
+                       $(".lblMyLeague").html();
+                       $(".leagueAlert").find(".blockquote").html();
                     break;
                 }
             });
