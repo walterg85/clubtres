@@ -38,7 +38,8 @@
     </style>
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Clubtres</a>
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 lblTitle" href="javascript:void(0);">Clubtres</a>
+            <a class="navbar-brand col-md-2 col-lg-1 me-0 px-3" href="javascript:void(0);" id="changeLang"></a>
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -103,7 +104,8 @@
         <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 
         <script type="text/javascript">
-            var currentLeague = null;
+            var currentLeague = null,
+                lang = (window.navigator.language).substring(0,2);
             
             $(document).ready(function(){
                 $("#linkHome").on("click", function(){
@@ -141,6 +143,25 @@
                 setInterval(findNotifications, 2500);
 
                 $("#linkHome").click();
+
+                if( localStorage.getItem("currentLag") ){
+                    lang = localStorage.getItem("currentLag");
+                }else{
+                    localStorage.setItem("currentLag", lang);
+                }
+
+                $("#changeLang").click( function(){
+                    if (localStorage.getItem("currentLag") == "es") {
+                        localStorage.setItem("currentLag", "en");
+                        lang = "en";
+                    }else{
+                        localStorage.setItem("currentLag", "es");
+                        lang = "es";
+                    }
+                    switchLanguage(lang, "main");
+                });
+
+                switchLanguage(lang, "main");
             });
 
             function getData(obj, dtable){
@@ -190,6 +211,28 @@
 
                 console.log(msgError);
             }
+
+            function switchLanguage(lang, section){
+            $.post("../assets/languages.json", {}, function(data) {
+                $("#changeLang").html(data[lang]["buttonText"]);
+
+                let myLang = data[lang][section];
+
+                switch(section){
+                    case "main":
+                        $(".lblTitle").html(myLang.title);
+                        $("#btnLogout").html(myLang.logout);
+
+                        $("#linkHome").html(`<i class="bi bi-house-door-fill"></i> ${myLang.linkHome}`);
+                        $("#linkLeague").html(`<i class="bi bi-people-fill"></i> ${myLang.linkLeague}`);
+                        $("#linkTeam").html(`<i class="bi bi-person-badge-fill"></i> ${myLang.linkTeam}`);
+                        $("#linkInvitation").html(`<i class="bi bi-bell-fill"></i> ${myLang.linkInvitation} <span class="badge bg-danger bdg-Notification">0</span>`);
+                        $("#linkGames").html(`<i class="bi bi-cone-striped"></i> ${myLang.linkGames}`);
+                        $("#linkBusiness").html(`<i class="bi bi-award"></i> ${myLang.linkBusiness}`);
+                    break;
+                }
+            });
+        }
         </script>
     </body>
 </html>

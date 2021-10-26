@@ -10,10 +10,24 @@
 			"inputCheck":"Remember me",
 			"button" :"Sign in",
 			"link": "Create new account",
-			"coppy": "&copy; Clubtres"
+			"coppy": "&copy; Clubtres",
+			"modalTitle": "Fill form to create new account",
+			"mdlInputName": "Name",
+			"mdlInputLastName": "Last Name",
+			"mdlInputMail": "Email",
+			"mdlInputPass": "Password",
+			"mdlBtn1": "Submit",
+			"mdlBtn2": "Close"
 		},
-		"menu":{
-
+		"main":{
+			"title":"Clubtres",
+			"logout": "Sign out",
+			"linkHome": "Home",
+			"linkLeague": "Leagues",
+			"linkTeam": "Teams",
+			"linkInvitation": "Invitations",
+			"linkGames": "Games",
+			"linkBusiness": "Business"
 		}
 	},
 	"es":{
@@ -27,10 +41,24 @@
 			"inputCheck":"Recuérdame",
 			"button" :"Registrarse",
 			"link": "Crear una nueva cuenta",
-			"coppy": "&copy; Clubtres"
+			"coppy": "&copy; Clubtres",
+			"modalTitle": "Complete el formulario para crear una nueva cuenta",
+			"mdlInputName": "Nombre",
+			"mdlInputLastName": "Apellido",
+			"mdlInputMail": "Correo electrónico",
+			"mdlInputPass": "Contraseña",
+			"mdlBtn1": "Enviar",
+			"mdlBtn2": "Cerrar"
 		},
-		"menu":{
-
+		"main":{
+			"title":"Clubtres",
+			"logout": "Desconectar",
+			"linkHome": "Inicio",
+			"linkLeague": "Ligas",
+			"linkTeam": "Equipos",
+			"linkInvitation": "Invitaciones",
+			"linkGames": "Juegos",
+			"linkBusiness": "Negocios"
 		}
 	}
 }
