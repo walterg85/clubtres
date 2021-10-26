@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,66 +11,71 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
     <title>Club Tres</title>
-  </head>
-  <body>
+</head>
+<body>
     <main class="form-signin">
-      <form>
-        <div class="text-center">
-          <p class="lead">Clubtres</p>
-        </div>
-        <h1 class="h3 mb-3 fw-normal">Sign in <i class="bi bi-box-arrow-in-right"></i></h1>
+        <form>
+            <div class="text-center">
+                <p class="lead lblLogotipo">Clubtres</p>
+            </div>
+            <h1 class="h3 mb-3 fw-normal lblPrincipal">Sign in <i class="bi bi-box-arrow-in-right"></i></h1>
 
-        <div class="form-floating">
-          <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
-          <label for="inputEmail">Email address</label>
-        </div>
-        <div class="form-floating">
-          <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-          <label for="inputPassword">Password</label>
-        </div>
+            <div class="form-floating">
+                <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com">
+                <label for="inputEmail"class="lblInputMail">Email address</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <label for="inputPassword" class="lblInputPass" >Password</label>
+            </div>
 
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="button" id="btnLogin">Sign in</button>
-        <p class="mt-3"><a href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Create new account</a></p>
-        <p class="mt-5 mb-3 text-muted">&copy; Clubtres</p>
-      </form>
+            <div class="checkbox mb-3">
+                <label class="lblCheck"></label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="button" id="btnLogin">Sign in</button>
+            <div class="row">
+                <div class="col-8">
+                    <p class="mt-3"><a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#registerModal" class="lblNewAccount">Create new account</a></p>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-sm mt-3" id="changeLang">Español</button>
+                </div>
+            </div>
+            <p class="mt-5 mb-3 text-muted lblCopy">&copy; Clubtres</p>
+        </form>
     </main>
 
     <!-- Modal -->
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Fill form to create new account</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form class="needs-validation" novalidate>
-              <div class="mb-3">
-                <input type="text" class="form-control" id="inputRegName" name="name" aria-describedby="emailHelp" placeholder="Name" required>
-              </div>
-              <div class="mb-3">
-                <input type="text" class="form-control" id="inputRegLastName" name="lanstName" aria-describedby="emailHelp" placeholder="Last Name" required>
-              </div>
-              <div class="mb-3">
-                <input type="email" class="form-control" id="inputRegEmail" name="email" aria-describedby="emailHelp" placeholder="Email" required>
-              </div>
-              
-              <div class="mb-3">
-                <input type="password" class="form-control" id="inputRegPassword" placeholder="Password" required>
-              </div>
-              <button type="button" class="btn btn-primary" id="btnRegister">Submit</button>
-            </form>
-          </div>
-          <div class="modal-footer ">
-            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Fill form to create new account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="inputRegName" name="name" aria-describedby="emailHelp" placeholder="Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="inputRegLastName" name="lanstName" aria-describedby="emailHelp" placeholder="Last Name" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" id="inputRegEmail" name="email" aria-describedby="emailHelp" placeholder="Email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="inputRegPassword" placeholder="Password" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="btnRegister">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -79,6 +84,8 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
+        var lang = (window.navigator.language).substring(0,2);
+
         $(document).ready(function(){
             // Registrar nuevo usuario
             $("#btnRegister").on("click", fnRegisterUser);
@@ -88,63 +95,98 @@
 
             // si ya esta logueado redirigirlo a Home
             if(localStorage.getItem("logged"))
-                window.location.replace("account/index.php");
+                    window.location.replace("account/index.php");
 
+            if( localStorage.getItem("currentLag") ){
+                lang = localStorage.getItem("currentLag");
+            }else{
+                localStorage.setItem("currentLag", lang);
+            }
+
+            $("#changeLang").click( function(){
+                if (localStorage.getItem("currentLag") == "es") {
+                    localStorage.setItem("currentLag", "en");
+                    lang = "en";
+                }else{
+                    localStorage.setItem("currentLag", "es");
+                    lang = "es";
+                }
+                switchLanguage(lang);
+            });
+
+            switchLanguage(lang);
         });
 
         function fnRegisterUser(){
             let forms = document.querySelectorAll('.needs-validation'),
-                continuar = true;
+                    continuar = true;
 
             Array.prototype.slice.call(forms).forEach(function (form){ 
-                if (!form.checkValidity()) {
-                    continuar = false;
-                }
+                    if (!form.checkValidity()) {
+                            continuar = false;
+                    }
 
-                form.classList.add('was-validated');
+                    form.classList.add('was-validated');
             });
 
             if(!continuar)
-                return false;
+                    return false;
 
             let objData = {
-                "_method": "POST",
-                "name": $("#inputRegName").val(),
-                "last_name": $("#inputRegLastName").val(),
-                "email": $("#inputRegEmail").val(),
-                "password": $("#inputRegPassword").val()
+                    "_method": "POST",
+                    "name": $("#inputRegName").val(),
+                    "last_name": $("#inputRegLastName").val(),
+                    "email": $("#inputRegEmail").val(),
+                    "password": $("#inputRegPassword").val()
             };
 
             $.post("core/controllers/user.php", objData, function(result) {
-                if(result.codeResponse == 200){
-                    $("#inputEmail").val( $("#inputRegEmail").val() );
-                    $("#inputPassword").val( $("#inputRegPassword").val() );
+                    if(result.codeResponse == 200){
+                            $("#inputEmail").val( $("#inputRegEmail").val() );
+                            $("#inputPassword").val( $("#inputRegPassword").val() );
 
-                    fnValidateUser();
+                            fnValidateUser();
 
-                    $("#registerModal").modal("hide");
-                  } else {
-                    alert(result.message);
-                  }
+                            $("#registerModal").modal("hide");
+                        } else {
+                            alert(result.message);
+                        }
             });
         }
 
         function fnValidateUser(){
             let objData = {
-                "_method": "VALIDATE",
-                "email": $("#inputEmail").val(),
-                "password": $("#inputPassword").val()
+                    "_method": "VALIDATE",
+                    "email": $("#inputEmail").val(),
+                    "password": $("#inputPassword").val()
             };
 
             $.post("core/controllers/user.php", objData, function(result) {
-                if(result.codeResponse == 200){
-                    localStorage.setItem("logged", true);
-                    window.location.replace("account/index.php");
-                } else {
-                  alert(result.message);
-                }
+                    if(result.codeResponse == 200){
+                            localStorage.setItem("logged", true);
+                            window.location.replace("account/index.php");
+                    } else {
+                        alert(result.message);
+                    }
             });            
         }
+
+        function switchLanguage(lang){
+            $.post("assets/languages.json", {}, function(data) {
+                $("#changeLang").html(data[lang]["buttonText"]);
+
+                let myLang = data[lang]["login"];
+
+                $(".lblLogotipo").html(myLang.logotipo);
+                $(".lblPrincipal").html(`${myLang.txtprinipal} <i class="bi bi-box-arrow-in-right"></i>`);
+                $(".lblInputMail").html(myLang.inpuitmail);
+                $(".lblInputPass").html(myLang.inputPass);
+                $(".lblCheck").html(`<input type="checkbox" value="remember-me"> ${myLang.inputCheck}`);
+                $("#btnLogin").html(myLang.button);
+                $(".lblNewAccount").html(myLang.link);
+                $(".lblCopy").html(myLang.coppy);
+            });
+        }
     </script>
-  </body>
+</body>
 </html>

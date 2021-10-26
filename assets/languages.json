@@ -1,29 +1,33 @@
 {
-	"spanish":{
+	"en":{
+		"buttonText": "Spanish",
 		"login":{
-			"logotipo": "",
-			"txtprinipal":"",
-			"inpuitmail": "",
-			"inputPass": "",
-			"inputCheck":"",
-			"button" :"",
-			"link": "",
-			"coppy": ""
+			"pageTitle":"Club Tres",
+			"logotipo": "Clubtres",
+			"txtprinipal":"Sign in",
+			"inpuitmail": "Email address",
+			"inputPass": "Password",
+			"inputCheck":"Remember me",
+			"button" :"Sign in",
+			"link": "Create new account",
+			"coppy": "&copy; Clubtres"
 		},
 		"menu":{
 
 		}
 	},
-	"English":{
+	"es":{
+		"buttonText": "English",
 		"login":{
-			"logotipo": "",
-			"txtprinipal":"",
-			"inpuitmail": "",
-			"inputPass": "",
-			"inputCheck":"",
-			"button" :"",
-			"link": "",
-			"coppy": ""
+			"pageTitle":"Club Tres",
+			"logotipo": "Clubtres",
+			"txtprinipal":"Registrarse",
+			"inpuitmail": "Dirección de correo electrónico",
+			"inputPass": "Contraseña",
+			"inputCheck":"Recuérdame",
+			"button" :"Registrarse",
+			"link": "Crear una nueva cuenta",
+			"coppy": "&copy; Clubtres"
 		},
 		"menu":{
 
