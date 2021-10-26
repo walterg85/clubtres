@@ -28,6 +28,11 @@
 			"linkInvitation": "Invitations",
 			"linkGames": "Games",
 			"linkBusiness": "Business"
+		},
+		"home":{
+			"card1": "My teams",
+			"card2": "My leagues",
+			"card1Black": "Does not manage any team"
 		}
 	},
 	"es":{
@@ -59,6 +64,11 @@
 			"linkInvitation": "Invitaciones",
 			"linkGames": "Juegos",
 			"linkBusiness": "Negocios"
+		},
+		"home":{
+			"card1": "Mis equipos",
+			"card2": "Mis ligas",
+			"card1Black": "No gestiona ningún equipo"
 		}
 	}
 }
