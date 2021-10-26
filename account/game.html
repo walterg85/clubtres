@@ -63,10 +63,14 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
+                let mypaging = false;
 
                 if( (response.data).length == 0 ){
                     $(".gameAlert").removeClass("d-none");
                     $(".dvContro").addClass("d-none");
+                }else{
+                    if( (response.data).length > 20 )
+                        mypaging = true;
                 }
 
                 if (dataTableGames != null)
@@ -220,7 +224,7 @@
                     pageLength: 20,
                     info: false,
                     lengthChange: false,
-                    paging: false
+                    paging: mypaging
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {

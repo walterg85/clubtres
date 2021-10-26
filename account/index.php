@@ -88,7 +88,7 @@
                         </ul>
                     </div>
                 </nav>
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4" id="mainContenedor"></main>
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-4" id="mainContenedor"></main>
             </div>
         </div>
 
@@ -100,6 +100,7 @@
 
         <!-- Datatables -->
         <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 
         <script type="text/javascript">
             var currentLeague = null;

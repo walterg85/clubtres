@@ -25,8 +25,13 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
+                let mypaging = false;
+                
                 if (dataTableInvitation != null)
                     dataTableInvitation.destroy();
+
+                if( (response.data).length > 20 )
+                        mypaging = true;
 
                 dataTableInvitation = $("#invitationList").DataTable({
                     data: response.data,
@@ -108,7 +113,7 @@
                     pageLength: 20,
                     info: false,
                     lengthChange: false,
-                    paging: false
+                    paging: mypaging
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {
