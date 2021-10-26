@@ -72,7 +72,7 @@
                     </form>
                 </div>
                 <div class="modal-footer ">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-sm btn-secondary btnMdlClose" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -168,7 +168,7 @@
                     } else {
                         alert(result.message);
                     }
-            });            
+            });
         }
 
         function switchLanguage(lang){
@@ -177,6 +177,7 @@
 
                 let myLang = data[lang]["login"];
 
+                // Formulario principal
                 $(".lblLogotipo").html(myLang.logotipo);
                 $(".lblPrincipal").html(`${myLang.txtprinipal} <i class="bi bi-box-arrow-in-right"></i>`);
                 $(".lblInputMail").html(myLang.inpuitmail);
@@ -185,6 +186,18 @@
                 $("#btnLogin").html(myLang.button);
                 $(".lblNewAccount").html(myLang.link);
                 $(".lblCopy").html(myLang.coppy);
+
+                // Modal
+                $("#exampleModalLabel").html(myLang.modalTitle);
+                $("#inputRegName").attr("placeholder", myLang.mdlInputName);
+                $("#inputRegLastName").attr("placeholder", myLang.mdlInputLastName);
+                $("#inputRegEmail").attr("placeholder", myLang.mdlInputMail);
+                $("#inputRegPassword").attr("placeholder", myLang.mdlInputPass);
+                $("#btnRegister").html(myLang.mdlBtn1);
+                $(".btnMdlClose").html(myLang.mdlBtn2);
+
+                // Page title
+                document.title = myLang.pageTitle;
             });
         }
     </script>
