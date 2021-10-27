@@ -62,6 +62,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <i class="bi bi-globe2"></i>
+                                <a class="nav-link changeLang" href="javascript:void(0);">
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0);" id="linkLeague">
                                     <i class="bi bi-people-fill"></i> Leagues
                                 </a>
