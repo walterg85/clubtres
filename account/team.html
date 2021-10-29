@@ -190,6 +190,7 @@
 
         let active = ($("#chkActive").is(':checked')) ? 1 : 0;
         formData.append("chkActive", active);
+        $("#btnRegisterTeam").attr("disabled","disabled");
 
         $.ajax({
             url: '../core/controllers/team.php',
@@ -212,6 +213,9 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 ajaxResponseError(jqXHR, textStatus);
+            },
+            complete: function(){
+                $("#btnRegisterTeam").removeAttr("disabled");
             },
             cache: false,
             contentType: false,

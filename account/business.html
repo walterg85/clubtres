@@ -243,6 +243,7 @@
 
         let active = ($("#chkActive").is(':checked')) ? 1 : 0;
         formData.append("chkActive", active);
+        $("#btnRegisterBusiness").attr("disabled","disabled");
 
         $.ajax({
             url: '../core/controllers/business.php',
@@ -259,6 +260,9 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 ajaxResponseError(jqXHR, textStatus);
+            },
+            complete: function(){
+                $("#btnRegisterBusiness").removeAttr("disabled");
             },
             cache: false,
             contentType: false,
