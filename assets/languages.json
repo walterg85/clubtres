@@ -4,11 +4,10 @@
 		"login":{
 			"pageTitle":"Club Tres",
 			"punchLine": "START A TEAM<br />JOIN A TEAM<br />BE A TEAM LEADER",
-			"txtprinipal":"Login",
 			"inpuitmail": "Email address",
 			"inputPass": "Password",
 			"inputCheck":"Remember me",
-			"button" :"Sign in",
+			"button" :"Enter",
 			"link": "Create new account",
 			"modalTitle": "Create new account",
 			"mdlInputName": "Name",
@@ -39,7 +38,6 @@
 		"login":{
 			"pageTitle":"Club Tres",
 			"punchLine": "CREA UN EQUIPO<br />ENCUENTRA EQUIPO<br />LIDERA UN EQUIPO",
-			"txtprinipal":"Entrar",
 			"inpuitmail": "Correo electrónico",
 			"inputPass": "Contraseña",
 			"inputCheck":"Recuérdame",
