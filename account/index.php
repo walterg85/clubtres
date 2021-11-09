@@ -44,7 +44,7 @@
             </button>
             <div class="dropdown" style="width: 100%">
                 <input class="form-control form-control-dark w-100 dropdown-toggle" type="text" placeholder="Search" id="inputSearch" autocomplete="off">
-                <ul class="dropdown-menu" aria-labelledby="inputSearch"></ul>
+                <ul class="dropdown-menu" id="cboMenu" aria-labelledby="inputSearch"></ul>
             </div>
 
             <div class="navbar-nav">
@@ -184,11 +184,28 @@
                             strQuery: $('#inputSearch').val()
                         },
                         success:function(data){
-                            let items = '<h6 class="dropdown-header">Business</h6>';
+                            let items = '',
+                                corte = '',
+                                link = '';
                             $.each(data.data, function(index, result){
+                                if(corte != result.tipo){
+                                    items += `<h6 class="dropdown-header"><strong>${result.tipo}</strong></h6>`;
+                                    corte = result.tipo;
+
+                                    if(corte == 'League'){
+                                        link = '../league/index.php';
+                                    }else if(corte == 'Business'){
+                                        link = '../business/index.php';
+                                    }else if(corte == 'User'){
+                                        link = '../user/index.php';
+                                    }else if(corte == 'Team'){
+                                        link = '../team/index.php';
+                                    }
+                                }
+
                                 items += `
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item ps-5" href="${link}?id=${result.id}" target="_blank">
                                             <!-- <img src="#" alt="twbs" height="32" class="rounded flex-shrink-0 me-2"> -->
                                             ${result.nombre}
                                         </a>
@@ -196,7 +213,7 @@
                                 `;
                             });
 
-                            $(".dropdown-menu")
+                            $("#cboMenu")
                                 .html(items)
                                 .addClass("show");
                         }
@@ -207,7 +224,7 @@
                     if(searchRequest)
                         searchRequest.abort();
 
-                    $(".dropdown-menu")
+                    $("#cboMenu")
                         .html("")
                         .removeClass("show");
                 });
