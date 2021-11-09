@@ -42,7 +42,11 @@
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            <div class="dropdown" style="width: 100%">
+                <input class="form-control form-control-dark w-100 dropdown-toggle" type="text" placeholder="Search" id="inputSearch" autocomplete="off">
+                <ul class="dropdown-menu" aria-labelledby="inputSearch"></ul>
+            </div>
+
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
                     <a class="nav-link px-3" href="javascript:void(0);" id="btnLogout">Sign out</a>
@@ -109,7 +113,8 @@
         <script type="text/javascript">
             var currentLeague = null,
                 lang = (window.navigator.language).substring(0,2),
-                currentSection = "";
+                currentSection = "",
+                searchRequest = null;
             
             $(document).ready(function(){
                 $("#linkHome").on("click", function(){
@@ -166,6 +171,46 @@
                 });
 
                 switchLanguage(lang);
+
+                $('#inputSearch').keyup(function(){
+                    if(searchRequest)
+                        searchRequest.abort();
+
+                    searchRequest = $.ajax({
+                        url:"../core/controllers/user.php",
+                        method:"POST",
+                        data:{
+                            _method:'search',
+                            strQuery: $('#inputSearch').val()
+                        },
+                        success:function(data){
+                            let items = '<h6 class="dropdown-header">Business</h6>';
+                            $.each(data.data, function(index, result){
+                                items += `
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <!-- <img src="#" alt="twbs" height="32" class="rounded flex-shrink-0 me-2"> -->
+                                            ${result.nombre}
+                                        </a>
+                                    </li>
+                                `;
+                            });
+
+                            $(".dropdown-menu")
+                                .html(items)
+                                .addClass("show");
+                        }
+                    });
+                });
+
+                $('body').click(function() {
+                    if(searchRequest)
+                        searchRequest.abort();
+
+                    $(".dropdown-menu")
+                        .html("")
+                        .removeClass("show");
+                });
             });
 
             function getData(obj, dtable){
