@@ -43,7 +43,13 @@
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            <input class="form-control form-control-dark w-100 dropdown-toggle" type="text" placeholder="Search" aria-label="Search" data-bs-toggle="dropdown">
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+
             <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
                     <a class="nav-link px-3" href="javascript:void(0);" id="btnLogout">Sign out</a>
