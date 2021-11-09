@@ -138,13 +138,41 @@
 			$pdo = new Conexion();
 
 			$cmd = '
-				SELECT
-					*
-				FROM 
-					business
-				WHERE status = 1
-					AND nombre LIKE "%'. str_replace(' ', '%', $query) .'%"
-				ORDER BY id DESC
+				SELECT * FROM (
+					SELECT
+						id, nombre, image, "Business" AS tipo
+					FROM 
+						business
+					WHERE status = 1	
+					
+						UNION 
+					
+					SELECT
+						l.id, l.name AS nombre, l.image, "League" AS tipo
+					FROM 
+						league AS l
+					WHERE l.status = 1
+					
+					
+						UNION 
+					
+					SELECT
+						t.id, t.name AS nombre, t.image, "Team" AS tipo
+					FROM 
+						team AS t
+					WHERE t.active = 1
+						
+					
+						UNION 
+					
+					SELECT
+						u.id, CONCAT(u.name, " ", u.last_name ) AS nombre, null AS image, "User" AS tipo
+					FROM 
+						user AS u
+					WHERE u.active = 1
+				) AS Universe
+				WHERE nombre LIKE "%'. str_replace(' ', '%', $query) .'%"
+				ORDER BY tipo
 			';
 
 			$sql = $pdo->prepare($cmd);
