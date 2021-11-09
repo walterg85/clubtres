@@ -133,4 +133,23 @@
 
 			return TRUE;
 		}
+
+		public function search($query) {
+			$pdo = new Conexion();
+
+			$cmd = '
+				SELECT
+					*
+				FROM 
+					business
+				WHERE status = 1
+					AND nombre LIKE "%'. str_replace(' ', '%', $query) .'%"
+				ORDER BY id DESC
+			';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}
