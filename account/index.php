@@ -93,6 +93,11 @@
                                     <i class="bi bi-award"></i> Business
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);" id="linkSettings">
+                                    <i class="bi bi-wrench"></i> Settings
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -146,6 +151,10 @@
 
                 $("#linkBusiness").on("click", function(){
                     $( "#mainContenedor" ).load( `business.html?v=${Math.random()}` );
+                });
+
+                $("#linkSettings").on("click", function(){
+                    $( "#mainContenedor" ).load( `setting.html?v=${Math.random()}` );
                 });
 
                 findNotifications();

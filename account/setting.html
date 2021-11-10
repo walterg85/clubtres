@@ -1,0 +1,71 @@
+<div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Settings</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary btnSaveChanges">Save changes</button>
+            </div>
+        </div>
+    </div>
+
+    <form id="configForm" class="needs-validation" novalidate>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <center>
+                    <figure class="figure">
+                        <img src="https://api-private.atlassian.com/users/ac836115de21ba9846f0fc2653ddc231/avatar" class="figure-img img-fluid rounded imgPreview">
+                        <figcaption class="figure-caption">Change your avatar</figcaption>
+                    </figure>
+                </center>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputPhoto"><i class="bi bi-camera"></i></label>
+                    <input type="file" class="form-control" id="inputPhoto">
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="inputName" class="form-label">Name</label>
+                        <input type="text" class="form-control" placeholder="Your name" id="inputName" name="inputName" autocomplete="off" required> 
+                    </div>
+                    <div class="col-6 mb-2">
+                        <label for="inputLastName" class="form-label">Last name</label>
+                        <input type="text" class="form-control" placeholder="Your Last name" id="inputLastName" name="inputLastName" autocomplete="off" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="inputEmail" class="form-label">Email</label>
+                        <input type="text" class="form-control" placeholder="Your email" id="inputEmail" name="inputEmail" readonly>
+                    </div>
+                    <div class="col-6">
+                        <label for="inputPass" class="form-label lblPassword">Change Password</label>
+                        <input type="password" class="form-control" placeholder="New Password" id="inputPass" autocomplete="off">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+    
+</div>
+
+<script type="text/javascript">
+    var autData = null;
+
+    $(document).ready(function(){
+        fnGetconfig();
+    });
+
+    function fnGetconfig(){
+        let objData = {
+            "_method":"authData"
+        };
+        $.post("../core/controllers/user.php", objData, function(result) {
+            autData = result;
+
+            $("#inputName").val(autData.name);
+            $("#inputLastName").val(autData.last_name);
+            $("#inputEmail").val(autData.email);
+        });
+    }
+</script>
