@@ -8,11 +8,12 @@
 	header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
-		parse_str(file_get_contents("php://input"), $put_vars);
+		// parse_str(file_get_contents("php://input"), $put_vars);
+		$put_vars = ($_POST) ? $_POST : json_decode(file_get_contents("php://input"), TRUE);
 
 		if($put_vars['_method'] == 'POST'){
 			$userModel = new Usersmodel();
-			$put_vars['password'] = encriptPass( $put_vars['password'] );
+			$put_vars['password'] = encryptPass( $put_vars['password'] );
 
 			$tmpResponse = $userModel->createUser($put_vars);
 
@@ -146,14 +147,45 @@
 			exit(json_encode($response));
 		} else if($put_vars['_method'] == 'authData'){
 
+			$fileStr = dirname(__FILE__, 3) . "/assets/img/user/" . $_SESSION['authData']->id .".jpg";
+			if (file_exists($fileStr))
+				$_SESSION['authData']->avatar = "assets/img/user/" . $_SESSION['authData']->id .".jpg";
+
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");
 			
 			exit(json_encode($_SESSION['authData']));
+		} else if($put_vars['_method'] == 'updateData'){
+			$usersModel 	= new Usersmodel();
+
+			$newPassword = ($put_vars['inputPass'] == '') ? '' : encryptPass($put_vars['inputPass']);
+
+			$usData = array(
+				'userId' => $put_vars['userId'],
+				'name' => $put_vars['inputName'],
+				'lastName' => $put_vars['inputLastName'],
+				'password' => $newPassword
+			);
+			
+			$usersModel->updateData($usData);
+
+			$folder = "assets/img/user";
+			if (!empty($_FILES['userPhoto'])){
+				$filename = $_FILES['userPhoto']['name'];
+				$tempname = $_FILES['userPhoto']['tmp_name'];
+				       
+				move_uploaded_file($tempname, "../../{$folder}/{$filename}");
+			}
+
+			$_SESSION['authData']->name = $put_vars['inputName'];
+			$_SESSION['authData']->last_name = $put_vars['inputLastName'];
+
+			header('HTTP/1.1 200 Ok');			
+			exit();
 		}
 	}
 
-	function encriptPass($strPassword) {
+	function encryptPass($strPassword) {
 		$options = [
 		    'cost' => 12
 		];

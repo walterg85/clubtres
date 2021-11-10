@@ -180,4 +180,25 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		public function updateData($data){
+			$pdo = new Conexion();
+
+			$updatePass = '';
+	    	if($data['password'] != '')
+	    		$updatePass = ', password ="' . $data['password'] .'"';
+
+			$cmd = 'UPDATE user SET name =:name, last_name =:last_name'. $updatePass .' WHERE id =:userId ';
+
+			$parametros = array(
+				':name' => $data['name'],
+				':last_name' => $data['lastName'],
+				':userId' => $data['userId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}
