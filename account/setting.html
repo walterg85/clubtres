@@ -1,9 +1,15 @@
+<!-- cropperCSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- cropperJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Settings</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary btnSaveChanges">Save changes</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary btnSaveChanges"><i class="bi bi-check2"></i> Save changes</button>
             </div>
         </div>
     </div>
@@ -39,21 +45,47 @@
                     </div>
                     <div class="col-6">
                         <label for="inputPass" class="form-label lblPassword">Change Password</label>
-                        <input type="password" class="form-control" placeholder="New Password" id="inputPass" autocomplete="off">
+                        <input type="password" class="form-control" placeholder="New Password" id="inputPass" name="inputPass" autocomplete="off">
                     </div>
 
                 </div>
             </div>
         </div>
-    </form>
-    
+    </form>    
+</div>
+
+<!-- Modal para editar las imagenes -->
+<div class="modal fade" id="modalCrop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Edit / Crop the photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container mb-3" style="max-height: 500px">
+                    <img id="previewCrop" src="#">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="cropImage">Apply</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-    var autData = null;
+    var autData = null,
+        maxCroppedWidth = 400,
+        maxCroppedHeight = 400,
+        userPhoto = null;
 
     $(document).ready(function(){
+        $(".btnSaveChanges").on("click", saveData);
+
         fnGetconfig();
+        initComponent();
     });
 
     function fnGetconfig(){
@@ -63,9 +95,150 @@
         $.post("../core/controllers/user.php", objData, function(result) {
             autData = result;
 
+            console.log(autData);
+
             $("#inputName").val(autData.name);
             $("#inputLastName").val(autData.last_name);
             $("#inputEmail").val(autData.email);
+
+            if(autData.avatar)
+                $(".imgPreview").attr("src", `../${autData.avatar}`);
+        });
+    }
+
+    function saveData(){
+        let forms = document.querySelectorAll('.needs-validation'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (formv){ 
+            if (!formv.checkValidity()) {
+                    continuar = false;
+            }
+
+            formv.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
+
+        $(".btnSaveChanges").attr("disabled","disabled");
+        $(".btnSaveChanges").html('<i class="bi bi-clock-history"></i> Updating');
+
+        let form = $("#configForm")[0],
+            formData = new FormData(form);
+
+        formData.append("_method", "updateData");
+        formData.append("userId", autData.id);
+
+        if(userPhoto)
+            formData.append("userPhoto", userPhoto, `${autData.id}.jpg`);
+
+        $.ajax({
+            url: '../core/controllers/user.php',
+            data: formData,
+            type: 'POST',
+            success: function(response){
+                $(".btnSaveChanges").removeAttr("disabled");
+                $(".btnSaveChanges").html('<i class="bi bi-check2"></i> Save changes');
+
+                fnGetconfig();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+    function initComponent() {
+        // Controlar tipo de objeto que intentan subir
+        $('input[type="file"]').unbind().change( function(){
+            let ext = $( this ).val().split('.').pop();
+
+            if ($( this ).val() != ''){
+                if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
+                    if($(this)[0].files[0].size > 5242880){
+                        $( this ).val('');
+                        alert('Your selected file is larger than 5MB');
+                    }
+                }else{
+                    $( this ).val('');
+                    alert(`${ext} files not allowed, only images`);
+                }
+            }
+        });
+
+        // Image Cropper
+        let picture = $(".imgPreview"),
+            image       = $("#previewCrop")[0],
+            inputFile1   = $("#inputPhoto")[0],
+            $modal      = $('#modalCrop'),
+            cropper     = null;
+
+        inputFile1.addEventListener("change", function(e){
+            let files = e.target.files,
+                done  = function (url){
+                    inputFile1.value = "";
+                    image.src = url;
+                    $modal.modal('show');
+                },
+                reader,
+                file,
+                url;
+
+            if (files && files.length > 0){
+                file = files[0];
+
+                if (URL){
+                    done(URL.createObjectURL(file));
+                }
+                else if (FileReader){
+                    reader = new FileReader();
+                    reader.onload = function(e){
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        $modal.unbind().on('shown.bs.modal', function(){
+            let URL         = window.URL || window.webkitURL,
+                container   = document.querySelector('.img-container'),
+                download    = document.getElementById('download'),
+                actions     = document.getElementById('cropper-buttons'),
+                options     = {
+                    viewMode: 1,
+                    aspectRatio: maxCroppedWidth / maxCroppedHeight,
+                };
+
+            cropper = new Cropper(image, options);
+        }).on('hidden.bs.modal', function(){
+            cropper.destroy();
+            cropper = null;
+        });
+
+        $("#cropImage").unbind().click( function(){
+            let canvas;
+
+            $modal.modal("hide");
+
+            if(cropper){
+                canvas = cropper.getCroppedCanvas({
+                    width: maxCroppedWidth,
+                    height: maxCroppedHeight,
+                });
+
+                picture
+                    .attr("src", canvas.toDataURL())
+                    .parent().removeClass('d-none');
+
+                canvas.toBlob(function (blob){
+                    userPhoto = blob;
+                });
+            }
         });
     }
 </script>
