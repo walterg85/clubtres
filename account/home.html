@@ -14,10 +14,10 @@
 
             <figure class="text-center teamAlert d-none">
                 <blockquote class="blockquote">
-                    <p>Does not manage any team</p>
+                    <p class="labelCardTeam">Does not manage any team</p>
                 </blockquote>
                 <figcaption class="blockquote-footer">
-                    Whenever you want, you can register a new team by <cite title="clicking here"> <a href="javascript:void(0);" id="btnTeam" class="">clicking here</a> </cite>
+                    <texto class="subLabel1">Whenever you want, you can register a new team by</texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnTeam" class=""> <texto class="subLabel2">clicking here</texto> </a> </cite>
                 </figcaption>
             </figure>
             
@@ -42,10 +42,10 @@
 
             <figure class="text-center leagueAlert d-none">
                 <blockquote class="blockquote">
-                    <p>Does not manage any league</p>
+                    <p class="labelCardLeague">Does not manage any league</p>
                 </blockquote>
                 <figcaption class="blockquote-footer">
-                    Whenever you want, you can register a new league by <cite title="clicking here"> <a href="javascript:void(0);" id="btnLeague" class="">clicking here</a> </cite>
+                    <texto class="subLabel3">Whenever you want, you can register a new league by</texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnLeague" class=""> <texto class="subLabel2" >clicking here</texto> </a> </cite>
                 </figcaption>
             </figure>
             
@@ -55,6 +55,7 @@
 
 <script type="text/javascript">
     $(document).ready( function(){
+        // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "home";
         loadMyTeams();
         loadMyLeagues();
@@ -67,7 +68,7 @@
             $( "#mainContenedor" ).load( `league.html?v=${Math.random()}` );
         });
 
-        switchLanguage(lang);
+        changePageLang();
     });
 
     function loadMyTeams(){
@@ -138,5 +139,17 @@
         }).fail( function(jqXHR, textStatus, errorThrown){
             ajaxResponseError(jqXHR, textStatus);
         });
+    }
+
+    // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+    function changePageLang(){
+        $(".lblMyTeam").html(actualLenguaje.card1);
+        $(".labelCardTeam").html(actualLenguaje.labelCardTeam);
+        $(".subLabel1").html(actualLenguaje.subLabel1);
+        $(".subLabel2").html(actualLenguaje.subLabel2);
+
+        $(".lblMyLeague").html(actualLenguaje.card2);
+        $(".labelCardLeague").html(actualLenguaje.labelCardLeague);
+        $(".subLabel3").html(actualLenguaje.subLabel3);
     }
 </script>

@@ -31,8 +31,12 @@
 		},
 		"home":{
 			"card1": "My teams",
+			"labelCardTeam": "Does not manage any team",
+			"subLabel1": "Whenever you want, you can register a new team by",
+			"subLabel2": "clicking here",
 			"card2": "My leagues",
-			"card1Black": "Does not manage any team"
+			"labelCardTeam": "Does not manage any league",
+			"subLabel3": "Whenever you want, you can register a new league by"
 		}
 	},
 	"es":{
@@ -67,8 +71,12 @@
 		},
 		"home":{
 			"card1": "Mis equipos",
+			"labelCardTeam": "No gestiona ningún equipo",
+			"subLabel1": "Siempre que lo desee, puede registrar un nuevo equipo haciendo",
+			"subLabel2": "clic aquí",
 			"card2": "Mis ligas",
-			"card1Black": "No gestiona ningún equipo"
+			"labelCardTeam": "No gestiona ninguna liga",
+			"subLabel3": "Siempre que lo desee, puede registrar una nueva liga haciendo"
 		}
 	}
 }
