@@ -146,7 +146,7 @@
 			
 			exit(json_encode($response));
 		} else if($put_vars['_method'] == 'authData'){
-
+			$_SESSION['authData']->avatar = null;
 			$fileStr = dirname(__FILE__, 3) . "/assets/img/user/" . $_SESSION['authData']->id .".jpg";
 			if (file_exists($fileStr))
 				$_SESSION['authData']->avatar = "assets/img/user/" . $_SESSION['authData']->id .".jpg";

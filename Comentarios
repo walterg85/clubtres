@@ -1,0 +1,11 @@
+Condicion ternario para obligar a cargar las traducciones de home en la 1ra carga
+Clubtres/account/index.php linea 304
+
+Se setea en la variable global el JSON de idioma
+Clubtres/account/index.php linea 307
+
+Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
+Clubtres/account/home.html linea 58
+
+Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+Clubtres/account/home.html linea 144

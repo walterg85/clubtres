@@ -119,7 +119,8 @@
             var currentLeague = null,
                 lang = (window.navigator.language).substring(0,2),
                 currentSection = "",
-                searchRequest = null;
+                searchRequest = null,
+                actualLenguaje = null;
             
             $(document).ready(function(){
                 $("#linkHome").on("click", function(){
@@ -159,8 +160,6 @@
 
                 findNotifications();
                 setInterval(findNotifications, 2500);
-
-                $("#linkHome").click();
 
                 if( localStorage.getItem("currentLag") ){
                     lang = localStorage.getItem("currentLag");
@@ -237,6 +236,8 @@
                         .html("")
                         .removeClass("show");
                 });
+
+                $("#linkHome").click();
             });
 
             function getData(obj, dtable){
@@ -303,16 +304,11 @@
                 $("#linkGames").html(`<i class="bi bi-cone-striped"></i> ${myLang.linkGames}`);
                 $("#linkBusiness").html(`<i class="bi bi-award"></i> ${myLang.linkBusiness}`);
 
-                myLang = data[lang][currentSection];
-                switch(currentSection){
-                    case "home":
-                       $(".lblMyTeam").html();
-                       $(".teamAlert").find(".blockquote").html();
+                // Condicion ternario para obligar a cargar las traducciones de home en la 1ra carga
+                currentSection = (currentSection) ? currentSection : "home";
 
-                       $(".lblMyLeague").html();
-                       $(".leagueAlert").find(".blockquote").html();
-                    break;
-                }
+                // se setea en la variable global el JSON de idioma
+                actualLenguaje = data[lang][currentSection];
             });
         }
         </script>
