@@ -25,8 +25,6 @@
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "invitations";
         fnListInvitation();
-
-        changePageLang();
     });
 
     function fnListInvitation(){
@@ -65,8 +63,8 @@
                             {
                                 if(data >= 0 ){
                                     return `
-                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnAcept" title="Acept"><i class="bi bi-check2-square"></i> To Acept</a>
-                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger btnRechaze" title="To refuse"><i class="bi bi-trash"></i> To refuse</a>
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnAcept" title="Acept"><i class="bi bi-check2-square"></i> <text class="subBtnA">To Acept</text></a>
+                                        <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger btnRechaze" title="To refuse"><i class="bi bi-trash"></i> <text class="subBtnB">To refuse</text></a>
                                     `;
                                 }else{
                                     return `<a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnClose" title="Ok"><i class="bi bi-check2-square"></i> Ok</a>`;
@@ -125,6 +123,10 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 ajaxResponseError(jqXHR, textStatus);
+            },
+            complete: function(){
+                // Se hace el llamado del metodo de traduccion aqui para esperar a que se pinte la tabla
+                changePageLang();
             }
         });
     }
@@ -146,5 +148,8 @@
         $(".colA").html(actualLenguaje[currentSection].colA);
         $(".colB").html(actualLenguaje[currentSection].colB);
         $(".colC").html(actualLenguaje[currentSection].colC);
+
+        $(".subBtnA").html(actualLenguaje[currentSection].subBtnA);
+        $(".subBtnB").html(actualLenguaje[currentSection].subBtnB);
     }
 </script>

@@ -102,7 +102,9 @@
         maxCroppedWidth = 900,
         maxCroppedHeight = 400,
         dataTableTeam = null,
-        countMyTeams = false;
+        countMyTeams = false,
+        subColA = "",
+        subColB = "";
 
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
@@ -448,8 +450,8 @@
                         <thead>
                             <tr>
                               <th scope="col">#</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Type</th>
+                              <th scope="col">${subColA}</th>
+                              <th scope="col">${subColB}</th>
                               <th scope="col"></th>
                             </tr>
                         </thead>
@@ -592,5 +594,8 @@
         $(".inputLabelInvite").html(actualLenguaje[currentSection].inputLabelInvite);
         $(".labelInputId").attr("placeholder", actualLenguaje[currentSection].labelInputId);
         $(".tmpInviteTeam").html(actualLenguaje[currentSection].tmpInviteTeam);
+
+        subColA = actualLenguaje[currentSection].subColA;
+        subColB = actualLenguaje[currentSection].subColB;
     }
 </script>
