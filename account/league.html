@@ -6,7 +6,7 @@
 
 <div id="dvControl">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Leaugues</h1>
+        <h1 class="h2 pageTitle">Leagues</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewLeague">Create new league</button>
@@ -14,15 +14,25 @@
             </div>
         </div>
     </div>
-    <table class="table" id="leagueList"><thead class="table-light"></thead></table>
+    <table class="table" id="leagueList">
+        <thead class="table-light">
+            <th class="colA"></th>
+            <th class="colB">#</th>
+            <th class="colC">Name</th>
+            <th class="colD">Sport</th>
+            <th class="colE">Register date</th>
+            <th class="colF">Status</th>
+            <th class="colG"></th>
+        </thead>
+    </table>
 </div>
 
 <figure class="text-center leagueAlert d-none my-5">
     <blockquote class="blockquote">
-        <p>Does not manage any league</p>
+        <p class="labelCardLeague">Does not manage any league</p>
     </blockquote>
     <figcaption class="blockquote-footer">
-        Whenever you want, you can register a new league by <cite title="clicking here"> <a href="javascript:void(0);" id="btnPnlLeague" class="">clicking here</a> </cite>
+        <texto class="subLabel1">Whenever you want, you can register a new league by</texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnPnlLeague" class=""><texto class="subLabel2" >clicking here</texto></a> </cite>
     </figcaption>
 </figure>
      
@@ -31,30 +41,30 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle2">Add new league</h5>
+                <h5 class="modal-title lblNewLeague" id="modalTitle2">Add new league</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body mdbyLeague">
                 <form id="frmLeague">
                     <input type="hidden" name="idLeague" id="idLeague" value="0">
                     <div class="mb-3">
-                        <label for="inputNameL" class="form-label">League Name</label>
+                        <label for="inputNameL" class="form-label lblInputName">League Name</label>
                         <input type="text" name="inputNameL" class="form-control" id="inputNameL">              
                     </div>
                     <select class="form-select mb-3" name="sportType" id="sportType" aria-label="Default select example">
-                        <option value="0" selected>Select sport</option>
-                        <option value="1">Soccer</option>
-                        <option value="2">Basketball</option>
-                        <option value="3">Football</option>
+                        <option class="lblOption" value="0" selected>Select sport</option>
+                        <option class="dp1" value="1">Soccer</option>
+                        <option class="dp2" value="2">Basketball</option>
+                        <option class="dp3" value="3">Football</option>
                     </select>
                     <div class="mb-3">
-                        <label for="imageleague" class="form-label">League image</label>
+                        <label for="imageleague" class="form-label lblimgPreview">League image</label>
                         <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
                         <input class="form-control form-control-sm" id="imageleague" name="imageleague" type="file" accept="image/*">
                     </div>
                     <div class="form-check form-switch mb-3 d-none">
                         <input class="form-check-input" type="checkbox" id="chkActive">
-                        <label class="form-check-label switch" for="chkActive">Active</label>
+                        <label class="form-check-label switch labelActive" for="chkActive">Active</label>
                     </div> 
                     <button type="button" class="btn btn-primary" id="btnRegisterLeague">Submit</button>
                     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
@@ -78,7 +88,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary btnModal" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="cropImage">Apply</button>
             </div>
         </div>
@@ -118,7 +128,7 @@
 <!-- Panel lateral para invitar al usuario a crear una nueva liga -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasLeague" aria-labelledby="offcanvasWithBackdropLabel"  >
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Create a new league</h5>
+        <h5 class="offcanvas-title lblNewLeague" id="offcanvasWithBackdropLabel">Create a new league</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body"></div>
@@ -132,6 +142,9 @@
         countMyLeague = false;
 
     $(document).ready(function(){
+        // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
+        currentSection = "league";
+
         currentLeague= null;
 
         // Lista de ligas propias e invitadas del usuario
@@ -139,7 +152,7 @@
 
         // resetear el formulario para nueva liga
         $("#tmpNewLeague").on("click", function(){
-            $("#modalTitle2").html(`Add new league`);
+            // $("#modalTitle2").html(`Add new league`);
 
             $("#inputNameL").val("");
             $("#sportType").val("0");
@@ -329,6 +342,8 @@
             // Iniciar componentes compartidos
             initComponent();
         });
+
+        changePageLang();
     });
 
     function fnRegisterLeague(){
@@ -418,21 +433,18 @@
                         },
                         {
                             data: 'id',
-                            title: '#',
                             render: function(data, type, row){
                                 return pad(data, 5);
                             }
                         },
                         {
                             data: 'name',
-                            title: 'Name',
                             render: function(data, type, row){
                                 return `<a href="http://localhost/clubtres/league/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
                             }
                         },
                         {
                             data: 'sport',
-                            title: 'Sport',
                             render: function(data, type, row){
                                 let strSport = "";
                                 switch (data) {
@@ -454,17 +466,14 @@
                         },
                         {
                             data: 'register_date',
-                            title: 'Register date'
                         },
                         {
                             data: 'status',
-                            title: 'Status',
                             render: function(data, type, row){
                                 return (data== 1) ? "Active" : "Disabled";
                             }
                         },
                         {
-                            title: '',
                             data: 'status',
                             orderable: false,
                             class: "text-center",
@@ -503,7 +512,7 @@
 
                             let data = getData($(this), dataTableLeague);
 
-                            $("#modalTitle2").html(`Edit ${data.name} League`);
+                            // $("#modalTitle2").html(`Edit ${data.name} League`);
 
                             $("#inputNameL").val(data.name);
                             $("#sportType").val(data.sport);
@@ -751,5 +760,36 @@
                 });
             }
         });
+    }
+
+    // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+    function changePageLang(){
+        $(".pageTitle").html(actualLenguaje[currentSection].pageTitle);
+        $("#tmpNewLeague").html(actualLenguaje[currentSection].tmpNewLeague);
+
+        $(".labelCardLeague").html(actualLenguaje[currentSection].labelCardLeague);
+        $(".subLabel1").html(actualLenguaje[currentSection].subLabel1);
+        $(".subLabel2").html(actualLenguaje[currentSection].subLabel2);
+
+        $(".lblNewLeague").html(actualLenguaje[currentSection].lblNewLeague);
+        $(".lblInputName").html(actualLenguaje[currentSection].lblInputName);
+        $(".lblOption").html(actualLenguaje[currentSection].lblOption);
+
+        $(".dp1").html(actualLenguaje[currentSection].dp1);
+        $(".dp2").html(actualLenguaje[currentSection].dp2);
+        $(".dp3").html(actualLenguaje[currentSection].dp3);
+
+        $(".lblimgPreview").html(actualLenguaje[currentSection].lblimgPreview);
+        $(".labelActive").html(actualLenguaje[currentSection].labelActive);
+        $("#btnRegisterLeague").html(actualLenguaje[currentSection].textBtn);
+
+        $("#modalLabel").html(actualLenguaje[currentSection].titleModal);
+        $(".btnModal").html(actualLenguaje[currentSection].btnModal);
+        $("#cropImage").html(actualLenguaje[currentSection].cropImage);
+
+        $(".colC").html(actualLenguaje[currentSection].colC);
+        $(".colD").html(actualLenguaje[currentSection].colD);
+        $(".colE").html(actualLenguaje[currentSection].colE);
+        $(".colF").html(actualLenguaje[currentSection].colF);
     }
 </script>
