@@ -25,7 +25,8 @@
 			"linkTeam": "Teams",
 			"linkInvitation": "Invitations",
 			"linkGames": "Games",
-			"linkBusiness": "Business"
+			"linkBusiness": "Business",
+			"linkSettings": "Settings"
 		},
 		"home":{
 			"card1": "My teams",
@@ -107,6 +108,29 @@
 			"labelTeam1": "* Team 1",
 			"labelTeam2": "* Team 2",
 			"labelDate": "* Event date"
+		},
+		"Business":{
+			"pageTitle": "Business",
+			"labelBtnNew": "Create new business",
+			"blackTitle": "Does not manage any business",
+			"blackA": "Whenever you want, you can register a new business by",
+			"blackB": "clicking here",
+			"modalTitle2": "Business details",
+			"labelInputName": "Name",
+			"labelInputDesc": "Description",
+			"labelInputAddres": "Address",
+			"labelInputNumber": "Phone number",
+			"labelInputWeb": "Web page",
+			"labelCheck": "Active",
+			"labelImage": "Business image",
+			"btnRegisterBusiness": "Submit",
+			"labelButonC": "Cancel",
+			"modalLabel": "Edit / Crop the photo",
+			"cropImage": "Apply"
+		},
+		"Settings":{
+			"pageTitle": "Settings",
+			"labelBtn": "Save changes"
 		}
 	},
 	"es":{
@@ -135,7 +159,8 @@
 			"linkTeam": "Equipos",
 			"linkInvitation": "Invitaciones",
 			"linkGames": "Juegos",
-			"linkBusiness": "Negocios"
+			"linkBusiness": "Negocios",
+			"linkSettings": "Configuraciones"
 		},
 		"home":{
 			"card1": "Mis equipos",
@@ -217,6 +242,29 @@
 			"labelTeam1": "* Equipo 1",
 			"labelTeam2": "* Equipo 2",
 			"labelDate": "* Fecha del evento"
+		},
+		"Business":{
+			"pageTitle": "Negocios",
+			"labelBtnNew": "Registrar nuevo negocio",
+			"blackTitle": "No administra ningún negocio",
+			"blackA": "Siempre que lo desee, puede registrar un nuevo negocio haciendo",
+			"blackB": "clic aquí",
+			"modalTitle2": "Detalles del negocio",
+			"labelInputName": "Nombre",
+			"labelInputDesc": "Descripcion",
+			"labelInputAddres": "Direccion",
+			"labelInputNumber": "Numero de telefono",
+			"labelInputWeb": "Pagina web",
+			"labelCheck": "Activo",
+			"labelImage": "Imagen del comercio",
+			"btnRegisterBusiness": "Enviar",
+			"labelButonC": "Cancelar",
+			"modalLabel": "Editar y recortar la foto",
+			"cropImage": "Aplicar"
+		},
+		"Settings":{
+			"pageTitle": "Configuraciones",
+			"labelBtn": "Guardar cambios"
 		}
 	}
 }
