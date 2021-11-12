@@ -6,22 +6,32 @@
 
 <div class="dvContro">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Business</h1>
+        <h1 class="h2 pageTitle">Business</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary tmpNewBusiness">Create new business</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary tmpNewBusiness labelBtnNew">Create new business</button>
             </div>
         </div>
     </div>
-    <table class="table" id="businessList"><thead class="table-light"></thead></table>
+    <table class="table" id="businessList">
+        <thead class="table-light">
+            <th class="colA">#</th>
+            <th class="colB">Name</th>
+            <th class="colC">Description</th>
+            <th class="colD">Address</th>
+            <th class="colE">Phone</th>
+            <th class="colF">Web page</th>
+            <th class="colG"></th>
+        </thead>
+    </table>
 </div>
 
 <figure class="text-center businessAlert d-none my-5">
     <blockquote class="blockquote">
-        <p>Does not manage any business</p>
+        <p class="blackTitle">Does not manage any business</p>
     </blockquote>
     <figcaption class="blockquote-footer">
-        Whenever you want, you can register a new business by <cite title="clicking here"> <a href="javascript:void(0);" class="tmpNewBusiness">clicking here</a> </cite>
+        <texto class="blackA">Whenever you want, you can register a new business by</texto> <cite title="clicking here"> <a href="javascript:void(0);" class="tmpNewBusiness"> <texto class="blackB">clicking here</texto> </a> </cite>
     </figcaption>
 </figure>
      
@@ -39,46 +49,46 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="mb-3">
-                                <label for="inputName" class="form-label">Name</label>
+                                <label for="inputName" class="form-label labelInputName">Name</label>
                                 <input type="text" name="inputName" class="form-control" id="inputName">              
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
-                                <label for="inputDescription" class="form-label">Description</label>
+                                <label for="inputDescription" class="form-label labelInputDesc">Description</label>
                                 <textarea  name="inputDescription" class="form-control" id="inputDescription" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
-                                <label for="inputAddress" class="form-label">Address</label>
+                                <label for="inputAddress" class="form-label labelInputAddres">Address</label>
                                 <textarea  name="inputAddress" class="form-control" id="inputAddress" rows="2"></textarea>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="inputNumber" class="form-label">Phone number</label>
+                                <label for="inputNumber" class="form-label labelInputNumber">Phone number</label>
                                 <input type="text" name="inputNumber" class="form-control" id="inputNumber">              
                             </div>
                             <div class="mb-3">
-                                <label for="inputWeb" class="form-label">Web page</label>
+                                <label for="inputWeb" class="form-label labelInputWeb">Web page</label>
                                 <input type="text" name="inputWeb" class="form-control" id="inputWeb">              
                             </div>
                             <div class="form-check form-switch mb-3 d-none">
                                 <input class="form-check-input" type="checkbox" id="chkActive">
-                                <label class="form-check-label switch" for="chkActive">Active</label>
+                                <label class="form-check-label switch labelCheck" for="chkActive">Active</label>
                             </div> 
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="imageBusiness" class="form-label">Business image</label>
+                                <label for="imageBusiness" class="form-label labelImage">Business image</label>
                                 <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
                                 <input class="form-control form-control-sm" id="imageBusiness" name="imageBusiness" type="file" accept="image/*">
                             </div>
                         </div>                        
                     </div>
                     <button type="button" class="btn btn-primary" id="btnRegisterBusiness">Submit</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary labelButonC" data-bs-dismiss="modal">Close</button>
                 </form>
             </div>
         </div>
@@ -99,7 +109,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary labelButonC" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="cropImage">Apply</button>
             </div>
         </div>
@@ -113,6 +123,9 @@
         dataTableBusiness = null;
 
     $(document).ready(function(){
+        // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
+        currentSection = "Business";
+
         // Registrar business
         $("#btnRegisterBusiness").on("click", fnRegisterBusiness);
 
@@ -209,7 +222,7 @@
 
         // resetear el formulario para nuevo comercio
         $(".tmpNewBusiness").on("click", function(){
-            $("#modalTitle2").html(`Add new business`);
+            // $("#modalTitle2").html(`Add new business`);
 
             $("#inputName").val("");
             $("#inputDescription").val("");
@@ -230,6 +243,8 @@
 
         // Listar comercios
         fnListBusiness();
+
+        changePageLang();
     });
 
     function fnRegisterBusiness(){
@@ -295,36 +310,29 @@
                     [
                         {
                             data: 'id',
-                            title: '#',
                             render: function(data, type, row){
                                 return pad(data, 5);
                             }
                         },
                         {
                             data: 'nombre',
-                            title: 'Name',
                             render: function(data, type, row){
                                 return `<a href="http://localhost/clubtres/business/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
                             }
                         },
                         {
                             data: 'Descripcion',
-                            title: 'Description'
                         },
                         {
                             data: 'Direccion',
-                            title: 'Address'
                         },
                         {
                             data: 'telefono',
-                            title: 'Phone'
                         },
                         {
                             data: 'web',
-                            title: 'Web Page'
                         },
                         {
-                            title: '',
                             data: null,
                             orderable: false,
                             class: "text-center",
@@ -343,7 +351,7 @@
 
                             let data = getData($(this), dataTableBusiness);
 
-                            $("#modalTitle2").html(`Edit ${data.nombre} Business`);
+                            // $("#modalTitle2").html(`Edit ${data.nombre} Business`);
 
                             $("#inputName").val(data.nombre);
                             $("#inputDescription").val(data.Descripcion);
@@ -394,5 +402,32 @@
                 ajaxResponseError(jqXHR, textStatus);
             }
         });
+    }
+
+    // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+    function changePageLang(){
+        $(".pageTitle").html(actualLenguaje[currentSection].pageTitle);
+        $(".labelBtnNew").html(actualLenguaje[currentSection].labelBtnNew);
+        $(".blackTitle").html(actualLenguaje[currentSection].blackTitle);
+        $(".blackA").html(actualLenguaje[currentSection].blackA);
+        $(".blackB").html(actualLenguaje[currentSection].blackB);
+        $("#modalTitle2").html(actualLenguaje[currentSection].modalTitle2);
+        $(".labelInputName").html(actualLenguaje[currentSection].labelInputName);
+        $(".labelInputDesc").html(actualLenguaje[currentSection].labelInputDesc);
+        $(".labelInputAddres").html(actualLenguaje[currentSection].labelInputAddres);
+        $(".labelInputNumber").html(actualLenguaje[currentSection].labelInputNumber);
+        $(".labelInputWeb").html(actualLenguaje[currentSection].labelInputWeb);
+        $(".labelCheck").html(actualLenguaje[currentSection].labelCheck);
+        $(".labelImage").html(actualLenguaje[currentSection].labelImage);
+        $("#btnRegisterBusiness").html(actualLenguaje[currentSection].btnRegisterBusiness);
+        $(".labelButonC").html(actualLenguaje[currentSection].labelButonC);
+        $("#modalLabel").html(actualLenguaje[currentSection].modalLabel);
+        $("#cropImage").html(actualLenguaje[currentSection].cropImage);
+
+        $(".colB").html(actualLenguaje[currentSection].labelInputName);
+        $(".colC").html(actualLenguaje[currentSection].labelInputDesc);
+        $(".colD").html(actualLenguaje[currentSection].labelInputAddres);
+        $(".colE").html(actualLenguaje[currentSection].labelInputNumber);
+        $(".colF").html(actualLenguaje[currentSection].labelInputWeb);
     }
 </script>

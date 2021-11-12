@@ -6,10 +6,10 @@
 
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Settings</h1>
+        <h1 class="h2 pageTitle">Settings</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary btnSaveChanges"><i class="bi bi-check2"></i> Save changes</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary btnSaveChanges"><i class="bi bi-check2"></i> <texto class="labelBtn">Save changes</texto> </button>
             </div>
         </div>
     </div>
@@ -82,10 +82,15 @@
         userPhoto = null;
 
     $(document).ready(function(){
+        // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
+        currentSection = "Settings";
+
         $(".btnSaveChanges").on("click", saveData);
 
         fnGetconfig();
         initComponent();
+
+        changePageLang();
     });
 
     function fnGetconfig(){
@@ -94,8 +99,6 @@
         };
         $.post("../core/controllers/user.php", objData, function(result) {
             autData = result;
-
-            console.log(autData);
 
             $("#inputName").val(autData.name);
             $("#inputLastName").val(autData.last_name);
@@ -240,5 +243,11 @@
                 });
             }
         });
+    }
+
+    // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+    function changePageLang(){
+        $(".pageTitle").html(actualLenguaje[currentSection].pageTitle);
+        $(".labelBtn").html(actualLenguaje[currentSection].labelBtn);
     }
 </script>
