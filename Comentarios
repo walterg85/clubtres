@@ -42,3 +42,12 @@ Clubtres/user/index.php linea 56s
 
 Metodo para setear digitos a la izquierda
 Clubtres/masterpage.php linea 41
+
+Panel lateral para mostrar invitaciones enviadas
+Clubtres/account/invitation.html linea 21
+
+Metodo para buscar las invitaciones enviadas
+Clubtres/account/invitation.html linea 145
+
+Se evaliua si existe alguna invitacion enviada
+Clubtres/account/invitation.html linea 152
