@@ -51,3 +51,15 @@ Clubtres/account/invitation.html linea 145
 
 Se evaliua si existe alguna invitacion enviada
 Clubtres/account/invitation.html linea 152
+
+Se evaliua si existe alguna invitacion enviada, se muestra el boton y se activa el panel para mostrar el listado
+Clubtres/account/invitation.html linea 205
+
+se evalua tipo de invitacion enviada, para dibujar la tabla
+Clubtres/account/invitation.html linea 212
+
+Se obtiene el evento click del boton heredado, para poder eliminar una invitacion enviada
+Clubtres/account/invitation.html linea 239
+
+Se recicla metodo para actualizar una initacion
+Clubtres/account/invitation.html linea 257
