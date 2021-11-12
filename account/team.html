@@ -14,7 +14,16 @@
             </div>
         </div>
     </div>
-    <table class="table" id="teamList"><thead class="table-light"></thead></table>    
+    <table class="table" id="teamList">
+        <thead class="table-light">
+            <th class="colA"></th>
+            <th class="colB">#</th>
+            <th class="colC">Name</th>
+            <th class="colD">Register date</th>
+            <th class="colE">Status</th>
+            <th class="colF"></th>
+        </thead>
+    </table>    
 </div>
 
 <figure class="text-center teamAlert d-none my-5">
@@ -31,24 +40,24 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle">Add new team</h5>
+                <h5 class="modal-title labelMdolaTitle" id="modalTitle">Add new team</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body mdbyTeam">
                 <form id="frmTeam">
                     <input type="hidden" name="idTeam" id="idTeam" value="0">
                     <div class="mb-3">
-                        <label for="inputName" class="form-label">Team Name</label>
+                        <label for="inputName" class="form-label labelInputName">Team Name</label>
                         <input type="text" name="inputName" class="form-control" id="inputName" autocomplete="off">              
                     </div>
                     <div class="mb-3">
-                        <label for="imageteam" class="form-label">Team image</label>
+                        <label for="imageteam" class="form-label inputImageTeam">Team image</label>
                         <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
                         <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
                     </div>
                     <div class="form-check form-switch mb-3 d-none">
                         <input class="form-check-input" type="checkbox" id="chkActive">
-                        <label class="form-check-label switch" for="chkActive">Active</label>
+                        <label class="form-check-label switch inputActive" for="chkActive">Active</label>
                     </div> 
                     <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
                     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
@@ -72,7 +81,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary btnModal" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="cropImage">Apply</button>
             </div>
         </div>
@@ -82,7 +91,7 @@
 <!-- Panel lateral para invitar al usuario a crear un nuevo equipo -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasTeam" aria-labelledby="offcanvasWithBackdropLabel"  >
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Create a new team</h5>
+        <h5 class="offcanvas-title labelMdolaTitle" id="offcanvasWithBackdropLabel">Create a new team</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body"></div>
@@ -104,7 +113,7 @@
 
         // resetear el formulario para nuevo team
         $("#tmpNewTeam").on("click", function(){
-            $("#modalTitle").html(`Add new team`);
+            // $("#modalTitle").html(`Add new team`);
 
             $("#inputName").val("");
             $("#idTeam").val(0);
@@ -276,31 +285,26 @@
                         },
                         {
                             data: 'id',
-                            title: '#',
                             render: function(data, type, row){
                                 return pad(data, 5);
                             }
                         },
                         {
                             data: 'name',
-                            title: 'Name',
                             render: function(data, type, row){
                                 return `<a href="http://localhost/clubtres/team/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
                             }
                         },
                         {
-                            data: 'register_date',
-                            title: 'Register date'
+                            data: 'register_date'
                         },
                         {
                             data: 'active',
-                            title: 'Status',
                             render: function(data, type, row){
                                 return (data== 1) ? "Active" : "Disabled";
                             }
                         },
                         {
-                            title: '',
                             data: 'active',
                             orderable: false,
                             class: "text-center",
@@ -338,7 +342,7 @@
 
                             let data = getData($(this), dataTableTeam);
 
-                            $("#modalTitle").html(`Edit ${data.name} Team´s`);
+                            // $("#modalTitle").html(`Edit ${data.name} Team´s`);
 
                             $("#inputName").val(data.name);
                             $("#idTeam").val(data.id);
@@ -569,5 +573,18 @@
         $(".subLabel1").html(actualLenguaje[currentSection].subLabel1);
         $(".subLabel2").html(actualLenguaje[currentSection].subLabel2);
 
+        $(".labelMdolaTitle").html(actualLenguaje[currentSection].labelMdolaTitle);
+        $(".labelInputName").html(actualLenguaje[currentSection].labelInputName);
+        $(".inputImageTeam").html(actualLenguaje[currentSection].inputImageTeam);
+        $(".inputActive").html(actualLenguaje[currentSection].inputActive);
+        $("#btnRegisterTeam").html(actualLenguaje[currentSection].btnRegisterTeam);
+
+        $("#modalLabel").html(actualLenguaje[currentSection].titleModal);
+        $(".btnModal").html(actualLenguaje[currentSection].btnModal);
+        $("#cropImage").html(actualLenguaje[currentSection].cropImage);
+
+        $(".colC").html(actualLenguaje[currentSection].colC);
+        $(".colD").html(actualLenguaje[currentSection].colD);
+        $(".colE").html(actualLenguaje[currentSection].colE);
     }
 </script>
