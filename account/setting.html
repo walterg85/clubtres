@@ -20,7 +20,7 @@
                 <center>
                     <figure class="figure">
                         <img src="https://api-private.atlassian.com/users/ac836115de21ba9846f0fc2653ddc231/avatar" class="figure-img img-fluid rounded imgPreview">
-                        <figcaption class="figure-caption">Change your avatar</figcaption>
+                        <figcaption class="figure-caption labelCaption">Change your avatar</figcaption>
                     </figure>
                 </center>
                 <div class="input-group mb-3">
@@ -31,16 +31,16 @@
             <div class="col-5">
                 <div class="row">
                     <div class="col-6">
-                        <label for="inputName" class="form-label">Name</label>
+                        <label for="inputName" class="form-label labelInputName">Name</label>
                         <input type="text" class="form-control" placeholder="Your name" id="inputName" name="inputName" autocomplete="off" required> 
                     </div>
                     <div class="col-6 mb-2">
-                        <label for="inputLastName" class="form-label">Last name</label>
+                        <label for="inputLastName" class="form-label labelInputLastname">Last name</label>
                         <input type="text" class="form-control" placeholder="Your Last name" id="inputLastName" name="inputLastName" autocomplete="off" required>
                     </div>
 
                     <div class="col-6">
-                        <label for="inputEmail" class="form-label">Email</label>
+                        <label for="inputEmail" class="form-label labelInputmail">Email</label>
                         <input type="text" class="form-control" placeholder="Your email" id="inputEmail" name="inputEmail" readonly>
                     </div>
                     <div class="col-6">
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary labelButonC" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-danger" id="cropImage">Apply</button>
             </div>
         </div>
@@ -249,5 +249,16 @@
     function changePageLang(){
         $(".pageTitle").html(actualLenguaje[currentSection].pageTitle);
         $(".labelBtn").html(actualLenguaje[currentSection].labelBtn);
+        $(".labelCaption").html(actualLenguaje[currentSection].labelCaption);
+        $(".labelInputName").html(actualLenguaje[currentSection].labelInputName);
+        $(".labelInputLastname").html(actualLenguaje[currentSection].labelInputLastname);
+        $(".labelInputmail").html(actualLenguaje[currentSection].labelInputmail);
+        $(".lblPassword").html(actualLenguaje[currentSection].lblPassword);
+        $("#inputName").attr("placeholder", actualLenguaje[currentSection].inputName);
+        $("#inputLastName").attr("placeholder", actualLenguaje[currentSection].inputLastName);
+        $("#inputPass").attr("placeholder", actualLenguaje[currentSection].inputPass);
+        $(".labelButonC").html(actualLenguaje[currentSection].labelButonC);
+        $("#modalLabel").html(actualLenguaje[currentSection].modalLabel);
+        $("#cropImage").html(actualLenguaje[currentSection].cropImage);
     }
 </script>

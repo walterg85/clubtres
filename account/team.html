@@ -189,8 +189,6 @@
             // Iniciar componentes compartidos
             initComponent();
         });
-
-        changePageLang();
     });
 
     function fnRegisterTeam(){
@@ -321,8 +319,8 @@
                                             </button>
                                             <form class="dropdown-menu p-4 dropdown-menu-lg-end">
                                                 <div class="mb-3">
-                                                    <label for="inputPlayerId${row.id}" class="form-label">Enter player id</label>
-                                                    <input type="email" class="form-control" id="inputPlayerId${row.id}" placeholder="Player ID" autocomplete="off">
+                                                    <label for="inputPlayerId${row.id}" class="form-label inputLabelInvite">Enter player id</label>
+                                                    <input type="email" class="form-control labelInputId" id="inputPlayerId${row.id}" placeholder="Player ID" autocomplete="off">
                                                 </div>
                                                 <button type="button" class="btn btn-success tmpInviteTeam">Invite</button>
                                             </form>
@@ -437,6 +435,10 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 ajaxResponseError(jqXHR, textStatus);
+            },
+            complete: function() {
+                // Se hace el llamado del metodo de traduccion aqui para esperar a que se pinte la tabla
+                changePageLang();
             }
         });
     }
@@ -586,5 +588,9 @@
         $(".colC").html(actualLenguaje[currentSection].colC);
         $(".colD").html(actualLenguaje[currentSection].colD);
         $(".colE").html(actualLenguaje[currentSection].colE);
+
+        $(".inputLabelInvite").html(actualLenguaje[currentSection].inputLabelInvite);
+        $(".labelInputId").attr("placeholder", actualLenguaje[currentSection].labelInputId);
+        $(".tmpInviteTeam").html(actualLenguaje[currentSection].tmpInviteTeam);
     }
 </script>
