@@ -207,13 +207,20 @@
 
 			$cmd = '
 				SELECT 
-					id, 
-					udestiny_id,
-					event_id, 
-					event_type, 
-					register_date, 
-					(SELECT CONCAT(NAME, " ", last_name) FROM user WHERE id = udestiny_id) AS toName  
-				FROM invitation 
+					i.id, 
+					i.udestiny_id,
+					i.event_type, 
+					i.register_date, 
+					(SELECT CONCAT(NAME, " ", last_name) FROM user WHERE id = i.udestiny_id) AS toName,
+					CASE
+					    WHEN i.event_type = 0 THEN (Select name from team where id = i.event_id)
+					    WHEN i.event_type > 0 THEN (Select name from league where id = i.event_id)
+					END AS eventName,
+					CASE
+					    WHEN i.event_type > 0 THEN (Select name from team where id = i.event_type)
+					    ELSE ""
+					END AS TeamName
+				FROM invitation AS i
 				WHERE uorigin_id =:userId
 			';
 

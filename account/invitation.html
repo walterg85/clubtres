@@ -24,7 +24,51 @@
         <h5 class="offcanvas-title lblmyInvitations" id="offcanvasWithBackdropLabel">Manage invitations</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body"></div>
+    <div class="offcanvas-body">
+        <p class="lead">Invitations to join teams</p><hr>
+        <table class="table">
+            <thead class="table-light">
+                <th class="">Date</th>
+                <th class="">Player</th>
+                <th class="">invited for</th>
+                <th class=""></th>
+            </thead>
+            <tbody id="tblInvTeam"></tbody>
+            <tr class="rowClone d-none">
+                <td class="lblDate"></td>
+                <td class="lblPlayer"></td>
+                <td class="lblTeam"></td>
+                <td>
+                    <a href="javascript:void(0);" class="btn btn-outline-danger btnRechazeInvitation">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+        <p class="lead mt-5">Invitations to join leagues</p><hr>
+        <table class="table">
+            <thead class="table-light">
+                <th class="">Date</th>
+                <th class="">Team</th>
+                <th class="">Owner</th>
+                <th class="">invited for</th>
+                <th class=""></th>
+            </thead>
+            <tbody id="tblInvLeague"></tbody>
+            <tr class="row2Clone d-none">
+                <td class="lblDate"></td>
+                <td class="lblTeam"></td>
+                <td class="lblOwner"></td>
+                <td class="lblLeague"></td>
+                <td>
+                    <a href="javascript:void(0);" class="btn btn-outline-danger btnRechazeInvitation">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -105,7 +149,8 @@
                                 let objData = {
                                     "_method": "updateInvitation",
                                     "action": 2,
-                                    "invitationId": data.id
+                                    "invitationId": data.id,
+                                    "event_type": data.event_type
                                 };
 
                                 updateInvitation(objData);                                
@@ -146,6 +191,7 @@
         $.post("../core/controllers/user.php", objData, function(result) {
             alert(result.message);
             fnListInvitation();
+            showInvitations();
         }).fail( function(jqXHR, textStatus, errorThrown){
             ajaxResponseError(jqXHR, textStatus);
         });
@@ -160,8 +206,58 @@
         $.post("../core/controllers/user.php", objData, function(result) {
             // Se evaliua si existe alguna invitacion enviada, se muestra el boton y se activa el panel para mostrar el listado
             if(result.data){
-                $("#btnShowmyinvitations").removeClass("d-none");
+                if(result.data.length > 0){
+                    $("#btnShowmyinvitations").removeClass("d-none");
+                }else{
+                    $("#btnShowmyinvitations").addClass("d-none");
+                }
+
+                $("#tblInvTeam").html("");
+                $("#tblInvLeague").html("");
+
+                $.each(result.data, function(index, item){
+                    // se evalua tipo de invitacion enviada, para dibujar la tabla
+                    if(item.event_type == 0){
+                        let row = $(".rowClone").clone();
+
+                        row.find(".lblDate").html(item.register_date);
+                        row.find(".lblPlayer").html(`${pad(item.udestiny_id, 5)} ${item.toName}`);
+                        row.find(".lblTeam").html(item.eventName);
+                        row.find(".btnRechazeInvitation").data("event", item);
+
+                        row.removeClass("rowClone d-none");
+                        $(row).appendTo("#tblInvTeam");
+                    } else {
+                        let row = $(".row2Clone").clone();
+
+                        row.find(".lblDate").html(item.register_date);
+                        row.find(".lblTeam").html(item.TeamName);
+                        row.find(".lblOwner").html(`${pad(item.udestiny_id, 5)} ${item.toName}`);
+                        row.find(".lblLeague").html(item.eventName);
+                        row.find(".btnRechazeInvitation").data("event", item);
+
+                        row.removeClass("row2Clone d-none");
+                        $(row).appendTo("#tblInvLeague");
+                    }
+                });
             }
+        }).done( function(){
+            $(".btnRechazeInvitation").unbind().click(function(){
+                // Se obtiene el evento click del boton heredado, para poder eliminar una invitacion enviada
+                let data = $(this).data("event");
+
+                if (confirm(`Are you sure to delete this invitation?`)) {
+                    let objData = {
+                        "_method": "updateInvitation",
+                        "action": 2,
+                        "invitationId": data.id,
+                        "event_type": data.event_type
+                    };
+
+                    // Se recicla metodo para actualizar una initacion
+                    updateInvitation(objData);
+                }
+            });
         });
     }
 
