@@ -60,7 +60,13 @@
 			"colC": "Name",
 			"colD": "Sport",
 			"colE": "Register date",
-			"colF": "Status"
+			"colF": "Status",
+			"inputLabelInvite": "Enter team id",
+			"labelInputId": "Team ID",
+			"tmpInviteLeague": "Invite",
+			"subColA": "Name",
+			"subColB": "Register date",
+			"staticBackdropLabel": "Team member's"
 		},
 		"team":{
 			"pageTitle": "Teams",
@@ -78,7 +84,10 @@
 			"cropImage": "Apply",
 			"colC": "Name",
 			"colD": "Register date",
-			"colE": "Status"
+			"colE": "Status",
+			"inputLabelInvite": "Enter player id",
+			"labelInputId": "Player ID",
+			"tmpInviteTeam": "Invite"
 		},
 		"invitations":{
 			"pageTitle": "Invitations",
@@ -132,7 +141,18 @@
 		},
 		"Settings":{
 			"pageTitle": "Settings",
-			"labelBtn": "Save changes"
+			"labelBtn": "Save changes",
+			"labelCaption": "Change your avatar",
+			"labelInputName": "Name",
+			"labelInputLastname": "Last name",
+			"labelInputmail": "Email",
+			"lblPassword": "Change Password",
+			"inputName": "Your name",
+			"inputLastName": "Your Last name",
+			"inputPass": "New Password",
+			"labelButonC": "Cancel",
+			"modalLabel": "Edit / Crop the photo",
+			"cropImage": "Apply"
 		}
 	},
 	"es":{
@@ -196,7 +216,13 @@
 			"colC": "Nombre",
 			"colD": "Deporte",
 			"colE": "Fecha de registro",
-			"colF": "Estatus"
+			"colF": "Estatus",
+			"inputLabelInvite": "Ingresa el ID de equipo",
+			"labelInputId": "ID de equipo",
+			"tmpInviteLeague": "Invitar",
+			"subColA": "Nombre de equipo",
+			"subColB": "Fecha de registro",
+			"staticBackdropLabel": "Miembros del equipo"
 		},
 		"team":{
 			"pageTitle": "Equipos",
@@ -214,7 +240,10 @@
 			"cropImage": "Aplicar",
 			"colC": "Nombre",
 			"colD": "Fecha de registro",
-			"colE": "Estatus"
+			"colE": "Estatus",
+			"inputLabelInvite": "Ingresa el ID de jugador",
+			"labelInputId": "ID de jugador",
+			"tmpInviteTeam": "Invitar"
 		},
 		"invitations":{
 			"pageTitle": "Invitaciones",
@@ -268,7 +297,18 @@
 		},
 		"Settings":{
 			"pageTitle": "Configuraciones",
-			"labelBtn": "Guardar cambios"
+			"labelBtn": "Guardar cambios",
+			"labelCaption": "Cambiar avatar",
+			"labelInputName": "Nombre",
+			"labelInputLastname": "Apellido",
+			"labelInputmail": "Correo electrónico",
+			"lblPassword": "Cambiar Contraseña",
+			"inputName": "Tu nombre",
+			"inputLastName": "Tu Apellido",
+			"inputPass": "Contraseña nueva",
+			"labelButonC": "Cancelar",
+			"modalLabel": "Editar y recortar la foto",
+			"cropImage": "Aplicar"
 		}
 	}
 }

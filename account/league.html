@@ -111,7 +111,7 @@
                     <thead>
                         <tr>
                           <th scope="col">#</th>
-                          <th scope="col">Name</th>
+                          <th class="subColA" scope="col">Name</th>
                           <th scope="col"></th>
                         </tr>
                     </thead>
@@ -139,7 +139,9 @@
         maxCroppedWidth = 500,
         maxCroppedHeight = 400,
         dataTableLeague = null,
-        countMyLeague = false;
+        countMyLeague = false,
+        subColA = "",
+        subColB = "";
 
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
@@ -342,8 +344,6 @@
             // Iniciar componentes compartidos
             initComponent();
         });
-
-        changePageLang();
     });
 
     function fnRegisterLeague(){
@@ -490,8 +490,8 @@
                                             </button>
                                             <form class="dropdown-menu p-4 dropdown-menu-lg-end">
                                                 <div class="mb-3">
-                                                    <label for="inputTeamId${row.id}" class="form-label">Enter team id</label>
-                                                    <input type="email" class="form-control" id="inputTeamId${row.id}" placeholder="Team ID" autocomplete="off">
+                                                    <label for="inputTeamId${row.id}" class="form-label inputLabelInvite">Enter team id</label>
+                                                    <input type="text" class="form-control labelInputId" id="inputTeamId${row.id}" placeholder="Team ID" autocomplete="off">
                                                 </div>
                                                 <button type="button" class="btn btn-success tmpInviteLeague">Invite</button>
                                             </form>
@@ -617,6 +617,10 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 ajaxResponseError(jqXHR, textStatus);
+            },
+            complete: function() {
+                // Se hace el llamado del metodo de traduccion aqui para esperar a que s epinte la tabla
+                changePageLang();
             }
         });
     }
@@ -626,8 +630,8 @@
                         <thead>
                             <tr>
                               <th scope="col">#</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Register date</th>
+                              <th scope="col">${subColA}</th>
+                              <th scope="col">${subColB}</th>
                               <th scope="col"></th>
                             </tr>
                         </thead>
@@ -791,5 +795,15 @@
         $(".colD").html(actualLenguaje[currentSection].colD);
         $(".colE").html(actualLenguaje[currentSection].colE);
         $(".colF").html(actualLenguaje[currentSection].colF);
+
+        $(".inputLabelInvite").html(actualLenguaje[currentSection].inputLabelInvite);
+        $(".labelInputId").attr("placeholder", actualLenguaje[currentSection].labelInputId);
+        $(".tmpInviteLeague").html(actualLenguaje[currentSection].tmpInviteLeague);
+
+        subColA = actualLenguaje[currentSection].subColA;
+        $(".subColA").html(actualLenguaje[currentSection].colC);
+        subColB = actualLenguaje[currentSection].subColB;
+
+        $("#staticBackdropLabel").html(actualLenguaje[currentSection].staticBackdropLabel);
     }
 </script>

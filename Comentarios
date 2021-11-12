@@ -9,3 +9,9 @@ Clubtres/account/home.html linea 58
 
 Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
 Clubtres/account/home.html linea 144
+
+Se hace el llamado del metodo de traduccion aqui para esperar a que se pinte la tabla
+Clubtres/account/league.html linea 620
+
+Se hace el llamado del metodo de traduccion aqui para esperar a que se pinte la tabla
+Clubtres/account/team.html linea 439
