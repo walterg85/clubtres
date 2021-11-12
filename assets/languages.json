@@ -66,7 +66,49 @@
 			"tmpNewTeam": "Create new team",
 			"labelCardTeam": "Does not manage any team",
 			"subLabel1": "Whenever you want, you can register a new team by",
-			"subLabel2": "clicking here"
+			"subLabel2": "clicking here",
+			"labelMdolaTitle": "Teams details",
+			"labelInputName": "Team Name",
+			"inputImageTeam": "Team image",
+			"inputActive": "Active",
+			"btnRegisterTeam": "Submit",
+			"titleModal": "Edit / Crop the photo",
+			"btnModal": "Cancel",
+			"cropImage": "Apply",
+			"colC": "Name",
+			"colD": "Register date",
+			"colE": "Status"
+		},
+		"invitations":{
+			"pageTitle": "Invitations",
+			"btnShowmyinvitations": "Show sent invitations",
+			"colA": "From",
+			"colB": "Date",
+			"colC": "Message"
+		},
+		"Games":{
+			"pageTitle": "Games",
+			"lblnewGame": "Create new game",
+			"blackTitle": "Does not manage any game",
+			"blackA": "Whenever you want, you can register a new game by",
+			"blackB": "clicking here",
+			"mapaTitle": "Event location",
+			"btnClose": "Close",
+			"colB": "League",
+			"colC": "Sport",
+			"colD": "Event date",
+			"colE": "Teams",
+			"colF": "Status"
+		},
+		"newGame":{
+			"pageTitle": "New game",
+			"btnSavegame": "Save",
+			"btnCancelreg": "Cancel",
+			"labelMapa": "* Indicates the place where the event will take place",
+			"labeLeague": "* League",
+			"labelTeam1": "* Team 1",
+			"labelTeam2": "* Team 2",
+			"labelDate": "* Event date"
 		}
 	},
 	"es":{
@@ -136,7 +178,49 @@
 			"tmpNewTeam": "Registrar nuevo equipo",
 			"labelCardTeam": "No gestiona ningún equipo",
 			"subLabel1": "Siempre que lo desee, puede registrar un nuevo equipo haciendo",
-			"subLabel2": "clic aquí"
+			"subLabel2": "clic aquí",
+			"labelMdolaTitle": "Detalles del equipo",
+			"labelInputName": "Nombre del equipo",
+			"inputImageTeam": "Fotografia del equipo",
+			"inputActive": "Activo",
+			"btnRegisterTeam": "Enviar",
+			"titleModal": "Editar y recortar fotografia",
+			"btnModal": "Cancelar",
+			"cropImage": "Aplicar",
+			"colC": "Nombre",
+			"colD": "Fecha de registro",
+			"colE": "Estatus"
+		},
+		"invitations":{
+			"pageTitle": "Invitaciones",
+			"btnShowmyinvitations": "Mostrar invitaciones enviadas",
+			"colA": "De",
+			"colB": "Fecha",
+			"colC": "Mensaje"
+		},
+		"Games":{
+			"pageTitle": "Juegos",
+			"lblnewGame": "Registrar nuevo juego",
+			"blackTitle": "No gestiona ningún juego",
+			"blackA": "Siempre que lo desee, puede registrar un nuevo juego haciendo",
+			"blackB": "clic aquí",
+			"mapaTitle": "Lugar del evento",
+			"btnClose": "Cerrar",
+			"colB": "Liga",
+			"colC": "Deporte",
+			"colD": "Fecha del evento",
+			"colE": "Equipos",
+			"colF": "Estatus"
+		},
+		"newGame":{
+			"pageTitle": "Registrar juego",
+			"btnSavegame": "Registrar",
+			"btnCancelreg": "Cancelar",
+			"labelMapa": "* Indica el lugar donde se llevará a cabo el evento",
+			"labeLeague": "* Liga",
+			"labelTeam1": "* Equipo 1",
+			"labelTeam2": "* Equipo 2",
+			"labelDate": "* Fecha del evento"
 		}
 	}
 }

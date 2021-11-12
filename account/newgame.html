@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="../assets/plugins/datetimepicker/bootstrap-datetimepicker.min.css" />
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="lead">New game</h1>
+    <h1 class="lead pageTitle">New game</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary" id="btnSavegame">Save</button>
@@ -17,35 +17,35 @@
             <form class="row g-3">
                 <div class="col-12">
                     <div class="mb-3">
-                        <label for="inputLeague" class="form-label">* League</label>
+                        <label for="inputLeague" class="form-label labeLeague">* League</label>
                         <select id="inputLeague" name="inputLeague" class="form-select"></select>
                     </div>
                 </div>
 
                 <div class="col-6">
                     <div class="mb-3">
-                        <label for="inputTeam" class="form-label">* Team 1</label>
+                        <label for="inputTeam" class="form-label labelTeam1">* Team 1</label>
                         <select id="inputTeam" name="inputTeam" class="form-select"></select>
                     </div>
                 </div>
 
                 <div class="col-6">
                     <div class="mb-3">
-                        <label for="inputTeam2" class="form-label">* Team 2</label>
+                        <label for="inputTeam2" class="form-label labelTeam2">* Team 2</label>
                         <select id="inputTeam2" name="inputTeam2" class="form-select"></select>
                     </div>
                 </div>
 
                 <div class="col-12">
                     <div class="mb-3">
-                        <label for="inputDate" class="form-label">* Event date</label>
+                        <label for="inputDate" class="form-label labelDate">* Event date</label>
                         <input type="text" class="form-control" id="inputDate" name="inputDate" readonly="readonly">
                     </div>
                 </div>         
             </form>
         </div>
         <div class="col-8">
-            <label class="form-label">* Indicates the place where the event will take place</label>
+            <label class="form-label labelMapa">* Indicates the place where the event will take place</label>
             <div id='clubMap' style='width: 100%; height: 50vh;'></div>
         </div>
     </div>
@@ -63,6 +63,9 @@
         currentLocation = null;
 
     $(document).ready(function(){
+        // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
+        currentSection = "newGame";
+
         $("#inputDate").datetimepicker({
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
@@ -125,6 +128,7 @@
         });
 
         fnListLeague();
+        changePageLang();
     });
 
     function loadMapScenario() {
@@ -202,5 +206,20 @@
         }).fail( function(jqXHR, textStatus, errorThrown){
             ajaxResponseError(jqXHR, textStatus);
         });
+    }
+
+    // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+    function changePageLang(){
+        $(".pageTitle").html(actualLenguaje[currentSection].pageTitle);
+        $("#btnSavegame").html(actualLenguaje[currentSection].btnSavegame);
+        $("#btnCancelreg").html(actualLenguaje[currentSection].btnCancelreg);
+        
+        $(".labelMapa").html(actualLenguaje[currentSection].labelMapa);
+        $(".labeLeague").html(actualLenguaje[currentSection].labeLeague);
+
+        $(".labelTeam1").html(actualLenguaje[currentSection].labelTeam1);
+        $(".labelTeam2").html(actualLenguaje[currentSection].labelTeam2);
+        $(".labelDate").html(actualLenguaje[currentSection].labelDate);
+
     }
 </script>

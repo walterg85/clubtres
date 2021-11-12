@@ -1,6 +1,6 @@
 <div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Invitations</h1>
+        <h1 class="h2 pageTitle">Invitations</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="btnShowmyinvitations">Show sent invitations</button>
@@ -8,14 +8,25 @@
         </div>
     </div>
 
-    <table class="table" id="invitationList"><thead class="table-light"></thead></table>
+    <table class="table" id="invitationList">
+        <thead class="table-light">
+            <th class="colA">From</th>
+            <th class="colB">Date</th>
+            <th class="colC">Message</th>
+            <th></th>
+        </thead>
+    </table>
 </div>
 
 <script type="text/javascript">
     var dataTableInvitation = null;
 
     $(document).ready(function(){
+        // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
+        currentSection = "invitations";
         fnListInvitation();
+
+        changePageLang();
     });
 
     function fnListInvitation(){
@@ -38,19 +49,15 @@
                     columns:
                     [
                         {
-                            data: 'fromName',
-                            title: 'From'
+                            data: 'fromName'
                         },
                         {
-                            data: 'register_date',
-                            title: 'Date'
+                            data: 'register_date'
                         },
                         {
-                            data: 'event',
-                            title: 'Message'
+                            data: 'event'
                         },
                         {
-                            title: '',
                             data: 'event_type',
                             orderable: false,
                             class: "text-center",
@@ -129,5 +136,15 @@
         }).fail( function(jqXHR, textStatus, errorThrown){
             ajaxResponseError(jqXHR, textStatus);
         });
+    }
+
+    // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+    function changePageLang(){
+        $(".pageTitle").html(actualLenguaje[currentSection].pageTitle);
+        $("#btnShowmyinvitations").html(actualLenguaje[currentSection].btnShowmyinvitations);
+
+        $(".colA").html(actualLenguaje[currentSection].colA);
+        $(".colB").html(actualLenguaje[currentSection].colB);
+        $(".colC").html(actualLenguaje[currentSection].colC);
     }
 </script>

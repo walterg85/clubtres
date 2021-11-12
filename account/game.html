@@ -1,21 +1,31 @@
 <div class="dvContro">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Games</h1>
+        <h1 class="h2 pageTitle">Games</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary tmpNewGame">Create new game</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary tmpNewGame lblnewGame">Create new game</button>
             </div>
         </div>
     </div>
-    <table class="table" id="gameList"><thead class="table-light"></thead></table>
+    <table class="table" id="gameList">
+        <thead class="table-light">
+            <th class="colA">#</th>
+            <th class="colB">League</th>
+            <th class="colC">Sport</th>
+            <th class="colD">Event date</th>
+            <th class="colE">Teams</th>
+            <th class="colF">Status</th>
+            <th class="colG"></th>
+        </thead>
+    </table>
 </div>
 
 <figure class="text-center gameAlert d-none my-5">
     <blockquote class="blockquote">
-        <p>Does not manage any game</p>
+        <p class="blackTitle">Does not manage any game</p>
     </blockquote>
     <figcaption class="blockquote-footer">
-        Whenever you want, you can register a new game by <cite title="clicking here"> <a href="javascript:void(0);" class="tmpNewGame">clicking here</a> </cite>
+        <texto class="blackA">Whenever you want, you can register a new game by</texto> <cite title="clicking here"> <a href="javascript:void(0);" class="tmpNewGame"> <texto class="blackB">clicking here</texto> </a> </cite>
     </figcaption>
 </figure>
 
@@ -31,7 +41,7 @@
                 <div id='clubMap' style='width: 100%; height: 50vh;'></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary btnClose" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -48,12 +58,17 @@
     $(document).ready(function(){
         currentLeague = null;
 
+        // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
+        currentSection = "Games";
+
         $(".tmpNewGame").click( function(){
             $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
         });
 
         // Listar los juegos
         fnListGames();
+
+        changePageLang();
     });
 
     function fnListGames(){
@@ -82,18 +97,15 @@
                     [
                         {
                             data: 'id',
-                            title: '#',
                             render: function(data, type, row){
                                 return pad(data, 5);
                             }
                         },
                         {
-                            data: 'name',
-                            title: 'League',
+                            data: 'name'
                         },
                         {
                             data: 'sport',
-                            title: 'Sport',
                             render: function(data, type, row){
                                 let strSport = "";
                                 switch (data) {
@@ -114,19 +126,16 @@
                             }
                         },
                         {
-                            data: 'event_date',
-                            title: 'Event date'
+                            data: 'event_date'
                         },
                         {
                             data: null,
-                            title: 'Teams',
                             render: function(data, type, row) {
                                 return `${row.team1} VS ${row.team2}`;
                             }
                         },
                         {
                             data: 'status',
-                            title: 'Status',
                             render: function(data, type, row){
                                 if(data == 1){
                                     let dateNow = new Date();
@@ -149,7 +158,6 @@
                             }
                         },
                         {
-                            title: '',
                             data: 'status',
                             orderable: false,
                             class: "text-center",
@@ -240,5 +248,22 @@
             navigationBarMode: navigationBarMode.square,
             supportedMapTypes: [Microsoft.Maps.MapTypeId.road, Microsoft.Maps.MapTypeId.aerial]
         });     
+    }
+
+    // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+    function changePageLang(){
+        $(".pageTitle").html(actualLenguaje[currentSection].pageTitle);
+        $(".lblnewGame").html(actualLenguaje[currentSection].lblnewGame);
+        $(".blackTitle").html(actualLenguaje[currentSection].blackTitle);
+        $(".blackA").html(actualLenguaje[currentSection].blackA);
+        $(".blackB").html(actualLenguaje[currentSection].blackB);
+        $("#staticBackdropLabel").html(actualLenguaje[currentSection].mapaTitle);
+        $(".btnClose").html(actualLenguaje[currentSection].btnClose);
+
+        $(".colB").html(actualLenguaje[currentSection].colB);
+        $(".colC").html(actualLenguaje[currentSection].colC);
+        $(".colD").html(actualLenguaje[currentSection].colD);
+        $(".colE").html(actualLenguaje[currentSection].colE);
+        $(".colF").html(actualLenguaje[currentSection].colF);
     }
 </script>
