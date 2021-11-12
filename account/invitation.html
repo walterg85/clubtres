@@ -3,7 +3,7 @@
         <h1 class="h2 pageTitle">Invitations</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary" id="btnShowmyinvitations">Show sent invitations</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary d-none" id="btnShowmyinvitations" data-bs-toggle="offcanvas" data-bs-target="#offcanvasInvitations">Show sent invitations</button>
             </div>
         </div>
     </div>
@@ -18,6 +18,15 @@
     </table>
 </div>
 
+<!-- Panel lateral para mostrar invitaciones enviadas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasInvitations" aria-labelledby="offcanvasWithBackdropLabel" style="width: 750px !important;">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title lblmyInvitations" id="offcanvasWithBackdropLabel">Manage invitations</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body"></div>
+</div>
+
 <script type="text/javascript">
     var dataTableInvitation = null;
 
@@ -25,6 +34,8 @@
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "invitations";
         fnListInvitation();
+
+        showInvitations();        
     });
 
     function fnListInvitation(){
@@ -137,6 +148,20 @@
             fnListInvitation();
         }).fail( function(jqXHR, textStatus, errorThrown){
             ajaxResponseError(jqXHR, textStatus);
+        });
+    }
+
+    // Metodo para buscar las invitaciones enviadas
+    function showInvitations() {
+        let objData = {
+            "_method": "showInvitations"
+        };
+
+        $.post("../core/controllers/user.php", objData, function(result) {
+            // Se evaliua si existe alguna invitacion enviada, se muestra el boton y se activa el panel para mostrar el listado
+            if(result.data){
+                $("#btnShowmyinvitations").removeClass("d-none");
+            }
         });
     }
 

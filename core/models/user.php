@@ -201,4 +201,29 @@
 
 			return TRUE;
 		}
+
+		public function showInvitations($userId){
+			$pdo = new Conexion();
+
+			$cmd = '
+				SELECT 
+					id, 
+					udestiny_id,
+					event_id, 
+					event_type, 
+					register_date, 
+					(SELECT CONCAT(NAME, " ", last_name) FROM user WHERE id = udestiny_id) AS toName  
+				FROM invitation 
+				WHERE uorigin_id =:userId
+			';
+
+			$parametros = array(
+				':userId' => $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}
