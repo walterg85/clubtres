@@ -15,3 +15,30 @@ Clubtres/account/league.html linea 620
 
 Se hace el llamado del metodo de traduccion aqui para esperar a que se pinte la tabla
 Clubtres/account/team.html linea 439
+
+Validar si ya esta cargada una seccion para ejecutar el metodo de cambio de idioma
+Clubtres/account/index.php linea 312
+
+Primero se setea la foto por defecto del usuario, se valida si existe el archivo de fotografia con su ID, si existe se cambia la ruta de la foto.
+Clubtres/core/controllers/user.php linea 84
+
+Url raiz, para todas las coneciones al controlador, este se debe cambiar cuando se publica el proecto con una DNS
+Clubtres/masterpage.php linea 2
+
+Body: Aqui se imprime todo el contedido de las paginas secundarias capturados del buffer
+Clubtres/masterpage.php linea 27
+
+Se comparte la variable gobal de raiz para cargar contenido de lado cliente
+Clubtres/masterpage.php linea 38
+
+Se inicia el metodo para encapsular todo el contenido de las paginas (bufering), para dar salida al HTML 
+Clubtres/user/index.php linea 2
+
+Si no se carga correctamente el objeto se redirije a la raiz
+Clubtres/user/index.php linea 49
+
+Se obtiene el contenido del bufer
+Clubtres/user/index.php linea 56s
+
+Metodo para setear digitos a la izquierda
+Clubtres/masterpage.php linea 41

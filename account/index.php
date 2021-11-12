@@ -293,6 +293,7 @@
 
                 $(".lblTitle").html(myLang.title);
                 $("#btnLogout").html(myLang.logout);
+                $("#inputSearch").attr("placeholder", myLang.inputSearch);
 
                 $("#linkHome").html(`<i class="bi bi-house-door-fill"></i> ${myLang.linkHome}`);
                 $("#linkLeague").html(`<i class="bi bi-people-fill"></i> ${myLang.linkLeague}`);
@@ -303,10 +304,15 @@
                 $("#linkSettings").html(`<i class="bi bi-wrench"></i> ${myLang.linkSettings}`);
 
                 // Condicion ternario para obligar a cargar las traducciones de home en la 1ra carga
-                currentSection = (currentSection) ? currentSection : "home";
+                //currentSection = (currentSection) ? currentSection : "home";
 
                 // se setea en la variable global el JSON de idioma
                 actualLenguaje = data[lang];
+            }).done(function() {
+
+                // Validar si ya esta cargada una seccion para ejecutar el metodo de cambio de idioma
+                if(currentSection)
+                    changePageLang();
             });
         }
         </script>

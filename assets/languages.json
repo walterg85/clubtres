@@ -22,6 +22,7 @@
 		"main":{
 			"title":"Clubtres",
 			"logout": "Sign out",
+			"inputSearch": "Search",
 			"linkHome": "Home",
 			"linkLeague": "Leagues",
 			"linkTeam": "Teams",
@@ -87,14 +88,18 @@
 			"colE": "Status",
 			"inputLabelInvite": "Enter player id",
 			"labelInputId": "Player ID",
-			"tmpInviteTeam": "Invite"
+			"tmpInviteTeam": "Invite",
+			"subColA": "Name",
+			"subColB": "Type"
 		},
 		"invitations":{
 			"pageTitle": "Invitations",
 			"btnShowmyinvitations": "Show sent invitations",
 			"colA": "From",
 			"colB": "Date",
-			"colC": "Message"
+			"colC": "Message",
+			"subBtnA": "To Acept",
+			"subBtnB": "To refuse"
 		},
 		"Games":{
 			"pageTitle": "Games",
@@ -178,6 +183,7 @@
 		"main":{
 			"title":"Clubtres",
 			"logout": "Desconectar",
+			"inputSearch": "Buscar",
 			"linkHome": "Inicio",
 			"linkLeague": "Ligas",
 			"linkTeam": "Equipos",
@@ -243,14 +249,18 @@
 			"colE": "Estatus",
 			"inputLabelInvite": "Ingresa el ID de jugador",
 			"labelInputId": "ID de jugador",
-			"tmpInviteTeam": "Invitar"
+			"tmpInviteTeam": "Invitar",
+			"subColA": "Nombre",
+			"subColB": "Tipo"
 		},
 		"invitations":{
 			"pageTitle": "Invitaciones",
 			"btnShowmyinvitations": "Mostrar invitaciones enviadas",
 			"colA": "De",
 			"colB": "Fecha",
-			"colC": "Mensaje"
+			"colC": "Mensaje",
+			"subBtnA": "Para aceptar",
+			"subBtnB": "Para rechazar"
 		},
 		"Games":{
 			"pageTitle": "Juegos",

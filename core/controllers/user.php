@@ -80,8 +80,15 @@
 			$userModel = new Usersmodel();
 			$tmpResponse = $userModel->getUserId($put_vars['userId']);
 
-			if($tmpResponse)
-				$tmpResponse->id = str_pad($tmpResponse->id, 5, '0', STR_PAD_LEFT);			
+			if($tmpResponse){
+				// Primero se setea la foto por defecto del usuario, se valida si existe el archivo de fotografia con su ID, si existe se cambia la ruta de la foto.
+				$fotografia = "assets/img/user/default.jpg";
+				if( is_file(dirname(__FILE__, 3) . "/assets/img/user/". $tmpResponse->id . ".jpg" ) )
+					$fotografia = "assets/img/user/". $tmpResponse->id . ".jpg";
+
+				$tmpResponse->image = $fotografia;
+				$tmpResponse->id = str_pad($tmpResponse->id, 5, '0', STR_PAD_LEFT);
+			}
 
 			$response = array(
 				'codeResponse' => 200,
