@@ -35,8 +35,38 @@
 			"subLabel1": "Whenever you want, you can register a new team by",
 			"subLabel2": "clicking here",
 			"card2": "My leagues",
-			"labelCardTeam": "Does not manage any league",
+			"labelCardLeague": "Does not manage any league",
 			"subLabel3": "Whenever you want, you can register a new league by"
+		},
+		"league":{
+			"labelCardLeague": "Does not manage any league",
+			"subLabel1": "Whenever you want, you can register a new league by",
+			"subLabel2": "clicking here",
+			"lblNewLeague": "League details",
+			"lblInputName": "League Name",
+			"lblOption": "Select sport",
+			"dp1": "Soccer",
+			"dp2": "Basketball",
+			"dp3": "Football",
+			"lblimgPreview": "League image",
+			"labelActive": "Active",
+			"textBtn": "Submit",
+			"titleModal": "Edit / Crop the photo",
+			"btnModal": "Cancel",
+			"cropImage": "Apply",
+			"pageTitle": "Leagues",
+			"tmpNewLeague": "Create new league",
+			"colC": "Name",
+			"colD": "Sport",
+			"colE": "Register date",
+			"colF": "Status"
+		},
+		"team":{
+			"pageTitle": "Teams",
+			"tmpNewTeam": "Create new team",
+			"labelCardTeam": "Does not manage any team",
+			"subLabel1": "Whenever you want, you can register a new team by",
+			"subLabel2": "clicking here"
 		}
 	},
 	"es":{
@@ -75,8 +105,38 @@
 			"subLabel1": "Siempre que lo desee, puede registrar un nuevo equipo haciendo",
 			"subLabel2": "clic aquí",
 			"card2": "Mis ligas",
-			"labelCardTeam": "No gestiona ninguna liga",
+			"labelCardLeague": "No gestiona ninguna liga",
 			"subLabel3": "Siempre que lo desee, puede registrar una nueva liga haciendo"
+		},
+		"league":{
+			"labelCardLeague": "No gestiona ninguna liga",
+			"subLabel1": "Siempre que lo desee, puede registrar una nueva liga haciendo",
+			"subLabel2": "clic aquí",
+			"lblNewLeague": "Detalles de la liga",
+			"lblInputName": "Nombre de la liga",
+			"lblOption": "Selecciona un deporte",
+			"dp1": "Fútbol",
+			"dp2": "Baloncesto",
+			"dp3": "Fútbol americano",
+			"lblimgPreview": "Fotografia de la liga",
+			"labelActive": "Activo",
+			"textBtn": "Enviar",
+			"titleModal": "Editar y recortar fotografia",
+			"btnModal": "Cancelar",
+			"cropImage": "Aplicar",
+			"pageTitle": "Ligas",
+			"tmpNewLeague": "Registrar nueva liga",
+			"colC": "Nombre",
+			"colD": "Deporte",
+			"colE": "Fecha de registro",
+			"colF": "Estatus"
+		},
+		"team":{
+			"pageTitle": "Equipos",
+			"tmpNewTeam": "Registrar nuevo equipo",
+			"labelCardTeam": "No gestiona ningún equipo",
+			"subLabel1": "Siempre que lo desee, puede registrar un nuevo equipo haciendo",
+			"subLabel2": "clic aquí"
 		}
 	}
 }

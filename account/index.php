@@ -305,7 +305,7 @@
                 currentSection = (currentSection) ? currentSection : "home";
 
                 // se setea en la variable global el JSON de idioma
-                actualLenguaje = data[lang][currentSection];
+                actualLenguaje = data[lang];
             });
         }
         </script>

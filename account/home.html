@@ -143,13 +143,13 @@
 
     // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
     function changePageLang(){
-        $(".lblMyTeam").html(actualLenguaje.card1);
-        $(".labelCardTeam").html(actualLenguaje.labelCardTeam);
-        $(".subLabel1").html(actualLenguaje.subLabel1);
-        $(".subLabel2").html(actualLenguaje.subLabel2);
+        $(".lblMyTeam").html(actualLenguaje[currentSection].card1);
+        $(".labelCardTeam").html(actualLenguaje[currentSection].labelCardTeam);
+        $(".subLabel1").html(actualLenguaje[currentSection].subLabel1);
+        $(".subLabel2").html(actualLenguaje[currentSection].subLabel2);
 
-        $(".lblMyLeague").html(actualLenguaje.card2);
-        $(".labelCardLeague").html(actualLenguaje.labelCardLeague);
-        $(".subLabel3").html(actualLenguaje.subLabel3);
+        $(".lblMyLeague").html(actualLenguaje[currentSection].card2);
+        $(".labelCardLeague").html(actualLenguaje[currentSection].labelCardLeague);
+        $(".subLabel3").html(actualLenguaje[currentSection].subLabel3);
     }
 </script>
