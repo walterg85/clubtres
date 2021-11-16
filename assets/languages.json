@@ -97,7 +97,17 @@
 			"colB": "Date",
 			"colC": "Message",
 			"subBtnA": "To Acept",
-			"subBtnB": "To refuse"
+			"subBtnB": "To refuse",
+			"pnlTitle":"Manage invitations",
+			"pnlTitleA":"Invitations to join teams",
+			"pnlTitleB": "Invitations to join leagues",
+			"pnlLabelA": "Date",
+			"pnlLabelB": "Player",
+			"pnlLabelC": "Invited for",
+			"pnlLabelD": "Date",
+			"pnlLabelE": "Team",
+			"pnlLabelF": "Owner",
+			"pnlLabelG": "Invited for"
 		},
 		"Games":{
 			"pageTitle": "Games",
@@ -256,7 +266,17 @@
 			"colB": "Fecha",
 			"colC": "Mensaje",
 			"subBtnA": "Para aceptar",
-			"subBtnB": "Para rechazar"
+			"subBtnB": "Para rechazar",
+			"pnlTitle":"Administrar invitaciones",
+			"pnlTitleA":"Invitaciones para unirse a tus equipos",
+			"pnlTitleB": "Invitaciones para unirse a tus ligas",
+			"pnlLabelA": "Fecha",
+			"pnlLabelB": "Jugador",
+			"pnlLabelC": "Invitado para",
+			"pnlLabelD": "Fecha",
+			"pnlLabelE": "Equipo",
+			"pnlLabelF": "Propietario",
+			"pnlLabelG": "Invitado para"
 		},
 		"Games":{
 			"pageTitle": "Juegos",

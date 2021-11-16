@@ -25,12 +25,12 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <p class="lead">Invitations to join teams</p><hr>
+        <p class="lead pnlTitleA">Invitations to join teams</p><hr>
         <table class="table">
             <thead class="table-light">
-                <th class="">Date</th>
-                <th class="">Player</th>
-                <th class="">invited for</th>
+                <th class="pnlLabelA">Date</th>
+                <th class="pnlLabelB">Player</th>
+                <th class="pnlLabelC">invited for</th>
                 <th class=""></th>
             </thead>
             <tbody id="tblInvTeam"></tbody>
@@ -46,13 +46,13 @@
             </tr>
         </table>
 
-        <p class="lead mt-5">Invitations to join leagues</p><hr>
+        <p class="lead mt-5 pnlTitleB">Invitations to join leagues</p><hr>
         <table class="table">
             <thead class="table-light">
-                <th class="">Date</th>
-                <th class="">Team</th>
-                <th class="">Owner</th>
-                <th class="">invited for</th>
+                <th class="pnlLabelD">Date</th>
+                <th class="pnlLabelE">Team</th>
+                <th class="pnlLabelF">Owner</th>
+                <th class="pnlLabelG">invited for</th>
                 <th class=""></th>
             </thead>
             <tbody id="tblInvLeague"></tbody>
@@ -272,5 +272,18 @@
 
         $(".subBtnA").html(actualLenguaje[currentSection].subBtnA);
         $(".subBtnB").html(actualLenguaje[currentSection].subBtnB);
+
+        $("#offcanvasWithBackdropLabel").html(actualLenguaje[currentSection].pnlTitle);
+        $(".pnlTitleA").html(actualLenguaje[currentSection].pnlTitleA);
+        $(".pnlTitleB").html(actualLenguaje[currentSection].pnlTitleB);
+
+        $(".pnlLabelA").html(actualLenguaje[currentSection].pnlLabelA);
+        $(".pnlLabelB").html(actualLenguaje[currentSection].pnlLabelB);
+        $(".pnlLabelC").html(actualLenguaje[currentSection].pnlLabelC);
+
+        $(".pnlLabelD").html(actualLenguaje[currentSection].pnlLabelD);
+        $(".pnlLabelE").html(actualLenguaje[currentSection].pnlLabelE);
+        $(".pnlLabelF").html(actualLenguaje[currentSection].pnlLabelF);
+        $(".pnlLabelG").html(actualLenguaje[currentSection].pnlLabelG);
     }
 </script>
