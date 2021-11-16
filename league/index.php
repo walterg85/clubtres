@@ -13,7 +13,7 @@
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold lh-1 mb-3" id="lblName"></h5>
                             <p class="card-text lead" id="lblInfo"></p>
-                            <p class="card-text"><small class="text-muted">List of registered teams</small></p>
+                            <p class="card-text"><small class="text-muted labelSubTitle">List of registered teams</small></p>
 
                             <table class="table">
                                 <thead>
@@ -93,6 +93,12 @@
         }else{
             window.location.replace(base_url);
         }            
+    }
+
+    function changePageLang(language) {
+        let myLang = language["leaguePage"];
+        
+        $(".labelSubTitle").html(`${myLang.labelSubTitle}`);
     }
 </script>
 
