@@ -61,7 +61,7 @@ Clubtres/account/invitation.html linea 212
 Se obtiene el evento click del boton heredado, para poder eliminar una invitacion enviada
 Clubtres/account/invitation.html linea 239
 
-Se recicla metodo para actualizar una initacion
+Se recicla metodo para actualizar una invitacion
 Clubtres/account/invitation.html linea 257
 
 Primero se setea la foto por defecto del usuario, se valida si existe el archivo de fotografia con su ID, si existe se cambia la ruta de la foto.
@@ -81,3 +81,6 @@ Clubtres/masterpage.php linea 84
 
 Se agrega la accion de buscar cada vez que se presiona una tecla
 Clubtres/masterpage.php linea 97
+
+Validar si hay un link de acceso directo a las paginas o simplemente mostrar la pagina inicial
+Clubtres/account/index.php linea 238

@@ -166,6 +166,9 @@
 			"labelButonC": "Cancel",
 			"modalLabel": "Edit / Crop the photo",
 			"cropImage": "Apply"
+		},
+		"leaguePage":{
+			"labelSubTitle": "List of registered teams"
 		}
 	},
 	"es":{
@@ -335,6 +338,9 @@
 			"labelButonC": "Cancelar",
 			"modalLabel": "Editar y recortar la foto",
 			"cropImage": "Aplicar"
+		},
+		"leaguePage":{
+			"labelSubTitle": "Lista de equipos registrados"
 		}
 	}
 }

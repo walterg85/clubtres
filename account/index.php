@@ -35,6 +35,11 @@
         .offcanvas-end{
             width: 500px !important;
         }
+        /*Forzar a que se muestre el fondo blanco en el modal del cropperJS*/
+        .cropper-modal{
+            background-color: #fff !important;
+            opacity: .7 !important;
+        }
     </style>
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -47,10 +52,23 @@
                 <ul class="dropdown-menu" id="cboMenu" aria-labelledby="inputSearch"></ul>
             </div>
 
-            <div class="navbar-nav">
+            <!-- <div class="navbar-nav">
                 <div class="nav-item text-nowrap">
                     <a class="nav-link px-3" href="javascript:void(0);" id="btnLogout">Sign out</a>
                 </div>
+            </div> -->
+
+            <div class="dropdown text-end mx-2">
+                <a href="#" class="d-block text-decoration-none dropdown-toggle text-white" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <!-- Se usa rand() para generar un numero aleatroio y forzar a la carga de imagen -->
+                    <img src="<?php echo '../' . $_SESSION['authData']->image .'?v='.rand(0, 15); ?>" alt="mdo" width="32" height="32" class="rounded-circle me-2">
+                    <texto>Hi</texto> <?php echo $_SESSION['authData']->name; ?> 
+                </a>
+                <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
+                    <li><a class="dropdown-item linkSettings" href="javascript:void(0);">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" id="btnLogout" href="javascript:void(0);">Sign out</a></li>
+                </ul>
             </div>
         </header>
 
@@ -120,9 +138,14 @@
                 lang = (window.navigator.language).substring(0,2),
                 currentSection = "",
                 searchRequest = null,
-                actualLenguaje = null;
+                actualLenguaje = null,
+                linkto = null;
             
             $(document).ready(function(){
+                let queryString = window.location.search,
+                    urlParams = new URLSearchParams(queryString);
+                linkto = urlParams.get('link');
+
                 $("#linkHome").on("click", function(){
                     $( "#mainContenedor" ).load( `home.html?v=${Math.random()}` );
                 });
@@ -154,7 +177,7 @@
                     $( "#mainContenedor" ).load( `business.html?v=${Math.random()}` );
                 });
 
-                $("#linkSettings").on("click", function(){
+                $("#linkSettings, .linkSettings").on("click", function(){
                     $( "#mainContenedor" ).load( `setting.html?v=${Math.random()}` );
                 });
 
@@ -237,7 +260,12 @@
                         .removeClass("show");
                 });
 
-                $("#linkHome").click();
+                // Validar si hay un link de acceso directo a las paginas o simplemente mostrar la pagina inicial
+                if(linkto){
+                    $(`#${linkto}`).click();
+                }else{
+                    $("#linkHome").click();
+                }                
             });
 
             function getData(obj, dtable){
@@ -291,33 +319,32 @@
             function switchLanguage(lang){
             $.post("../assets/languages.json", {}, function(data) {
                 $(".changeLang").html('<i class="bi bi-globe2"></i> ' + data[lang]["buttonText"]);
+                    let myLang = data[lang]["main"];
 
-                let myLang = data[lang]["main"];
+                    $(".lblTitle").html(myLang.title);
+                    $("#btnLogout").html(`<i class="bi bi-shield-lock-fill"></i> ${myLang.logout}`);
+                    $("#inputSearch").attr("placeholder", myLang.inputSearch);
 
-                $(".lblTitle").html(myLang.title);
-                $("#btnLogout").html(myLang.logout);
-                $("#inputSearch").attr("placeholder", myLang.inputSearch);
+                    $("#linkHome").html(`<i class="bi bi-house-door-fill"></i> ${myLang.linkHome}`);
+                    $("#linkLeague").html(`<i class="bi bi-people-fill"></i> ${myLang.linkLeague}`);
+                    $("#linkTeam").html(`<i class="bi bi-person-badge-fill"></i> ${myLang.linkTeam}`);
+                    $("#linkInvitation").html(`<i class="bi bi-bell-fill"></i> ${myLang.linkInvitation} <span class="badge bg-danger bdg-Notification">0</span>`);
+                    $("#linkGames").html(`<i class="bi bi-cone-striped"></i> ${myLang.linkGames}`);
+                    $("#linkBusiness").html(`<i class="bi bi-award"></i> ${myLang.linkBusiness}`);
+                    $("#linkSettings, .linkSettings").html(`<i class="bi bi-wrench"></i> ${myLang.linkSettings}`);
 
-                $("#linkHome").html(`<i class="bi bi-house-door-fill"></i> ${myLang.linkHome}`);
-                $("#linkLeague").html(`<i class="bi bi-people-fill"></i> ${myLang.linkLeague}`);
-                $("#linkTeam").html(`<i class="bi bi-person-badge-fill"></i> ${myLang.linkTeam}`);
-                $("#linkInvitation").html(`<i class="bi bi-bell-fill"></i> ${myLang.linkInvitation} <span class="badge bg-danger bdg-Notification">0</span>`);
-                $("#linkGames").html(`<i class="bi bi-cone-striped"></i> ${myLang.linkGames}`);
-                $("#linkBusiness").html(`<i class="bi bi-award"></i> ${myLang.linkBusiness}`);
-                $("#linkSettings").html(`<i class="bi bi-wrench"></i> ${myLang.linkSettings}`);
+                    // Condicion ternario para obligar a cargar las traducciones de home en la 1ra carga
+                    //currentSection = (currentSection) ? currentSection : "home";
 
-                // Condicion ternario para obligar a cargar las traducciones de home en la 1ra carga
-                //currentSection = (currentSection) ? currentSection : "home";
+                    // se setea en la variable global el JSON de idioma
+                    actualLenguaje = data[lang];
+                }).done(function() {
 
-                // se setea en la variable global el JSON de idioma
-                actualLenguaje = data[lang];
-            }).done(function() {
-
-                // Validar si ya esta cargada una seccion para ejecutar el metodo de cambio de idioma
-                if(currentSection)
-                    changePageLang();
-            });
-        }
+                    // Validar si ya esta cargada una seccion para ejecutar el metodo de cambio de idioma
+                    if(currentSection)
+                        changePageLang();
+                });
+            }
         </script>
     </body>
 </html>

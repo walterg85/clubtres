@@ -50,7 +50,8 @@
                             <texto>Hi</texto> <?php echo $_SESSION['authData']->name; ?> 
                         </a>
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
-                            <li><a class="dropdown-item" href="<?php echo $base_url; ?>/account/index.php">Settings</a></li>
+                            <li><a class="dropdown-item linkSettings" href="<?php echo $base_url; ?>/account/index.php?link=linkSettings">Settings</a></li>
+                            <li><a class="dropdown-item changeLang" href="javascript:void(0);">Español</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" id="btnLogout" href="javascript:void(0);">Sign out</a></li>
                         </ul>
@@ -83,7 +84,8 @@
     <script type="text/javascript">
         // Se comparte la variable gobal de raiz para cargar contenido de lado cliente
         var base_url = "<?php echo $base_url; ?>",
-            searchRequest = null;
+            searchRequest = null,
+            lang = (window.navigator.language).substring(0,2);
 
         $(document).ready(function(){
             // Metodo para el cierre de session
@@ -151,12 +153,49 @@
                     .html("")
                     .removeClass("show");
             });
+
+            if( localStorage.getItem("currentLag") ){
+                lang = localStorage.getItem("currentLag");
+            }else{
+                localStorage.setItem("currentLag", lang);
+            }
+
+            $(".changeLang").click( function(){
+                if (localStorage.getItem("currentLag") == "es") {
+                    localStorage.setItem("currentLag", "en");
+                    lang = "en";
+                }else{
+                    localStorage.setItem("currentLag", "es");
+                    lang = "es";
+                }
+                switchLanguage(lang);
+            });
+
+            switchLanguage(lang);
         });
 
         // Metodo para setear digitos a la izquierda
         function pad (str, max) {
             str = str.toString();
             return str.length < max ? pad("0" + str, max) : str;
+        }
+
+        function switchLanguage(lang){
+            let myLang = null;
+
+            $.post(`${base_url}/assets/languages.json`, {}, function(data) {
+                $(".changeLang").html(`<i class="bi bi-globe"></i> ${data[lang]["buttonText"]}`);
+
+                myLang = data[lang]["main"];
+
+                $(".linkSettings").html(`<i class="bi bi-wrench"></i> ${myLang.linkSettings}`);
+                $("#btnLogout").html(`<i class="bi bi-shield-lock-fill"></i> ${myLang.logout}`);
+                $("#inputSearch").attr("placeholder", myLang.inputSearch);
+
+                myLang = data[lang];
+            }).done(function() {
+                changePageLang(myLang);
+            });
         }
     </script>
 </body>
