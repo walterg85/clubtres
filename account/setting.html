@@ -104,8 +104,9 @@
             $("#inputLastName").val(autData.last_name);
             $("#inputEmail").val(autData.email);
 
+            // Se Forza a actualizar la imagen con math random
             if(autData.avatar)
-                $(".imgPreview").attr("src", `../${autData.avatar}`);
+                $(".imgPreview").attr("src", `../${autData.avatar}?v=${Math.random()}`);
         });
     }
 

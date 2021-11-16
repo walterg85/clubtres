@@ -63,3 +63,21 @@ Clubtres/account/invitation.html linea 239
 
 Se recicla metodo para actualizar una initacion
 Clubtres/account/invitation.html linea 257
+
+Primero se setea la foto por defecto del usuario, se valida si existe el archivo de fotografia con su ID, si existe se cambia la ruta de la foto.
+Clubtres/core/controllers/user.php linea 70
+
+Se Forza a actualizar la imagen con math random
+Clubtres/account/setting.html linea 107
+
+Se usa rand() para generar un numero aleatroio y forzar a la carga de imagen
+Clubtres/masterpage.php linea 44
+
+Se verifica que este logueado e imprimir su informacion, de lo contrario se mostrara el boton para iniciar session
+Clubtres/masterpage.php linea 39
+
+Metodo para el cierre de session
+Clubtres/masterpage.php linea 84
+
+Se agrega la accion de buscar cada vez que se presiona una tecla
+Clubtres/masterpage.php linea 97
