@@ -1,23 +1,21 @@
 {
 	"en":{
-		"buttonText": "Spanish",
+		"buttonText": "Español",
 		"login":{
 			"pageTitle":"Club Tres",
-			"logotipo": "Clubtres",
-			"txtprinipal":"Sign in",
+			"punchLine": "START A TEAM<br />JOIN A TEAM<br />BE A TEAM LEADER",
 			"inpuitmail": "Email address",
 			"inputPass": "Password",
 			"inputCheck":"Remember me",
-			"button" :"Sign in",
+			"button" :"Enter",
 			"link": "Create new account",
-			"coppy": "&copy; Clubtres",
-			"modalTitle": "Fill form to create new account",
+			"modalTitle": "Create new account",
 			"mdlInputName": "Name",
 			"mdlInputLastName": "Last Name",
 			"mdlInputMail": "Email",
 			"mdlInputPass": "Password",
-			"mdlBtn1": "Submit",
-			"mdlBtn2": "Close"
+			"mdlBtn1": "Register",
+			"mdlBtn2": "Cancel"
 		},
 		"main":{
 			"title":"Clubtres",
@@ -177,21 +175,19 @@
 		"buttonText": "English",
 		"login":{
 			"pageTitle":"Club Tres",
-			"logotipo": "Clubtres",
-			"txtprinipal":"Registrarse",
-			"inpuitmail": "Dirección de correo electrónico",
+			"punchLine": "CREA UN EQUIPO<br />ENCUENTRA EQUIPO<br />LIDERA UN EQUIPO",
+			"inpuitmail": "Correo electrónico",
 			"inputPass": "Contraseña",
 			"inputCheck":"Recuérdame",
-			"button" :"Registrarse",
-			"link": "Crear una nueva cuenta",
-			"coppy": "&copy; Clubtres",
-			"modalTitle": "Complete el formulario para crear una nueva cuenta",
+			"button" :"Entrar",
+			"link": "Crear nueva cuenta",
+			"modalTitle": "Crear nueva cuenta",
 			"mdlInputName": "Nombre",
 			"mdlInputLastName": "Apellido",
 			"mdlInputMail": "Correo electrónico",
 			"mdlInputPass": "Contraseña",
-			"mdlBtn1": "Enviar",
-			"mdlBtn2": "Cerrar"
+			"mdlBtn1": "Registrarse",
+			"mdlBtn2": "Cancelar"
 		},
 		"main":{
 			"title":"Clubtres",

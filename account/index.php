@@ -44,7 +44,6 @@
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 lblTitle" href="javascript:void(0);">Clubtres</a>
-            <a class="navbar-brand col-md-2 col-lg-1 me-0 px-3 changeLang" href="javascript:void(0);"></a>
             <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -81,6 +80,10 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0);" id="linkHome">
                                     <i class="bi bi-house-door-fill"></i> Home
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link changeLang" href="javascript:void(0);">                                    
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -314,9 +317,8 @@
             }
 
             function switchLanguage(lang){
-                $.post("../assets/languages.json", {}, function(data) {
-                    $(".changeLang").html(data[lang]["buttonText"]);
-
+            $.post("../assets/languages.json", {}, function(data) {
+                $(".changeLang").html('<i class="bi bi-globe2"></i> ' + data[lang]["buttonText"]);
                     let myLang = data[lang]["main"];
 
                     $(".lblTitle").html(myLang.title);
