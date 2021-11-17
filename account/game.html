@@ -51,9 +51,9 @@
 <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AiUXV-3R30RqqrIouHt5Px3bZ5d1zd2dujqhVT4Vjj2wpHIZd0YE1YSguYh33-xu&callback=loadMapScenario' async defer></script>
 
 <script type="text/javascript">
-    var dataTableGames = null,
-        clubMap = null,
-        pushpin = null;
+    var dataTableGames  = null,
+        clubMap         = null,
+        pushpin         = null;
 
     $(document).ready(function(){
         currentLeague = null;
@@ -68,6 +68,7 @@
         // Listar los juegos
         fnListGames();
 
+        // Cambiar idioma de la pagina
         changePageLang();
     });
 
@@ -176,8 +177,8 @@
                     ],
                     "fnDrawCallback":function(oSettings){
                         $(".btnLocation").unbind().click(function(){
-                            let data = getData($(this), dataTableGames),
-                                jsLoc = JSON.parse(data.locations);
+                            let data    = getData($(this), dataTableGames),
+                                jsLoc   = JSON.parse(data.locations);
 
                             if(pushpin)
                                 clubMap.entities.remove(pushpin);
@@ -224,7 +225,6 @@
                             let data = getData($(this), dataTableGames);
 
                             localStorage.setItem('currentGame', JSON.stringify(data));
-
                             $( "#mainContenedor" ).load( `editgame.html?v=${Math.random()}` );
                         });
                     },

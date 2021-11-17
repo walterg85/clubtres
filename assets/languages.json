@@ -136,6 +136,16 @@
 			"labelTeam2": "* Team 2",
 			"labelDate": "* Event date"
 		},
+		"editGame":{
+			"pageTitle": "Edit game",
+			"btnSavegame": "Save",
+			"btnCancelreg": "Cancel",
+			"labelMapa": "* Indicates the place where the event will take place",
+			"labeLeague": "* League",
+			"labelTeam1": "* Team 1",
+			"labelTeam2": "* Team 2",
+			"labelDate": "* Event date"
+		},
 		"Business":{
 			"pageTitle": "Business",
 			"labelBtnNew": "Create new business",
@@ -320,6 +330,16 @@
 		"newGame":{
 			"pageTitle": "Registrar juego",
 			"btnSavegame": "Registrar",
+			"btnCancelreg": "Cancelar",
+			"labelMapa": "* Indica el lugar donde se llevará a cabo el evento",
+			"labeLeague": "* Liga",
+			"labelTeam1": "* Equipo 1",
+			"labelTeam2": "* Equipo 2",
+			"labelDate": "* Fecha del evento"
+		},
+		"editGame":{
+			"pageTitle": "Editar juego",
+			"btnSavegame": "Guardar cambios",
 			"btnCancelreg": "Cancelar",
 			"labelMapa": "* Indica el lugar donde se llevará a cabo el evento",
 			"labeLeague": "* Liga",

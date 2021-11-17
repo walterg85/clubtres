@@ -2,7 +2,6 @@
     <h5 class="card-header lblMyTeam">My teams</h5>
     <div class="card-body">
         <div class="row teamsContainer">
-
             <div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-2 mb-3 teamClone d-none">
                 <div class="card">
                     <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple30/v4/7b/4e/f1/7b4ef12e-ffaa-c75d-fe0d-82714e3b9f1c/source/256x256bb.jpg" class="card-img-top img-fluid teamPhoto" alt="Team photo" >
@@ -11,7 +10,6 @@
                     </div>
                 </div>                
             </div>
-
             <figure class="text-center teamAlert d-none">
                 <blockquote class="blockquote">
                     <p class="labelCardTeam">Does not manage any team</p>
@@ -19,8 +17,7 @@
                 <figcaption class="blockquote-footer">
                     <texto class="subLabel1">Whenever you want, you can register a new team by</texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnTeam" class=""> <texto class="subLabel2">clicking here</texto> </a> </cite>
                 </figcaption>
-            </figure>
-            
+            </figure>            
         </div>
     </div>
 </div>
@@ -29,7 +26,6 @@
     <h5 class="card-header lblMyLeague">My leagues</h5>
     <div class="card-body">
         <div class="row leaguesContainer">
-
             <div class="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-2 mb-3 leagueClone d-none">
                 <div class="card">
                     <img src="https://is5-ssl.mzstatic.com/image/thumb/Purple30/v4/7b/4e/f1/7b4ef12e-ffaa-c75d-fe0d-82714e3b9f1c/source/256x256bb.jpg" class="card-img-top img-fluid leaguePhoto" alt="League photo" >
@@ -39,7 +35,6 @@
                     </div>
                 </div>                
             </div>
-
             <figure class="text-center leagueAlert d-none">
                 <blockquote class="blockquote">
                     <p class="labelCardLeague">Does not manage any league</p>
@@ -47,8 +42,7 @@
                 <figcaption class="blockquote-footer">
                     <texto class="subLabel3">Whenever you want, you can register a new league by</texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnLeague" class=""> <texto class="subLabel2" >clicking here</texto> </a> </cite>
                 </figcaption>
-            </figure>
-            
+            </figure>            
         </div>
     </div>
 </div>
@@ -68,6 +62,7 @@
             $( "#mainContenedor" ).load( `league.html?v=${Math.random()}` );
         });
 
+        // Metodo para cambiar de idioma la pagina
         changePageLang();
     });
 
@@ -77,7 +72,6 @@
             };
 
         $.post("../core/controllers/team.php", objData, function(result) {
-
             if( (result.data).length > 0 ){
                 $.each( result.data, function( index, item){
                     let myTeam = $(".teamClone").clone();
