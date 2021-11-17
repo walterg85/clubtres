@@ -18,10 +18,10 @@
 				$parametros = array(
 					':nombre'		=> $data['inputName'],
 					':Descripcion'	=> $data['inputDescription'],
-					':telefono'	=> $data['inputNumber'],
+					':telefono'		=> $data['inputNumber'],
 					':Direccion'	=> $data['inputAddress'],
-					':web'	=> $data['inputWeb'],
-					':user_id'  => $data['user_id']
+					':web'			=> $data['inputWeb'],
+					':user_id'  	=> $data['user_id']
 				);
 				
 				try {
@@ -40,10 +40,10 @@
 				$parametros = array(
 					':nombre'		=> $data['inputName'],
 					':Descripcion'	=> $data['inputDescription'],
-					':telefono'	=> $data['inputNumber'],
+					':telefono'		=> $data['inputNumber'],
 					':Direccion'	=> $data['inputAddress'],
-					':web'	=> $data['inputWeb'],
-					':idBusiness' => $data['idBusiness']
+					':web'			=> $data['inputWeb'],
+					':idBusiness' 	=> $data['idBusiness']
 				);
 
 				$sql = $pdo->prepare($cmd);
@@ -58,8 +58,8 @@
 			$cmd = 'UPDATE business SET image =:image WHERE id =:businessId';
 
 			$parametros = array(
-				':image' => $image,
-				':businessId' => $businessId			
+				':image' 		=> $image,
+				':businessId' 	=> $businessId			
 			);
 
 			$sql = $pdo->prepare($cmd);
@@ -109,9 +109,7 @@
 			$sql = $pdo->prepare($cmd);
 			$sql->execute($parametros);
 			$sql->setFetchMode(PDO::FETCH_OBJ);
-
-			$data = $sql->fetch();
-
-			return $data;
+			
+			return $sql->fetch();
 		}
 	}

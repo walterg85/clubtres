@@ -436,7 +436,7 @@
                         {
                             data: 'name',
                             render: function(data, type, row){
-                                return `<a href="http://localhost/clubtres/league/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
+                                return `<a href="../league/index.php?id=${row.id}" target="_blank" class="text-decoration-none text-dark">${data}</a>`;
                             }
                         },
                         {
@@ -507,8 +507,6 @@
                             $("#addLeagueModal").modal("show");
 
                             let data = getData($(this), dataTableLeague);
-
-                            // $("#modalTitle2").html(`Edit ${data.name} League`);
 
                             $("#inputNameL").val(data.name);
                             $("#sportType").val(data.sport);

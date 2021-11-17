@@ -30,9 +30,9 @@
 </div>
 
 <script type="text/javascript">
-    var teamId = "<?php echo $_GET['id']; ?>",
-        curentLanguage = null,
-        countMember = 0;
+    var teamId          = "<?php echo $_GET['id']; ?>",
+        curentLanguage  = null,
+        countMember     = 0;
 
     $(document).ready(function(){
         // Cargar datos del team
