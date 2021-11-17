@@ -38,7 +38,7 @@
                     $("#userName").html(`${result.data.name} ${result.data.last_name}`);
                     $("#userId").html(`#${result.data.id}`);
                     $("#userStatus").html( (result.data.active == 1) ? "Active" : "Disbaled" );                        
-                    $("#userPhoto").attr("src", `${base_url}/${result.data.image}`);
+                    $("#userPhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
                 }else{
                     $("#userName").html("");
                     $("#userId").html("");
@@ -49,6 +49,10 @@
             // Si no se carga correctamente el objeto se redirije a la raiz
             window.location.replace(base_url);
         }
+    }
+
+    function changePageLang(language) {
+        let myLang = language["userPage"];
     }
 </script>
 

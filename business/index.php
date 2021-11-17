@@ -12,7 +12,7 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold lh-1 mb-3" id="lblName"></h5>
-                            <p class="mb-0">About</p>
+                            <p class="mb-0 labelAbout">About</p>
                             <p class="card-text lead mt-0" id="lblInfo"></p>
                             <p class="card-text"><small class="text-muted lblDir"></small></p>
                             <p class="card-text" id="Contact"></p>
@@ -67,6 +67,12 @@
         }else{
             window.location.replace(base_url);
         }            
+    }
+
+    function changePageLang(language) {
+        let myLang = language["businessPage"];
+
+        $(".labelAbout").html(`${myLang.labelAbout}`);
     }
 </script>
 

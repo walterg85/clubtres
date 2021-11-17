@@ -1,6 +1,7 @@
 {
 	"en":{
 		"buttonText": "Español",
+		"lableSaludo": "Hi",
 		"login":{
 			"pageTitle":"Club Tres",
 			"punchLine": "START A TEAM<br />JOIN A TEAM<br />BE A TEAM LEADER",
@@ -168,11 +169,28 @@
 			"cropImage": "Apply"
 		},
 		"leaguePage":{
-			"labelSubTitle": "List of registered teams"
+			"title": ["Soccer league teams", "Basketball league teams", "Football league teams"],
+			"labelSubTitle": "List of registered teams",
+			"col1": "Team name",
+			"col2": "Status"
+		},
+		"teamPage":{
+			"title":"Members",
+			"labelSubtitle": "Members list",
+			"col1": "Full name",
+			"col2": "Type",
+			"col3": "Status"
+		},
+		"businessPage":{
+			"labelAbout":"About"
+		},
+		"userPage":{
+			"title": "User page"
 		}
 	},
 	"es":{
 		"buttonText": "English",
+		"lableSaludo": "Hola",
 		"login":{
 			"pageTitle":"Club Tres",
 			"punchLine": "CREA UN EQUIPO<br />ENCUENTRA EQUIPO<br />LIDERA UN EQUIPO",
@@ -340,7 +358,23 @@
 			"cropImage": "Aplicar"
 		},
 		"leaguePage":{
-			"labelSubTitle": "Lista de equipos registrados"
+			"title": ["Equipos de la liga de fútbol", "Equipos de la liga de baloncesto", "Equipos de la liga de fútbol americano"],
+			"labelSubTitle": "Lista de equipos registrados",
+			"col1": "Nombre del equipo",
+			"col2": "Estado"
+		},
+		"teamPage":{
+			"title":"Miembros en el equipo",
+			"labelSubtitle": "Lista de Miembros",
+			"col1": "Nombre completo",
+			"col2": "Tipo de miembro",
+			"col3": "Estado"
+		},
+		"businessPage":{
+			"labelAbout":"Acerca de"
+		},
+		"userPage":{
+			"title": "Pagina de usuario"
 		}
 	}
 }
