@@ -60,7 +60,7 @@
                     } else {
                 ?>
                     <div class="text-end">
-                        <a href="<?php echo $base_url; ?>" class="d-block text-decoration-none text-white">
+                        <a href="<?php echo $base_url; ?>" class="d-block text-decoration-none text-white linkLogin">
                             Sign in
                         </a>
                     </div>
@@ -75,9 +75,18 @@
     <?php echo $content; ?>
 
     <!-- Footer -->
-    <div>
-        <hr>
-    </div>
+    <footer class="text-center mt-5  pb-2">
+        <ul class="list-inline mb-1">
+            <li class="list-inline-item">&copy; <script>document.write(new Date().getFullYear())</script> CLUBTRES</li>
+            <li class="list-inline-item">
+                <a class="text-secondary text-decoration-none changeLang" href="javascript:void(0);"></a>
+            </li>
+        </ul>
+        <p>
+            <text class="footerNote">A project of</text>
+            <a class="text-secondary text-decoration-none" target="_blank" href="https://www.intelatlas.com">IntelAtlas</a>
+        </p>
+    </footer>
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -192,6 +201,9 @@
                 $(".linkSettings").html(`<i class="bi bi-wrench"></i> ${myLang.linkSettings}`);
                 $("#btnLogout").html(`<i class="bi bi-shield-lock-fill"></i> ${myLang.logout}`);
                 $("#inputSearch").attr("placeholder", myLang.inputSearch);
+
+                $(".footerNote").html(data[lang]["login"].footerNote);
+                $(".linkLogin").html(myLang.login);
 
                 myLang = data[lang];
             }).done(function() {
