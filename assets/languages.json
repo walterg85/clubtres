@@ -16,7 +16,8 @@
 			"mdlInputMail": "Email",
 			"mdlInputPass": "Password",
 			"mdlBtn1": "Register",
-			"mdlBtn2": "Cancel"
+			"mdlBtn2": "Cancel",
+			"footerNote": "A project of"
 		},
 		"main":{
 			"title":"Clubtres",
@@ -205,7 +206,8 @@
 			"mdlInputMail": "Correo electrónico",
 			"mdlInputPass": "Contraseña",
 			"mdlBtn1": "Registrarse",
-			"mdlBtn2": "Cancelar"
+			"mdlBtn2": "Cancelar",
+			"footerNote": "Un proyecto de"
 		},
 		"main":{
 			"title":"Clubtres",
