@@ -29,7 +29,8 @@
 			"linkInvitation": "Invitations",
 			"linkGames": "Games",
 			"linkBusiness": "Business",
-			"linkSettings": "Settings"
+			"linkSettings": "Settings",
+			"login": "Sign in"
 		},
 		"home":{
 			"card1": "My teams",
@@ -219,7 +220,8 @@
 			"linkInvitation": "Invitaciones",
 			"linkGames": "Juegos",
 			"linkBusiness": "Negocios",
-			"linkSettings": "Configuraciones"
+			"linkSettings": "Configuraciones",
+			"login": "Registrarse"
 		},
 		"home":{
 			"card1": "Mis equipos",
