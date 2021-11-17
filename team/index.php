@@ -11,15 +11,14 @@
                 <div class="card-body">
                     <h4 class="card-title" id="lblNombreTeam"></h4>
                     <p class="card-text" id="numMember"></p>
-                    <p class="card-text"><small class="text-muted">Members list</small></p>
-
+                    <p class="card-text"><small class="text-muted labelSubtitle">Members list</small></p>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Full name</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Status</th>
+                                <th class="col1" scope="col">Full name</th>
+                                <th class="col2" scope="col">Type</th>
+                                <th class="col3" scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody id="bdyUser"></tbody>
@@ -31,7 +30,9 @@
 </div>
 
 <script type="text/javascript">
-    var teamId = "<?php echo $_GET['id']; ?>";
+    var teamId = "<?php echo $_GET['id']; ?>",
+        curentLanguage = null,
+        countMember = 0;
 
     $(document).ready(function(){
         // Cargar datos del team
@@ -56,6 +57,7 @@
                     }
 
                     $("#numMember").html(`${(result.data.teamlist).length} Members`);
+                    countMember = (result.data.teamlist).length;
 
                     let rows = '';
                     $.each(result.data.teamlist, function( index, item){
@@ -72,6 +74,8 @@
                     $("#bdyUser").html("");
                     $(rows).appendTo("#bdyUser");
 
+                    changePageLang(curentLanguage);
+
                 }else{
                     $("#lblNombreTeam").html("");
                     $("#teamPhoto").attr("src", `#`);
@@ -80,6 +84,20 @@
         }else{
             window.location.replace(base_url);
         }            
+    }
+
+    function changePageLang(language) {
+        let myLang = language["teamPage"];
+        curentLanguage = language;
+
+        if(countMember > 0){
+            $("#numMember").html(`${countMember} ${myLang.title}`);
+            $(".labelSubtitle").html(`${myLang.labelSubtitle}`);
+
+            $(".col1").html(`${myLang.col1}`);
+            $(".col2").html(`${myLang.col2}`);
+            $(".col3").html(`${myLang.col3}`);
+        }        
     }
 </script>
 

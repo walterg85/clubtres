@@ -62,7 +62,7 @@
                 <a href="#" class="d-block text-decoration-none dropdown-toggle text-white" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                     <!-- Se usa rand() para generar un numero aleatroio y forzar a la carga de imagen -->
                     <img src="<?php echo '../' . $_SESSION['authData']->image .'?v='.rand(0, 15); ?>" alt="mdo" width="32" height="32" class="rounded-circle me-2">
-                    <texto>Hi</texto> <?php echo $_SESSION['authData']->name; ?> 
+                    <texto class="lableSaludo">Hi</texto> <?php echo $_SESSION['authData']->name; ?> 
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
                     <li><a class="dropdown-item linkSettings" href="javascript:void(0);">Settings</a></li>
@@ -319,6 +319,8 @@
             function switchLanguage(lang){
             $.post("../assets/languages.json", {}, function(data) {
                 $(".changeLang").html('<i class="bi bi-globe2"></i> ' + data[lang]["buttonText"]);
+                $(".lableSaludo").html(`${data[lang]["lableSaludo"]}`);
+                
                     let myLang = data[lang]["main"];
 
                     $(".lblTitle").html(myLang.title);

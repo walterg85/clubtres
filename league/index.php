@@ -19,8 +19,8 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Team name</th>
-                                        <th scope="col">Status</th>
+                                        <th class="col1" scope="col">Team name</th>
+                                        <th class="col2" scope="col">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody id="bdyTeams"></tbody>
@@ -38,7 +38,9 @@
 </div>
 
 <script type="text/javascript">
-    var leagueId = "<?php echo $_GET['id']; ?>";
+    var leagueId = "<?php echo $_GET['id']; ?>",
+        dataLeague = null,
+        curentLanguage = null;
 
     $(document).ready(function(){
         // Cargar datos de la liga
@@ -60,6 +62,11 @@
                       $("#leaguePhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
                     }else{
                       $("#leaguePhoto").attr("src", `#`);
+                    }
+
+                    dataLeague = {
+                        "tipo": result.data.sport,
+                        "cantidad": (result.data.teamlist).length 
                     }
 
                     if(result.data.sport == 1){
@@ -84,6 +91,8 @@
                     $("#bdyTeams").html("");
                     $(rows).appendTo("#bdyTeams");
 
+                    changePageLang(curentLanguage);
+
                 }else{
                     $("#lblName").html("");
                     $("#teamPhoto").attr("src", `#`);
@@ -97,8 +106,15 @@
 
     function changePageLang(language) {
         let myLang = language["leaguePage"];
-        
-        $(".labelSubTitle").html(`${myLang.labelSubTitle}`);
+        curentLanguage = language;
+
+        if(dataLeague){
+            $("#lblInfo").html(`${dataLeague.cantidad} ${myLang.title[dataLeague.tipo -1]}`);
+            $(".labelSubTitle").html(`${myLang.labelSubTitle}`);
+
+            $(".col1").html(`${myLang.col1}`);
+            $(".col2").html(`${myLang.col2}`);
+        }        
     }
 </script>
 
