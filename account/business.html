@@ -223,8 +223,6 @@
 
         // resetear el formulario para nuevo comercio
         $(".tmpNewBusiness").on("click", function(){
-            // $("#modalTitle2").html(`Add new business`);
-
             $("#inputName").val("");
             $("#inputDescription").val("");
             $("#inputNumber").val("");
@@ -238,26 +236,26 @@
             businessPhoto = null;
 
             $(".form-switch").addClass("d-none");
-
             $("#addBusinessModal").modal("show");
         });
 
         // Listar comercios
         fnListBusiness();
 
+        // Cambiar idioma de la pagina
         changePageLang();
     });
 
     function fnRegisterBusiness(){
-        let form = $("#frmBusiness")[0],
-            formData = new FormData(form);
+        let form        = $("#frmBusiness")[0],
+            formData    = new FormData(form),
+            active      = ($("#chkActive").is(':checked')) ? 1 : 0;
 
         formData.append('_method', "POST");
 
         if(businessPhoto)
             formData.append("imageBusiness", businessPhoto, "businessPhoto.jpg");
 
-        let active = ($("#chkActive").is(':checked')) ? 1 : 0;
         formData.append("chkActive", active);
         $("#btnRegisterBusiness").attr("disabled","disabled");
 
@@ -271,8 +269,7 @@
                 $("#frmBusiness")[0].reset();
                 $("#imgPreview").addClass("d-none");
 
-                fnListBusiness();
-                
+                fnListBusiness();                
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 ajaxResponseError(jqXHR, textStatus);
@@ -294,6 +291,7 @@
             dataType: 'json',
             success: function(response){
                 let mypaging = false;
+
                 if( (response.data).length == 0 ){
                     $(".businessAlert").removeClass("d-none");
                     $(".dvContro").addClass("d-none");
@@ -321,7 +319,7 @@
                         {
                             data: 'nombre',
                             render: function(data, type, row){
-                                return `<a href="http://localhost/clubtres/business/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
+                                return `<a href="../business/index.php?id=${row.id}" target="_blank" class="text-decoration-none text-dark">${data}</a>`;
                             }
                         },
                         {
@@ -354,8 +352,6 @@
                             $("#addBusinessModal").modal("show");
 
                             let data = getData($(this), dataTableBusiness);
-
-                            // $("#modalTitle2").html(`Edit ${data.nombre} Business`);
 
                             $("#inputName").val(data.nombre);
                             $("#inputDescription").val(data.Descripcion);
@@ -427,7 +423,6 @@
         $(".labelButonC").html(actualLenguaje[currentSection].labelButonC);
         $("#modalLabel").html(actualLenguaje[currentSection].modalLabel);
         $("#cropImage").html(actualLenguaje[currentSection].cropImage);
-
         $(".colB").html(actualLenguaje[currentSection].labelInputName);
         $(".colC").html(actualLenguaje[currentSection].labelInputDesc);
         $(".colD").html(actualLenguaje[currentSection].labelInputAddres);

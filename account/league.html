@@ -135,27 +135,24 @@
 </div>
 
 <script type="text/javascript">
-    var leaguePhoto   = null,
-        maxCroppedWidth = 500,
-        maxCroppedHeight = 400,
-        dataTableLeague = null,
-        countMyLeague = false,
-        subColA = "",
-        subColB = "";
+    var leaguePhoto         = null,
+        maxCroppedWidth     = 500,
+        maxCroppedHeight    = 400,
+        dataTableLeague     = null,
+        countMyLeague       = false,
+        subColA             = "",
+        subColB             = "";
 
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "league";
-
-        currentLeague= null;
+        currentLeague  = null;
 
         // Lista de ligas propias e invitadas del usuario
         fnListLeague();
 
         // resetear el formulario para nueva liga
         $("#tmpNewLeague").on("click", function(){
-            // $("#modalTitle2").html(`Add new league`);
-
             $("#inputNameL").val("");
             $("#sportType").val("0");
             $("#idLeague").val(0);
@@ -171,14 +168,13 @@
         });
 
         $('#leagueList').on('click', 'tbody td.dt-control', function () {
-            var tr = $(this).closest('tr');
-            var row = dataTableLeague.row( tr );
+            var tr  = $(this).closest('tr'),
+                row = dataTableLeague.row( tr );
      
             if ( row.child.isShown() ) {
                 row.child.hide();
-            }
-            else {
-                let cdata = row.data(),
+            } else {
+                let cdata   = row.data(),
                     objData = {
                         "_method": "getChilds",
                         "leagueId": cdata.id
@@ -188,7 +184,7 @@
                     row.child(leagueMember(result.data, cdata.type, cdata.id)).show();
 
                     $(".btnDisableFromLeague").unbind().click( function(){
-                        let idTeam = $(this).data("idteam"),
+                        let idTeam   = $(this).data("idteam"),
                             idLeague = $(this).data("leagueid");
 
                         if (confirm(`Do you want to suspend the league team?`)){
@@ -206,7 +202,7 @@
                     });
 
                     $(".btnEnableFromLeague").unbind().click( function(){
-                        let idTeam = $(this).data("idteam"),
+                        let idTeam   = $(this).data("idteam"),
                             idLeague = $(this).data("leagueid");
 
                         if (confirm(`Are you sure you want to reactivate this team to the league?`)){
@@ -224,7 +220,7 @@
                     });
 
                     $(".btnDeleteFromLeague").unbind().click( function(){
-                        let idTeam = $(this).data("idteam"),
+                        let idTeam   = $(this).data("idteam"),
                             idLeague = $(this).data("leagueid");
 
                         if (confirm(`Do you really want to eliminate this team?`)){
@@ -267,7 +263,7 @@
                                 rows += `
                                     <tr>
                                         <th scope="row">${pad(item.id, 5)}</th>
-                                        <td><a href="http://localhost/clubtres/user/index.php?id=${item.id}" target="_blank" class="btn ${(item.status == 1) ? '' : 'text-danger'}">${item.usName} ${(item.type == 1) ? '('+item.role+')' : ''}</a></td>
+                                        <td><a href="../user/index.php?id=${item.id}" target="_blank" class="btn ${(item.status == 1) ? '' : 'text-danger'}">${item.usName} ${(item.type == 1) ? '('+item.role+')' : ''}</a></td>
                                         <td class="text-center">
                                             ${opciones}
                                         </td>
