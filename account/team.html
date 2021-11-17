@@ -98,13 +98,13 @@
 </div>
 
 <script type="text/javascript">
-    var teamPhoto   = null,
-        maxCroppedWidth = 900,
-        maxCroppedHeight = 400,
-        dataTableTeam = null,
-        countMyTeams = false,
-        subColA = "",
-        subColB = "";
+    var teamPhoto           = null,
+        maxCroppedWidth     = 900,
+        maxCroppedHeight    = 400,
+        dataTableTeam       = null,
+        countMyTeams        = false,
+        subColA             = "",
+        subColB             = "";
 
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
@@ -126,13 +126,12 @@
             teamPhoto = null;
 
             $(".form-switch").addClass("d-none");
-
             $("#addTeamModal").modal("show");
         });
 
         $('#teamList').on('click', 'tbody td.dt-control', function () {
-            var tr = $(this).closest('tr');
-            var row = dataTableTeam.row( tr );
+            var tr  = $(this).closest('tr'),
+                row = dataTableTeam.row( tr );
      
             if ( row.child.isShown() ) {
                 row.child.hide();
@@ -292,7 +291,7 @@
                         {
                             data: 'name',
                             render: function(data, type, row){
-                                return `<a href="http://localhost/clubtres/team/index.php?id=${row.id}" target="_blank" class="btn">${data}</a>`;
+                                return `<a href="../team/index.php?id=${row.id}" target="_blank" class="text-decoration-none text-dark">${data}</a>`;
                             }
                         },
                         {
@@ -494,7 +493,7 @@
         });
 
         // Image Cropper
-        let picture = null,
+        let picture     = null,
             image       = $("#image")[0],
             inputFile   = $("#imageteam")[0],
             $modal      = $('#modalCrop'),

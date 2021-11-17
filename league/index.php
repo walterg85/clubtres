@@ -38,9 +38,9 @@
 </div>
 
 <script type="text/javascript">
-    var leagueId = "<?php echo $_GET['id']; ?>",
-        dataLeague = null,
-        curentLanguage = null;
+    var leagueId        = "<?php echo $_GET['id']; ?>",
+        dataLeague      = null,
+        curentLanguage  = null;
 
     $(document).ready(function(){
         // Cargar datos de la liga

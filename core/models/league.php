@@ -53,7 +53,7 @@
 			$cmd = 'UPDATE league SET image =:image WHERE id =:leagueId';
 
 			$parametros = array(
-				':image' => $image,
+				':image' 	=> $image,
 				':leagueId' => $leagueId			
 			);
 
@@ -150,8 +150,8 @@
 			';
 
 			$parametros = array(
-				':team_id' => $data['idTeam'],
-				':league_id' => $data['idLeague']
+				':team_id' 		=> $data['idTeam'],
+				':league_id' 	=> $data['idLeague']
 			);
 
 			$sql = $pdo->prepare($cmd);
@@ -167,8 +167,8 @@
 			';
 
 			$parametros = array(
-				':team_id' => $data['idTeam'],
-				':league_id' => $data['idLeague']
+				':team_id' 		=> $data['idTeam'],
+				':league_id' 	=> $data['idLeague']
 			);
 
 			$sql = $pdo->prepare($cmd);
@@ -184,8 +184,8 @@
 			';
 
 			$parametros = array(
-				':team_id' => $data['idTeam'],
-				':league_id' => $data['idLeague']
+				':team_id' 		=> $data['idTeam'],
+				':league_id' 	=> $data['idLeague']
 			);
 
 			$sql = $pdo->prepare($cmd);
@@ -231,11 +231,11 @@
 			$cmd = 'INSERT INTO games (league_id, teama_id, teamb_id, event_date, locations, registered_date, status) VALUES (:league_id, :teama_id, :teamb_id, :event_date, :locations, now(), 1)';
 
 			$parametros = array(
-				':league_id' => $data['leagueId'],
-				':teama_id' => $data['team1'],
-				':teamb_id' => $data['team2'],
-				':event_date' => $data['date'],
-				':locations' => $data['location']
+				':league_id' 	=> $data['leagueId'],
+				':teama_id' 	=> $data['team1'],
+				':teamb_id' 	=> $data['team2'],
+				':event_date'	=> $data['date'],
+				':locations' 	=> $data['location']
 			);
 
 			try {
