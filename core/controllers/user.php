@@ -193,8 +193,15 @@
 			$_SESSION['authData']->name = $put_vars['inputName'];
 			$_SESSION['authData']->last_name = $put_vars['inputLastName'];
 
-			header('HTTP/1.1 200 Ok');			
-			exit();
+			$response = array(
+				'codeResponse' => 200,
+				'data' => $_SESSION['authData']->image .'?v='.rand(0, 15)
+			);			
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			
+			exit(json_encode($response));
 		} else if($put_vars['_method'] == 'showInvitations') {
 			$userModel = new Usersmodel();
 			$tmpResponse = $userModel->showInvitations( $_SESSION['authData']->id );		
