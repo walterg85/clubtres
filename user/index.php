@@ -1,4 +1,5 @@
 <?php
+    session_start();
     // Se inicia el metodo para encapsular todo el contenido de las paginas (bufering), para dar salida al HTML 
     ob_start();
 ?>
@@ -13,6 +14,9 @@
                 <h1 class="fw-bold lh-1 mb-0" id="userName"></h1>
                 <p class="h1 mt-0" id="userId"></p>
                 <p class="lead" id="userStatus"></p>
+                <?php if(isset($_SESSION['login'])) { ?>
+                    <a href="javascript:void(0);" class="btn btn-success">Solicitud de amistad</a>
+                <?php } ?>
             </div>
         </div>
     </div>
