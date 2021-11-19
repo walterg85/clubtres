@@ -1,6 +1,6 @@
 <?php
     // Se inicia el metodo de session par hacer uso de las variables
-    session_start();
+    @session_start();
 
     // Url raiz, para todas las coneciones al controlador, este se debe cambiar cuando se publica el proecto con una DNS
     $base_url = 'http://localhost/clubtres';

@@ -112,6 +112,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);" id="linkFriends">
+                                    <i class="bi bi-file-person"></i> Friends
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0);" id="linkSettings">
                                     <i class="bi bi-wrench"></i> Settings
                                 </a>
@@ -334,6 +339,7 @@
                     $("#linkGames").html(`<i class="bi bi-cone-striped"></i> ${myLang.linkGames}`);
                     $("#linkBusiness").html(`<i class="bi bi-award"></i> ${myLang.linkBusiness}`);
                     $("#linkSettings, .linkSettings").html(`<i class="bi bi-wrench"></i> ${myLang.linkSettings}`);
+                    $("#linkFriends").html(`<i class="bi bi-file-person"></i> ${myLang.linkFriends}`);
 
                     // Condicion ternario para obligar a cargar las traducciones de home en la 1ra carga
                     //currentSection = (currentSection) ? currentSection : "home";
