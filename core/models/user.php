@@ -129,6 +129,19 @@
 
 				$sql = $pdo->prepare($cmd);
 				$sql->execute($parametros);
+			} else if($data['event_type'] == -1 && $data['action'] == 1){
+				$cmd = '
+					INSERT INTO user_friends (user_id, friend_id, register_date)
+					VALUES (:receptor, :emisor, now()), (:emisor, :receptor, now());
+				';
+
+				$parametros = array(
+					':receptor'	=> $userId,
+					':emisor' 	=> $data['uorigin_id']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
 			}
 
 			return TRUE;
@@ -276,5 +289,66 @@
 			} catch (PDOException $e) {
 		        return [FALSE, 'Invitation not sent'];
 		    }
+		}
+
+		public function reviewFriendRequest($data){
+			$pdo 		= new Conexion();
+			$parametros = array(
+				':uorigin_id'	=> $data['uorigin_id'],
+				':udestiny_id'	=> $data['udestiny_id'],
+				':event_type'	=> $data['event_type']
+			);
+
+			// Verificar si se envio solicitud a un usuario
+			$cmd = '
+				SELECT COUNT(id) AS invitacion
+				FROM invitation 
+				WHERE udestiny_id =:udestiny_id 
+					AND uorigin_id =:uorigin_id
+					AND event_type =:event_type
+			';			
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+			$response = $sql->fetch();
+
+			if($response->invitacion > 0)
+				return [1, 0];
+
+			// Verificar si se recibio solicitud de un usuario
+			$cmd = '
+				SELECT COUNT(id) AS invitado
+				FROM invitation 
+				WHERE udestiny_id =:uorigin_id 
+					AND uorigin_id =:udestiny_id
+					AND event_type =:event_type
+			';			
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+			$response = $sql->fetch();
+
+			if($response->invitado > 0)
+				return [2, 0];
+
+			// Verificar si ya son amigos
+			$cmd = '
+				SELECT COUNT(id) AS amigos, register_date
+				FROM user_friends 
+				WHERE user_id =:udestiny_id 
+					AND friend_id =:uorigin_id
+			';			
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+			$response = $sql->fetch();
+
+			if($response->amigos > 0)
+				return [3, $response->register_date];
+
+			return 0;
 		}
 	}
