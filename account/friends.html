@@ -1,0 +1,86 @@
+<div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2 pageTitle">My friends</h1>
+    </div>
+    <table class="table" id="friendsList">
+        <thead class="table-light">
+            <th>#</th>
+            <th class="colA">Picture</th>
+            <th class="colB">Name</th>
+            <th class="colC">Friends since</th>
+            <th></th>
+        </thead>
+    </table>
+</div>
+
+<script type="text/javascript">
+    var dataTableFriends = null;
+
+    $(document).ready(function(){
+        // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
+        currentSection = "friends";
+        
+        fnListFriends();      
+    });
+
+    function fnListFriends(){
+        $.ajax({
+            url: '../core/controllers/user.php',
+            data: { _method: 'getFriends' },
+            type: 'POST',
+            dataType: 'json',
+            success: function(response){
+                let mypaging = false;
+                
+                if (dataTableFriends != null)
+                    dataTableFriends.destroy();
+
+                if( (response.data).length > 20 )
+                        mypaging = true;
+
+                dataTableFriends = $("#friendsList").DataTable({
+                    data: response.data,
+                    columns:
+                    [
+                        {
+                            data: 'id',
+                            render: function(data, type, row){
+                                return pad(data, 5);
+                            }
+                        },
+                        {
+                            data: 'avatar'
+                        },
+                        {
+                            data: 'name'
+                        },
+                        {
+                            data: 'register_date'
+                        },
+                        {
+                            data: null,
+                            orderable: false,
+                            class: "text-center",
+                            render: function ( data, type, row )
+                            {
+                                return `<a href="javascript:void(0);" class="btn btn-outline-secondary btnChat" title="Send message"><i class="bi bi-telegram"></i></a>`;
+                            }
+                        }
+                    ],
+                    searching: false,
+                    pageLength: 20,
+                    info: false,
+                    lengthChange: false,
+                    paging: mypaging
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                ajaxResponseError(jqXHR, textStatus);
+            },
+            complete: function(){
+                // Se hace el llamado del metodo de traduccion aqui para esperar a que se pinte la tabla
+                // changePageLang();
+            }
+        });
+    }
+</script>

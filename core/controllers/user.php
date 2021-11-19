@@ -252,7 +252,17 @@
 			$userModel= new Usersmodel();
 			$response = array(
 				'codeResponse' 	=> 200,
-				'status'		=> $userModel->reviewFriendRequest($data);
+				'status'		=> $userModel->reviewFriendRequest($data)
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($put_vars['_method'] == 'getFriends'){
+			$userModel= new Usersmodel();
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data'		=> $userModel->getFriends($_SESSION['authData']->id)
 			);
 
 			header('HTTP/1.1 200 Ok');

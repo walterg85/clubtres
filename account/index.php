@@ -186,6 +186,10 @@
                     $( "#mainContenedor" ).load( `setting.html?v=${Math.random()}` );
                 });
 
+                $("#linkFriends").on("click", function(){
+                    $( "#mainContenedor" ).load( `friends.html?v=${Math.random()}` );
+                });
+
                 findNotifications();
                 setInterval(findNotifications, 2500);
 
