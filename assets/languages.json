@@ -198,7 +198,8 @@
 			"labelAbout":"About"
 		},
 		"userPage":{
-			"title": "User page"
+			"title": "User page",
+			"btnEnviarSolicitud": "Friend request"
 		}
 	},
 	"es":{
@@ -400,7 +401,8 @@
 			"labelAbout":"Acerca de"
 		},
 		"userPage":{
-			"title": "Pagina de usuario"
+			"title": "Pagina de usuario",
+			"btnEnviarSolicitud": "Soliciud de amistad"
 		}
 	}
 }
