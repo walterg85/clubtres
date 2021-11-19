@@ -29,6 +29,9 @@
         // Cargar datos del usuario
         fnLoadData();
 
+        // Verificar las solicitudes de amistad
+        reviewFriendRequest();
+
         $("#btnEnviarSolicitud").click( sendInvitation);
     });
 
@@ -75,6 +78,17 @@
             }else{
                 alert(result.message)
             }
+        });
+    }
+
+    function reviewFriendRequest(){
+        let objData = {
+            "_method": "reviewFriendRequest",
+            "userId": userId
+        };
+
+        $.post("../core/controllers/user.php", objData, function(result) {
+            console.log(result);
         });
     }
 </script>

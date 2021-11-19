@@ -115,7 +115,7 @@
                             class: "text-center",
                             render: function ( data, type, row )
                             {
-                                if(data >= 0 ){
+                                if(data == 0 || data > 0 || data == -1){
                                     return `
                                         <a href="javascript:void(0);" class="mr-2 btn btn-outline-secondary btnAcept" title="Acept"><i class="bi bi-check2-square"></i> <text class="subBtnA">To Acept</text></a>
                                         <a href="javascript:void(0);" class="mr-2 btn btn-outline-danger btnRechaze" title="To refuse"><i class="bi bi-trash"></i> <text class="subBtnB">To refuse</text></a>
@@ -135,7 +135,8 @@
                                     "action": 1,
                                     "invitationId": data.id,
                                     "event_id": data.event_id,
-                                    "event_type": data.event_type
+                                    "event_type": data.event_type,
+                                    "uorigin_id": data.uorigin_id
                                 };
 
                                 updateInvitation(objData);                                
