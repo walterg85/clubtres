@@ -15,7 +15,10 @@
                 <p class="h1 mt-0" id="userId"></p>
                 <p class="lead" id="userStatus"></p>
                 <?php if(isset($_SESSION['login'])) { ?>
-                    <a href="javascript:void(0);" class="btn btn-success" id="btnEnviarSolicitud"><i class="bi bi-person-plus-fill"></i> Solicitud de amistad</a>
+                    <a href="javascript:void(0);" class="btn btn-success d-none" id="btnEnviarSolicitud"><i class="bi bi-person-plus-fill"></i> Solicitud de amistad</a>
+                    <p class="lead d-none btnEnviado"><i class="bi bi-person-plus-fill"></i> Friend request sent</p>
+                    <p class="lead d-none btnRecibido"><i class="bi bi-person-plus-fill"></i> Friend request received</p>
+                    <p class="lead d-none btnFriends"><i class="bi bi-person-check-fill"></i> Friends since <text class="lblDate"></text> </p>
                 <?php } ?>
             </div>
         </div>
@@ -75,6 +78,7 @@
         $.post("../core/controllers/user.php", objData, function(result) {
             if(result.codeResponse == 200){
                 alert("Invitation sent");
+                reviewFriendRequest();
             }else{
                 alert(result.message)
             }
@@ -88,7 +92,22 @@
         };
 
         $.post("../core/controllers/user.php", objData, function(result) {
-            console.log(result);
+            let intStatus = result.status[0];
+
+            if(intStatus == 0){
+                $("#btnEnviarSolicitud").removeClass("d-none");
+            }else{
+                $("#btnEnviarSolicitud").addClass("d-none");
+
+                if(intStatus == 1){
+                    $(".btnEnviado").removeClass("d-none");
+                }else if(intStatus == 2){
+                    $(".btnRecibido").removeClass("d-none");
+                }else if(intStatus == 3){
+                    $(".btnFriends").removeClass("d-none");
+                    $(".lblDate").html(result.status[1]);
+                }                
+            }
         });
     }
 </script>

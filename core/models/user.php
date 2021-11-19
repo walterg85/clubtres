@@ -337,9 +337,14 @@
 			$cmd = '
 				SELECT COUNT(id) AS amigos, register_date
 				FROM user_friends 
-				WHERE user_id =:udestiny_id 
-					AND friend_id =:uorigin_id
-			';			
+				WHERE user_id =:user_id 
+					AND friend_id =:friend_id
+			';
+
+			$parametros = array(
+				':friend_id'	=> $data['uorigin_id'],
+				':user_id'		=> $data['udestiny_id']
+			);		
 
 			$sql = $pdo->prepare($cmd);
 			$sql->execute($parametros);
@@ -349,6 +354,11 @@
 			if($response->amigos > 0)
 				return [3, $response->register_date];
 
-			return 0;
+			return [0, 0];
+		}
+
+		public function getFriends($userId)
+		{
+			return [];
 		}
 	}
