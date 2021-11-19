@@ -64,7 +64,18 @@
     }
 
     function sendInvitation(){
-        
+        let objData = {
+            "_method": "inviteFriend",
+            "userId": userId
+        };
+
+        $.post("../core/controllers/user.php", objData, function(result) {
+            if(result.codeResponse == 200){
+                alert("Invitation sent");
+            }else{
+                alert(result.message)
+            }
+        });
     }
 </script>
 

@@ -233,4 +233,48 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		public function inviteFriend($data){
+			$pdo = new Conexion();
+			$cmd = 'SELECT COUNT(id) AS invitado FROM invitation WHERE udestiny_id =:udestiny_id AND uorigin_id =:uorigin_id AND event_id =:event_id AND event_type =:event_type';
+
+			$parametros = array(
+				':udestiny_id'	=> $data['udestiny_id'],
+				':event_id'		=> $data['event_id'],
+				':event_type'	=> $data['event_type'],
+				':uorigin_id'	=> $data['uorigin_id']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+			$response = $sql->fetch();
+
+			if($response->invitado > 0)
+				return [FALSE, 'You cannot send another friend invitation to the same user, they still have a pending invitation'];
+
+			$cmd = '
+				INSERT INTO invitation
+					(udestiny_id, uorigin_id, event, event_id, event_type, register_date)
+				VALUES
+					(:udestiny_id, :uorigin_id, :event, :event_id, :event_type, now())
+			';
+
+			$parametros = array(
+				':udestiny_id'		=> $data['udestiny_id'],
+				':uorigin_id'		=> $data['uorigin_id'],
+				':event'		=> $data['event'],
+				':event_id'		=> $data['event_id'],
+				':event_type'		=> $data['event_type']
+			);
+			
+			try {
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+
+				return [TRUE, $pdo->lastInsertId()];
+			} catch (PDOException $e) {
+		        return [FALSE, 'Invitation not sent'];
+		    }
+		}
 	}

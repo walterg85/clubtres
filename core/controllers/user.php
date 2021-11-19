@@ -215,6 +215,33 @@
 			header("Content-Type: application/json; charset=UTF-8");
 			
 			exit(json_encode($response));
+		} else if($put_vars['_method'] == 'inviteFriend'){
+			$data = array(
+				'uorigin_id' 	=> $_SESSION['authData']->id,
+				'udestiny_id' 	=> $put_vars['userId'],
+				'event' 		=> 'Hello, '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' has sent you a friend request, respond soon, await your response.',
+				'event_type' 	=> '-1',
+				'event_id' 		=> 0
+			);
+
+			$userModel 		= new Usersmodel();
+			$tmpResponse 	= $userModel->inviteFriend($data);
+
+			if($tmpResponse[0]){
+				$response = array(
+					'codeResponse' => 200
+				);
+			}else{
+				$response = array(
+					'codeResponse' 	=> 0,
+					'message' 		=> $tmpResponse[1]
+				);
+			}
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			
+			exit(json_encode($response));
 		}
 	}
 
