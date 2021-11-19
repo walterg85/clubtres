@@ -15,7 +15,7 @@
                 <p class="h1 mt-0" id="userId"></p>
                 <p class="lead" id="userStatus"></p>
                 <?php if(isset($_SESSION['login'])) { ?>
-                    <a href="javascript:void(0);" class="btn btn-success">Solicitud de amistad</a>
+                    <a href="javascript:void(0);" class="btn btn-success" id="btnEnviarSolicitud"><i class="bi bi-person-plus-fill"></i> Solicitud de amistad</a>
                 <?php } ?>
             </div>
         </div>
@@ -28,6 +28,8 @@
     $(document).ready(function(){
         // Cargar datos del usuario
         fnLoadData();
+
+        $("#btnEnviarSolicitud").click( sendInvitation);
     });
 
     function fnLoadData(){
@@ -57,6 +59,12 @@
 
     function changePageLang(language) {
         let myLang = language["userPage"];
+
+        $("#btnEnviarSolicitud").html(`<i class="bi bi-person-plus-fill"></i> ${myLang.btnEnviarSolicitud}`);
+    }
+
+    function sendInvitation(){
+        
     }
 </script>
 
