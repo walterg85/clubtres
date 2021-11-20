@@ -188,6 +188,7 @@
 				$tempname = $_FILES['userPhoto']['tmp_name'];
 				       
 				move_uploaded_file($tempname, "../../{$folder}/{$filename}");
+				$_SESSION['authData']->image = $folder . '/' . $put_vars['userId'] . '.jpg';
 			}
 
 			$_SESSION['authData']->name = $put_vars['inputName'];
@@ -195,7 +196,7 @@
 
 			$response = array(
 				'codeResponse' => 200,
-				'data' => $_SESSION['authData']->image .'?v='.rand(0, 15)
+				'data' => $_SESSION['authData']->image
 			);			
 
 			header('HTTP/1.1 200 Ok');
@@ -259,10 +260,22 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		} else if($put_vars['_method'] == 'getFriends'){
-			$userModel= new Usersmodel();
+			$userModel = new Usersmodel();
+			$tmpData   = $userModel->getFriends($_SESSION['authData']->id);
+
+			$data = [];
+			foreach ($tmpData as $key => $value) {				
+				$value['avatar'] = 'assets/img/user/default.jpg';
+
+				if( is_file(dirname(__FILE__, 3) . '/assets/img/user/'. $value['friend_id'] .'.jpg' ) )
+					$value['avatar'] = 'assets/img/user/'. $value['friend_id'] .'.jpg';
+
+				$data[] = $value;
+			}
+
 			$response = array(
 				'codeResponse' 	=> 200,
-				'data'		=> $userModel->getFriends($_SESSION['authData']->id)
+				'data'			=> $data
 			);
 
 			header('HTTP/1.1 200 Ok');

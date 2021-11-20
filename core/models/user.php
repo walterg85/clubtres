@@ -359,6 +359,26 @@
 
 		public function getFriends($userId)
 		{
-			return [];
+			$pdo = new Conexion();
+
+			$cmd = '
+				SELECT 
+					uf.friend_id,
+					CONCAT(u.name, " ", u.last_name) AS name,
+					uf.register_date
+				FROM 
+					user_friends AS uf 
+				INNER JOIN user AS u ON uf.friend_id = u.id
+				WHERE uf.user_id =:userId
+			';
+
+			$parametros = array(
+				':userId'	=> $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
 	}
