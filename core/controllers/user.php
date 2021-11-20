@@ -281,6 +281,22 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($put_vars['_method'] == 'deleteFriend'){
+			$data = array(
+				'user_id' 	=> $_SESSION['authData']->id,
+				'friend_id'	=> $put_vars['friend_id']
+			);
+			
+			$userModel = new Usersmodel();
+			$userModel->deleteFriend( $data );
+
+			$response = array(
+				'codeResponse' 	=> 200
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
 		}
 	}
 

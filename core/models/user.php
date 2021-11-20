@@ -381,4 +381,23 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		public function deleteFriend($data){
+			$pdo 		= new Conexion();
+
+			$parametros = array(
+				':user_id'		=> $data['user_id'],
+				':friend_id'	=> $data['friend_id']
+			);
+
+			$cmd = '
+				DELETE  FROM user_friends WHERE user_id =:user_id AND friend_id =:friend_id;
+				DELETE  FROM user_friends WHERE user_id =:friend_id AND friend_id =:user_id;
+			';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}
