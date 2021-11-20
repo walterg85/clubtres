@@ -18,7 +18,7 @@
                     <a href="javascript:void(0);" class="btn btn-success d-none" id="btnEnviarSolicitud"><i class="bi bi-person-plus-fill"></i> Solicitud de amistad</a>
                     <p class="lead d-none btnEnviado"><i class="bi bi-person-plus-fill"></i> Friend request sent</p>
                     <p class="lead d-none btnRecibido"><i class="bi bi-person-plus-fill"></i> Friend request received</p>
-                    <p class="lead d-none btnFriends"><i class="bi bi-person-check-fill"></i> Friends since <text class="lblDate"></text> </p>
+                    <p class="lead d-none btnFriends"><i class="bi bi-person-check-fill"></i> <text class="lblFriends">Friends since</text> <text class="lblDate"></text> </p>
                 <?php } ?>
             </div>
         </div>
@@ -67,6 +67,9 @@
         let myLang = language["userPage"];
 
         $("#btnEnviarSolicitud").html(`<i class="bi bi-person-plus-fill"></i> ${myLang.btnEnviarSolicitud}`);
+        $(".btnEnviado").html(`<i class="bi bi-person-plus-fill"></i> ${myLang.btnEnviado}`);
+        $(".btnRecibido").html(`<i class="bi bi-person-plus-fill"></i> ${myLang.btnRecibido}`);
+        $(".lblFriends").html(`${myLang.btnFriends}`);
     }
 
     function sendInvitation(){

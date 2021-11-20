@@ -145,7 +145,7 @@
                 $(".btnSaveChanges").removeAttr("disabled");
                 $(".btnSaveChanges").html('<i class="bi bi-check2"></i> Save changes');
 
-                $(".userImg").attr("src", `../${response.data}`);
+                $(".userImg").attr("src", `../${response.data}?v=${Math.random()}`);
                 fnGetconfig();
             },
             error: function(jqXHR, textStatus, errorThrown) {

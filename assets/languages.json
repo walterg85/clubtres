@@ -199,7 +199,16 @@
 		},
 		"userPage":{
 			"title": "User page",
-			"btnEnviarSolicitud": "Friend request"
+			"btnEnviarSolicitud": "Friend request",
+			"btnEnviado": "Friend request sent",
+			"btnRecibido": "Friend request received",
+			"btnFriends": "Friends since"
+		},
+		"friends":{
+			"pageTitle": "My friends",
+			"colA": "Picture",
+			"colB": "Name",
+			"colC": "Friends since"
 		}
 	},
 	"es":{
@@ -402,7 +411,16 @@
 		},
 		"userPage":{
 			"title": "Pagina de usuario",
-			"btnEnviarSolicitud": "Soliciud de amistad"
+			"btnEnviarSolicitud": "Soliciud de amistad",
+			"btnEnviado": "Solicitud de amistad enviada",
+			"btnRecibido": "Solicitud de amistad recibida",
+			"btnFriends": "Amigos desde"
+		},
+		"friends":{
+			"pageTitle": "Mis amigos",
+			"colA": "Fotografía",
+			"colB": "Nombre",
+			"colC": "Amigos desde"
 		}
 	}
 }

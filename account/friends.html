@@ -43,13 +43,16 @@
                     columns:
                     [
                         {
-                            data: 'id',
+                            data: 'friend_id',
                             render: function(data, type, row){
                                 return pad(data, 5);
                             }
                         },
                         {
-                            data: 'avatar'
+                            data: 'avatar',
+                            render: function(data, type, row){
+                                return `<img src="../${data}?v=${Math.random()}" alt="mdo" width="64" height="64" class="rounded-circle me-2 userImg">`;
+                            }
                         },
                         {
                             data: 'name'
@@ -61,9 +64,8 @@
                             data: null,
                             orderable: false,
                             class: "text-center",
-                            render: function ( data, type, row )
-                            {
-                                return `<a href="javascript:void(0);" class="btn btn-outline-secondary btnChat" title="Send message"><i class="bi bi-telegram"></i></a>`;
+                            render: function ( data, type, row ){
+                                return `<a href="javascript:void(0);" class="btn btn-outline-success btnChat" title="Send message"><i class="bi bi-telegram"></i></a>`;
                             }
                         }
                     ],
@@ -79,8 +81,17 @@
             },
             complete: function(){
                 // Se hace el llamado del metodo de traduccion aqui para esperar a que se pinte la tabla
-                // changePageLang();
+                changePageLang();
             }
         });
+    }
+
+    // Metodo para el cambio de idioma, la variable actualLenguaje, se hereda de la pagina principal index.php
+    function changePageLang(){
+        $(".pageTitle").html(actualLenguaje[currentSection].pageTitle);
+
+        $(".colA").html(actualLenguaje[currentSection].colA);
+        $(".colB").html(actualLenguaje[currentSection].colB);
+        $(".colC").html(actualLenguaje[currentSection].colC);
     }
 </script>
