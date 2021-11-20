@@ -40,6 +40,19 @@
             background-color: #fff !important;
             opacity: .7 !important;
         }
+        .globoChat {
+            width: 80px;
+            height: 80px;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            right: 14px;
+            bottom: 30px;
+            cursor: pointer;
+            background-color: #b7b7b7;
+            transition: all 0.4s
+        }
     </style>
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -125,6 +138,13 @@
                     </div>
                 </nav>
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-4" id="mainContenedor"></main>
+
+                <!-- Contenedor para burbujas de chats activos -->
+                <div id="chatContain">
+                    <div class="globoChat globoClone d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="User name">
+                        <img src="#" class="rounded-circle usAvatar">
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -274,7 +294,7 @@
                     $(`#${linkto}`).click();
                 }else{
                     $("#linkHome").click();
-                }                
+                }
             });
 
             function getData(obj, dtable){
