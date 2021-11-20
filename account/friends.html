@@ -87,6 +87,24 @@
                                 });
                             }
                         });
+
+                        $(".btnChat").unbind().click(function(){
+                            let globo   = $(".globoClone").clone(),
+                                data    = getData($(this), dataTableFriends);
+
+                            globo.find(".usAvatar").attr("src", `../${data.avatar}`);
+                            globo.find(".usAvatar").parent().attr("title", data.nam);
+
+                            globo.removeClass("d-none globoClone");
+
+                            $(globo).appendTo("#chatContain");
+
+                            // Tooltips para globos del chat
+                            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                                return new bootstrap.Tooltip(tooltipTriggerEl)
+                            });
+                        });
                     },
                     searching: false,
                     pageLength: 20,
