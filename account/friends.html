@@ -65,10 +65,29 @@
                             orderable: false,
                             class: "text-center",
                             render: function ( data, type, row ){
-                                return `<a href="javascript:void(0);" class="btn btn-outline-success btnChat" title="Send message"><i class="bi bi-telegram"></i></a>`;
+                                return `
+                                    <a href="javascript:void(0);" class="btn btn-outline-success btnChat me-2" title="Send message"><i class="bi bi-telegram"></i></a>
+                                    <a href="javascript:void(0);" class="btn btn-outline-danger btnDelete" title="Delete friend"><i class="bi bi-person-x-fill"></i></a>
+                                `;
                             }
                         }
                     ],
+                    "fnDrawCallback":function(oSettings){
+                        $(".btnDelete").unbind().click(function(){
+                            if (confirm(`you want to delete this friend?`)){
+                                let data = getData($(this), dataTableFriends),
+                                    objData = {
+                                        "_method": "deleteFriend",
+                                        "friend_id": data.friend_id
+                                    };
+
+                                $.post("../core/controllers/user.php", objData, function(result) {
+                                    alert('Friend removed');
+                                    fnListFriends();
+                                });
+                            }
+                        });
+                    },
                     searching: false,
                     pageLength: 20,
                     info: false,
