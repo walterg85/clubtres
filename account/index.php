@@ -47,7 +47,6 @@
             display: flex;
             justify-content: center;
             position: absolute;
-            right: 14px;
             bottom: 30px;
             cursor: pointer;
             background-color: #b7b7b7;
@@ -140,9 +139,12 @@
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-4" id="mainContenedor"></main>
 
                 <!-- Contenedor para burbujas de chats activos -->
-                <div id="chatContain">
-                    <div class="globoChat globoClone d-none" data-bs-toggle="tooltip" data-bs-placement="top" title="User name">
-                        <img src="#" class="rounded-circle usAvatar">
+                <div id="chatContain" style="padding-left: 20em;">
+                    <div class="globoChat globoClone d-none ms-5">
+                        <img src="#" class="rounded-circle usAvatar" data-bs-toggle="tooltip">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger btnCloceChat">
+                            X
+                        </span>
                     </div>
                 </div>
             </div>
@@ -164,7 +166,8 @@
                 currentSection = "",
                 searchRequest = null,
                 actualLenguaje = null,
-                linkto = null;
+                linkto = null,
+                countChat = 0;
             
             $(document).ready(function(){
                 let queryString = window.location.search,

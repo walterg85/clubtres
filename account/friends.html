@@ -89,20 +89,28 @@
                         });
 
                         $(".btnChat").unbind().click(function(){
-                            let globo   = $(".globoClone").clone(),
-                                data    = getData($(this), dataTableFriends);
+                            let globo    = $(".globoClone").clone(),
+                                data     = getData($(this), dataTableFriends);
+                                // cssRight = (countChat == 0) ? 340 : 340 + (countChat * 100);
 
-                            globo.find(".usAvatar").attr("src", `../${data.avatar}`);
-                            globo.find(".usAvatar").parent().attr("title", data.nam);
+                            globo.find(".usAvatar").attr("src", `../${data.avatar}`);                            
+                            globo.find(".usAvatar").attr("title", data.name);
 
                             globo.removeClass("d-none globoClone");
+                            // globo.css('left', cssRight);
 
                             $(globo).appendTo("#chatContain");
+                            countChat += 1;
 
-                            // Tooltips para globos del chat
+                            //Tooltips para globos del chat
                             var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
                             var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                                 return new bootstrap.Tooltip(tooltipTriggerEl)
+                            });
+
+                            // Accion para cerrar chat
+                            $(".btnCloceChat").click( function(){
+                                $(this).parent().remove();
                             });
                         });
                     },
@@ -118,7 +126,7 @@
             },
             complete: function(){
                 // Se hace el llamado del metodo de traduccion aqui para esperar a que se pinte la tabla
-                changePageLang();
+                changePageLang();                
             }
         });
     }
