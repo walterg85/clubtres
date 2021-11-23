@@ -90,14 +90,14 @@
 
                         $(".btnChat").unbind().click(function(){
                             let globo    = $(".globoClone").clone(),
-                                data     = getData($(this), dataTableFriends);
-                                // cssRight = (countChat == 0) ? 340 : 340 + (countChat * 100);
+                                data     = getData($(this), dataTableFriends),
+                                cssLeft = (countChat == 0) ? 340 : 340 + (countChat * 100);
 
                             globo.find(".usAvatar").attr("src", `../${data.avatar}`);                            
                             globo.find(".usAvatar").attr("title", data.name);
 
                             globo.removeClass("d-none globoClone");
-                            // globo.css('left', cssRight);
+                            globo.css('left', cssLeft);
 
                             $(globo).appendTo("#chatContain");
                             countChat += 1;
@@ -111,6 +111,16 @@
                             // Accion para cerrar chat
                             $(".btnCloceChat").click( function(){
                                 $(this).parent().remove();
+                            });
+
+                            $(".wrapper").css("opacity", 1);
+                            $(".wrapper").css("left", cssLeft);
+                            $(".labelChatTitle").html(data.name);
+
+                            $(".usAvatar").click( function(){
+                                let leftPx = $(this).parent().css("left");
+                                $(".wrapper").css("opacity", 1);
+                                $(".wrapper").css("left", leftPx);
                             });
                         });
                     },
