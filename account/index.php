@@ -52,6 +52,51 @@
             background-color: #b7b7b7;
             transition: all 0.4s
         }
+
+        .wrapper {
+            position: absolute;
+            bottom: 100px;
+            width: 300px;
+            background-color: #383b3f;
+            border-radius: 5px;
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 9;
+        }
+
+        .header {
+            padding: 13px;
+            background-color: #191c1f;
+            border-radius: 5px 5px 0px 0px;
+            margin-bottom: 10px;
+            color: #fff
+        }
+
+        .chat-form {
+            padding: 15px
+        }
+
+        .chat-form input, textarea, button {
+            margin-bottom: 10px
+        }
+
+        .chat-form textarea {
+            resize: none
+        }
+
+        .form-control:focus, .btn:focus {
+            box-shadow: none
+        }
+
+        #chatLog {
+            text-align: left;
+            margin: 0 auto;
+            padding: 10px;
+            height: 200px;
+            width: 100%;
+            overflow: auto;
+        }
+
     </style>
     <body>
         <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -139,8 +184,26 @@
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pb-4" id="mainContenedor"></main>
 
                 <!-- Contenedor para burbujas de chats activos -->
-                <div id="chatContain" style="padding-left: 20em;">
-                    <div class="globoChat globoClone d-none ms-5">
+                <div id="chatContain">
+                    <div class="wrapper">
+                        <div class="header">
+                            <h6 class="labelChatTitle">Nombre de usuario</h6>
+                        </div>
+                        <div class="text-center p-2">
+                            <div id="chatLog"></div>
+                        </div>
+                        <div class="chat-form">
+                            <div id="divConversasion">
+                                <textarea class="form-control" placeholder="Your Message" id="inputNewMessage"></textarea>
+                                <div class="d-md-flex justify-content-md-end">
+                                    <button class="btn btn-success btn-block pull-right" id="btnSendmessage">Send</button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="globoChat globoClone d-none">
                         <img src="#" class="rounded-circle usAvatar" data-bs-toggle="tooltip">
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger btnCloceChat">
                             X
@@ -167,7 +230,8 @@
                 searchRequest = null,
                 actualLenguaje = null,
                 linkto = null,
-                countChat = 0;
+                countChat = 0,
+                refreshLog = null;
             
             $(document).ready(function(){
                 let queryString = window.location.search,
