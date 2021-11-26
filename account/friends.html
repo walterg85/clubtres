@@ -113,15 +113,25 @@
                                 $(this).parent().remove();
                             });
 
+                            let objData = {
+                                "_method": "_Getlog",
+                                "destiny": data.friend_id
+                            };
+
+                            $.post("../core/controllers/chat.php", objData, function(result){
+                                if(result.log)
+                                    $("#chatLog").html(result.log.message);
+                            });
+
                             $(".wrapper").css("opacity", 1);
                             $(".wrapper").css("left", cssLeft);
                             $(".labelChatTitle").html(data.name);
 
-                            $(".usAvatar").click( function(){
-                                let leftPx = $(this).parent().css("left");
-                                $(".wrapper").css("opacity", 1);
-                                $(".wrapper").css("left", leftPx);
-                            });
+                            // $(".usAvatar").click( function(){
+                            //     let leftPx = $(this).parent().css("left");
+                            //     $(".wrapper").css("opacity", 1);
+                            //     $(".wrapper").css("left", leftPx);
+                            // });
                         });
                     },
                     searching: false,

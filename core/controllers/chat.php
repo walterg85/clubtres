@@ -30,6 +30,23 @@
 				// Se imprime la respuesta: =0 no satiscatorio, >0 satisfactorio
 				header('HTTP/1.1 200 Ok');				
 				exit($success);
+			} else if($_POST['_method'] == '_Getlog'){
+				// Se crea una matriz para recoger los parametros enviados desde form
+				$data = array(
+					'destiny' 	=> $_POST['destiny'],
+					'origin' 	=> $_SESSION['authData']->id
+				);
+
+				// Se ejecuta el metodo para buscar el log del chat seleccionado
+				$response = array(
+					'codeResponse' 	=> 200,
+					'log' 			=> $chatModel->loadChatLog($data, $_POST['chatId'])
+				);
+
+				// envia la respuesta al front
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				exit( json_encode($response) );
 			}
 		} else {
 			$response = array(
@@ -39,7 +56,6 @@
 
 			header('HTTP/1.1 401 Unauthorized');
 			header("Content-Type: application/json; charset=UTF-8");
-
 			exit( json_encode($response) );
 		}
 	}

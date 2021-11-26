@@ -197,8 +197,7 @@
                                 <textarea class="form-control" placeholder="Your Message" id="inputNewMessage"></textarea>
                                 <div class="d-md-flex justify-content-md-end">
                                     <button class="btn btn-success btn-block pull-right" id="btnSendmessage">Send</button>
-                                </div>
-                                
+                                </div>                                
                             </div>
                         </div>
                     </div>
