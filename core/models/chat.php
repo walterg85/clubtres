@@ -5,73 +5,135 @@
 	    }
 
 	    // Metodo para crear o actualizar chat
-		public function insertUpdateChat($data, $chatId) {
+		public function insertUpdateChat($data) {
 			$pdo = new Conexion();
+			// Validar si existe el chat
+			// -Resultado 1: El usuario actual logueado es el origen y se registran los chats como origen
+			// -Resultado 2: El usuario actua logueado es el destino y se registran los chats como respuesta
+			// -Resultadi 3: No existe un chat entre ambos usuarios y se registra el usuario actual como origen
 
-			// Si el id de chat es 0 se procede a registrar un nuevo chat
-			// Si el id de chat es mayor a 0 se procede a actualizar el chat como respuesta
-			if( $chatId == 0 ){
-				$cmd = '
-					INSERT INTO chats
-						(message, origin, destiny, unread)
-					VALUES
-						(:message, :origin, :destiny, 1)
-				';
+			$cmd = '
+				SELECT 
+					CASE 
+						WHEN origin =:origin AND destiny =:destiny THEN 1
+				    	WHEN origin =:destiny AND destiny =:origin THEN 2
+				    	ELSE 3
+				    END AS metodo
+				FROM chats;
+			';
 
-				$parametros = array(
-					':message'	=> '
-						<div class="alert alert-info" role="alert">
-                            <figure class="mb-0">
-                                <blockquote class="blockquote">
-                                    <p class="small">'. $data['message'] .'</p>
-                                </blockquote>
-                                <figcaption class="blockquote-footer mb-0">
-                                    '. date('H:i:s') .' | '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .'
-                                </figcaption>
-                            </figure>
-                        </div>
-					',
-					':origin'	=> $data['origin'],
-					':destiny'	=> $data['destiny']
-				);
-				
-				try {
-					$sql = $pdo->prepare($cmd);
-					$sql->execute($parametros);
+			$parametros = array(
+				':origin'	=> $data['origin'],
+				':destiny'	=> $data['destiny']
+			);
 
-					return $pdo->lastInsertId();
-				} catch (PDOException $e) {
-			        return 0;
-			    }
-			} else if( $chatId > 0 ){
-				$cmd = '
-					UPDATE chats
-					SET message = CONCAT(message, :message), unread = 0
-					WHERE id =:chatId
-				';
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
 
-				$parametros = array(
-					':message'	=> '
-						<figure class="text-end text-white">
-                            <blockquote class="blockquote">
-                                <p class="small">'. $data['message'] .'</p>
-                            </blockquote>
-                            <figcaption class="blockquote-footer">
-                                '. date('H:i:s') .' | '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .'
-                            </figcaption>
-                        </figure>
-					',
-					':chatId'	=> $chatId
-				);
-				
-				try {
-					$sql = $pdo->prepare($cmd);
-					$sql->execute($parametros);
+			$metodo = $sql->fetch(PDO::FETCH_ASSOC);
 
-					return $chatId;
-				} catch (PDOException $e) {
-			        return 0;
-			    }
+			switch ($metodo['metodo']){
+				case 1:
+					$cmd = '
+						UPDATE chats
+						SET message = CONCAT(message, :message), unread = 0
+						WHERE origin =:origin AND destiny =:destiny
+					';
+
+					$parametros = array(
+						':message'	=> '
+							<div class="alert alert-info" role="alert">
+	                            <figure class="mb-0">
+	                                <blockquote class="blockquote">
+	                                    <p class="small">'. $data['message'] .'</p>
+	                                </blockquote>
+	                                <figcaption class="blockquote-footer mb-0">
+	                                    '. date('H:i:s') .' | '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .'
+	                                </figcaption>
+	                            </figure>
+	                        </div>
+						',
+						':origin'	=> $data['origin'],
+						':destiny'	=> $data['destiny']
+					);
+
+					try {
+						$sql = $pdo->prepare($cmd);
+						$sql->execute($parametros);
+
+						return 1;
+					} catch (PDOException $e) {
+				        return 0;
+				    }
+
+					break;
+				case 2:
+					$cmd = '
+						UPDATE chats
+						SET message = CONCAT(message, :message), unread = 0
+						WHERE origin =:destiny AND destiny =:origin
+					';
+
+					$parametros = array(
+						':message'	=> '
+							<figure class="text-end text-white">
+	                            <blockquote class="blockquote">
+	                                <p class="small">'. $data['message'] .'</p>
+	                            </blockquote>
+	                            <figcaption class="blockquote-footer">
+	                                '. date('H:i:s') .' | '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .'
+	                            </figcaption>
+	                        </figure>
+						',
+						':origin'	=> $data['origin'],
+						':destiny'	=> $data['destiny']
+					);
+
+					try {
+						$sql = $pdo->prepare($cmd);
+						$sql->execute($parametros);
+
+						return 1;
+					} catch (PDOException $e) {
+				        return 0;
+				    }
+
+					break;
+				default:
+					$cmd = '
+						INSERT INTO chats
+							(message, origin, destiny, unread)
+						VALUES
+							(:message, :origin, :destiny, 1)
+					';
+
+					$parametros = array(
+						':message'	=> '
+							<div class="alert alert-info" role="alert">
+	                            <figure class="mb-0">
+	                                <blockquote class="blockquote">
+	                                    <p class="small">'. $data['message'] .'</p>
+	                                </blockquote>
+	                                <figcaption class="blockquote-footer mb-0">
+	                                    '. date('H:i:s') .' | '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .'
+	                                </figcaption>
+	                            </figure>
+	                        </div>
+						',
+						':origin'	=> $data['origin'],
+						':destiny'	=> $data['destiny']
+					);
+					
+					try {
+						$sql = $pdo->prepare($cmd);
+						$sql->execute($parametros);
+
+						return $pdo->lastInsertId();
+					} catch (PDOException $e) {
+				        return 0;
+				    }
+
+					break;
 			}
 		}
 

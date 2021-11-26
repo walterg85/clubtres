@@ -25,7 +25,7 @@
 				);
 
 				// Se ejecuta el metodo para crear o actualizar el chat
-				$success = $chatModel->insertUpdateChat($data, $_POST['chatId']);
+				$success = $chatModel->insertUpdateChat($data);
 
 				// Se imprime la respuesta: =0 no satiscatorio, >0 satisfactorio
 				header('HTTP/1.1 200 Ok');				
