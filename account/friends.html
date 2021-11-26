@@ -93,6 +93,8 @@
                                 data     = getData($(this), dataTableFriends),
                                 cssLeft = (countChat == 0) ? 340 : 340 + (countChat * 100);
 
+                            useridChat   = data.friend_id;
+
                             globo.find(".usAvatar").attr("src", `../${data.avatar}`);                            
                             globo.find(".usAvatar").attr("title", data.name);
 
@@ -113,19 +115,12 @@
                                 $(this).parent().remove();
                             });
 
-                            let objData = {
-                                "_method": "_Getlog",
-                                "destiny": data.friend_id
-                            };
-
-                            $.post("../core/controllers/chat.php", objData, function(result){
-                                if(result.log)
-                                    $("#chatLog").html(result.log.message);
-                            });
-
                             $(".wrapper").css("opacity", 1);
                             $(".wrapper").css("left", cssLeft);
                             $(".labelChatTitle").html(data.name);
+
+                            loadLog();
+                            sincroniceLog = setInterval(loadLog, 2500);
 
                             // $(".usAvatar").click( function(){
                             //     let leftPx = $(this).parent().css("left");

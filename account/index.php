@@ -230,7 +230,9 @@
                 actualLenguaje = null,
                 linkto = null,
                 countChat = 0,
-                refreshLog = null;
+                refreshLog = null,
+                useridChat = 0,
+                sincroniceLog = null;
             
             $(document).ready(function(){
                 let queryString = window.location.search,
@@ -366,12 +368,11 @@
                     let objData = {
                         "_method": "POST",
                         "message": $("#inputNewMessage").val(),
-                        "destiny": 3,
-                        "chatId": 3
+                        "destiny": useridChat
                     };
 
                     $.post("../core/controllers/chat.php", objData, function(result){
-                        console.log(result);
+                        $("#inputNewMessage").val("");
                     });
                 });
             });
@@ -425,9 +426,9 @@
             }
 
             function switchLanguage(lang){
-            $.post("../assets/languages.json", {}, function(data) {
-                $(".changeLang").html('<i class="bi bi-globe2"></i> ' + data[lang]["buttonText"]);
-                $(".lableSaludo").html(`${data[lang]["lableSaludo"]}`);
+                $.post("../assets/languages.json", {}, function(data) {
+                    $(".changeLang").html('<i class="bi bi-globe2"></i> ' + data[lang]["buttonText"]);
+                    $(".lableSaludo").html(`${data[lang]["lableSaludo"]}`);
                 
                     let myLang = data[lang]["main"];
 
@@ -455,6 +456,24 @@
                     if(currentSection)
                         changePageLang();
                 });
+            }
+
+            function loadLog(){
+                let objData = {
+                    "_method": "_Getlog",
+                    "destiny": useridChat
+                };
+
+                oldscrollHeight = $("#chatLog")[0].scrollHeight - 20;
+
+                $.post("../core/controllers/chat.php", objData, function(result){
+                    if(result.log)
+                        $("#chatLog").html(result.log.message);
+
+                    let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
+                    if(newscrollHeight > oldscrollHeight)
+                        $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
+                    });
             }
         </script>
     </body>
