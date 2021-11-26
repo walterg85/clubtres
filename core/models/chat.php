@@ -36,13 +36,13 @@
 				case 1:
 					$cmd = '
 						UPDATE chats
-						SET message = CONCAT(message, :message), unread = 0
+						SET message = CONCAT(message, :message), unread = 2
 						WHERE origin =:origin AND destiny =:destiny
 					';
 
 					$parametros = array(
 						':message'	=> '
-							<div class="alert alert-info" role="alert">
+							<div class="alert text-white" role="alert">
 	                            <figure class="mb-0">
 	                                <blockquote class="blockquote">
 	                                    <p class="small">'. $data['message'] .'</p>
@@ -70,7 +70,7 @@
 				case 2:
 					$cmd = '
 						UPDATE chats
-						SET message = CONCAT(message, :message), unread = 0
+						SET message = CONCAT(message, :message), unread = 1
 						WHERE origin =:destiny AND destiny =:origin
 					';
 
@@ -104,7 +104,7 @@
 						INSERT INTO chats
 							(message, origin, destiny, unread)
 						VALUES
-							(:message, :origin, :destiny, 1)
+							(:message, :origin, :destiny, 2)
 					';
 
 					$parametros = array(
@@ -142,10 +142,10 @@
 			$pdo = new Conexion();
 
 			$cmd = '
-				SELECT message FROM (
-					SELECT message FROM chats WHERE origin =:origin AND destiny =:destiny
+				SELECT id, message FROM (
+					SELECT id, message FROM chats WHERE origin =:origin AND destiny =:destiny
 					UNION
-					SELECT message FROM chats WHERE origin =:destiny AND destiny =:origin
+					SELECT id, message FROM chats WHERE origin =:destiny AND destiny =:origin
 				) AS chatlog;
 			';
 
@@ -158,5 +158,28 @@
 			$sql->execute($parametros);
 
 			return $sql->fetch(PDO::FETCH_ASSOC);
+		}
+
+		// Metodo para marcar el mensaje como leido
+		public function checkChat($chatId){
+			$cmd = '
+				UPDATE chats
+				SET unread = 0
+				WHERE id =:chatId
+			';
+
+			$parametros = array(
+				':chatId' => $chatId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		// Metodo para monitorear mensajes nuevos y mostrar icono de alerta
+		public function monitorChat($userId){
+
 		}
 	}

@@ -188,6 +188,9 @@
                     <div class="wrapper">
                         <div class="header">
                             <h6 class="labelChatTitle">Nombre de usuario</h6>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger btnCloceChat">
+                                X
+                            </span>
                         </div>
                         <div class="text-center p-2">
                             <div id="chatLog"></div>
@@ -204,9 +207,6 @@
 
                     <div class="globoChat globoClone d-none">
                         <img src="#" class="rounded-circle usAvatar" data-bs-toggle="tooltip">
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger btnCloceChat">
-                            X
-                        </span>
                     </div>
                 </div>
             </div>
@@ -467,13 +467,21 @@
                 oldscrollHeight = $("#chatLog")[0].scrollHeight - 20;
 
                 $.post("../core/controllers/chat.php", objData, function(result){
-                    if(result.log)
+                    if(result.log){
                         $("#chatLog").html(result.log.message);
+
+                        let objData = {
+                            "_method": "checkChat",
+                            "chatId": result.log.id
+                        };
+
+                        $.post("../core/controllers/chat.php", objData, {});
+                    }
 
                     let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
                     if(newscrollHeight > oldscrollHeight)
                         $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
-                    });
+                });
             }
         </script>
     </body>

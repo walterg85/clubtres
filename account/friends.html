@@ -112,7 +112,11 @@
 
                             // Accion para cerrar chat
                             $(".btnCloceChat").click( function(){
-                                $(this).parent().remove();
+                                $(".wrapper").css("opacity", 0);
+                                $(".wrapper").css("left", 0);
+                                $(".labelChatTitle").html("");
+
+                                clearInterval(sincroniceLog);
                             });
 
                             $(".wrapper").css("opacity", 1);
@@ -120,13 +124,16 @@
                             $(".labelChatTitle").html(data.name);
 
                             loadLog();
-                            sincroniceLog = setInterval(loadLog, 2500);
+                            sincroniceLog = setInterval(loadLog, 2000);
 
-                            // $(".usAvatar").click( function(){
-                            //     let leftPx = $(this).parent().css("left");
-                            //     $(".wrapper").css("opacity", 1);
-                            //     $(".wrapper").css("left", leftPx);
-                            // });
+                            $(".usAvatar").click( function(){
+                                let leftPx = $(this).parent().css("left");
+                                $(".wrapper").css("opacity", 1);
+                                $(".wrapper").css("left", leftPx);
+
+                                loadLog();
+                                sincroniceLog = setInterval(loadLog, 2000);
+                            });
                         });
                     },
                     searching: false,

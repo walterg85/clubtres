@@ -47,6 +47,12 @@
 				header('HTTP/1.1 200 Ok');
 				header("Content-Type: application/json; charset=UTF-8");
 				exit( json_encode($response) );
+			} else if($_POST['_method'] == 'checkChat'){
+				// Se ejecuta el metodo para marcar un chat como leido
+				$chatModel->checkChat( $_POST['chatId'] );
+
+				header('HTTP/1.1 200 Ok');				
+				exit();
 			}
 		} else {
 			$response = array(
