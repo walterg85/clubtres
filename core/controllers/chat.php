@@ -8,6 +8,7 @@
 	header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
 
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
+		// se valida si el token aun esta activo y valido, para impedir consultas no deseadas
 		$is_jwt_valid 	= is_jwt_valid($_SESSION['authData']->token);
 
 		if($is_jwt_valid){
@@ -16,16 +17,19 @@
 
 			// Validamos tipo de peticion
 			if($_POST['_method'] == 'POST'){
+				// Se crea una matriz para recoger los parametros enviados desde form
 				$data = array(
-					'message' => $_POST['message'],
-					'destiny' => $_POST['destiny'],
-					'origin' => $_SESSION['origin']->id
+					'message' 	=> $_POST['message'],
+					'destiny' 	=> $_POST['destiny'],
+					'origin' 	=> $_SESSION['authData']->id
 				);
 
-				$chatModel->registerChat($data, $_POST['chatId']);
+				// Se ejecuta el metodo para crear o actualizar el chat
+				$success = $chatModel->insertUpdateChat($data, $_POST['chatId']);
 
+				// Se imprime la respuesta: =0 no satiscatorio, >0 satisfactorio
 				header('HTTP/1.1 200 Ok');				
-				exit();
+				exit($success);
 			}
 		} else {
 			$response = array(

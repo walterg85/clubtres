@@ -92,7 +92,7 @@
             text-align: left;
             margin: 0 auto;
             padding: 10px;
-            height: 200px;
+            height: 250px;
             width: 100%;
             overflow: auto;
         }
@@ -362,6 +362,19 @@
                 }else{
                     $("#linkHome").click();
                 }
+
+                $("#btnSendmessage").click( function () {
+                    let objData = {
+                        "_method": "POST",
+                        "message": $("#inputNewMessage").val(),
+                        "destiny": 3,
+                        "chatId": 3
+                    };
+
+                    $.post("../core/controllers/chat.php", objData, function(result){
+                        console.log(result);
+                    });
+                });
             });
 
             function getData(obj, dtable){
