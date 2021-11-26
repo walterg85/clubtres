@@ -9,6 +9,7 @@
 			$pdo = new Conexion();
 
 			// Si el id de chat es 0 se procede a registrar un nuevo chat
+			// Si el id de chat es mayor a 0 se procede a actualizar el chat como respuesta
 			if( $chatId == 0 ){
 				$cmd = '
 					INSERT INTO chats
@@ -42,7 +43,7 @@
 				} catch (PDOException $e) {
 			        return 0;
 			    }
-			} else if( $chatId == 0 ){
+			} else if( $chatId > 0 ){
 				$cmd = '
 					UPDATE chats
 					SET message = CONCAT(message, :message), unread = 0
@@ -72,5 +73,28 @@
 			        return 0;
 			    }
 			}
+		}
+
+		// Metodo para cargar el log completo de un chat al abirlo
+		public function loadChatLog($data){
+			$pdo = new Conexion();
+
+			$cmd = '
+				SELECT message FROM (
+					SELECT message FROM chats WHERE origin =:origin AND destiny =:destiny
+					UNION
+					SELECT message FROM chats WHERE origin =:destiny AND destiny =:origin
+				) AS chatlog;
+			';
+
+			$parametros = array(
+				':origin'	=> $data['origin'],
+				':destiny'	=> $data['destiny']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetch(PDO::FETCH_ASSOC);
 		}
 	}
