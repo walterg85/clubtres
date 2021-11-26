@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-11-2021 a las 20:54:25
+-- Tiempo de generación: 26-11-2021 a las 18:50:05
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -31,6 +31,7 @@ USE `clubtres`;
 -- Estructura de tabla para la tabla `business`
 --
 
+DROP TABLE IF EXISTS `business`;
 CREATE TABLE `business` (
   `id` int(11) NOT NULL,
   `nombre` varchar(500) DEFAULT NULL,
@@ -46,9 +47,25 @@ CREATE TABLE `business` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `chats`
+--
+
+DROP TABLE IF EXISTS `chats`;
+CREATE TABLE `chats` (
+  `id` int(11) NOT NULL,
+  `message` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `origin` int(11) NOT NULL,
+  `destiny` int(11) NOT NULL,
+  `unread` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `games`
 --
 
+DROP TABLE IF EXISTS `games`;
 CREATE TABLE `games` (
   `id` int(11) NOT NULL,
   `league_id` int(11) DEFAULT NULL,
@@ -66,6 +83,7 @@ CREATE TABLE `games` (
 -- Estructura de tabla para la tabla `invitation`
 --
 
+DROP TABLE IF EXISTS `invitation`;
 CREATE TABLE `invitation` (
   `id` int(11) NOT NULL,
   `udestiny_id` int(11) DEFAULT NULL COMMENT 'invitado',
@@ -82,6 +100,7 @@ CREATE TABLE `invitation` (
 -- Estructura de tabla para la tabla `league`
 --
 
+DROP TABLE IF EXISTS `league`;
 CREATE TABLE `league` (
   `id` int(11) NOT NULL,
   `name` varchar(250) DEFAULT NULL,
@@ -101,6 +120,7 @@ CREATE TABLE `league` (
 -- Estructura de tabla para la tabla `team`
 --
 
+DROP TABLE IF EXISTS `team`;
 CREATE TABLE `team` (
   `id` int(11) NOT NULL,
   `name` varchar(250) DEFAULT NULL,
@@ -115,6 +135,7 @@ CREATE TABLE `team` (
 -- Estructura de tabla para la tabla `team_league`
 --
 
+DROP TABLE IF EXISTS `team_league`;
 CREATE TABLE `team_league` (
   `id` int(11) NOT NULL,
   `team_id` int(11) DEFAULT NULL,
@@ -129,6 +150,7 @@ CREATE TABLE `team_league` (
 -- Estructura de tabla para la tabla `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `name` varchar(250) DEFAULT NULL,
@@ -148,6 +170,7 @@ CREATE TABLE `user` (
 -- Estructura de tabla para la tabla `user_friends`
 --
 
+DROP TABLE IF EXISTS `user_friends`;
 CREATE TABLE `user_friends` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -161,6 +184,7 @@ CREATE TABLE `user_friends` (
 -- Estructura de tabla para la tabla `user_team`
 --
 
+DROP TABLE IF EXISTS `user_team`;
 CREATE TABLE `user_team` (
   `id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -179,6 +203,12 @@ CREATE TABLE `user_team` (
 -- Indices de la tabla `business`
 --
 ALTER TABLE `business`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `chats`
+--
+ALTER TABLE `chats`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -238,6 +268,12 @@ ALTER TABLE `user_team`
 -- AUTO_INCREMENT de la tabla `business`
 --
 ALTER TABLE `business`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `chats`
+--
+ALTER TABLE `chats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
