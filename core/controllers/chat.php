@@ -40,7 +40,8 @@
 				// Se ejecuta el metodo para buscar el log del chat seleccionado
 				$response = array(
 					'codeResponse' 	=> 200,
-					'log' 			=> $chatModel->loadChatLog($data, $_POST['chatId'])
+					'log' 			=> $chatModel->loadChatLog($data),
+					'myUserid'		=> $_SESSION['authData']->id
 				);
 
 				// envia la respuesta al front
@@ -52,7 +53,17 @@
 				$chatModel->checkChat( $_POST['chatId'] );
 
 				header('HTTP/1.1 200 Ok');				
-				exit();
+				exit('');
+			} else if($_POST['_method'] == 'loadUnreadChat'){
+				// Se ejecuta el metodo para buscar chats no leidos de este usuario
+				$response = array(
+					'codeResponse' 	=> 200,
+					'chats'			=> $chatModel->monitorChat( $_SESSION['authData']->id )
+				);
+
+				header('HTTP/1.1 200 Ok');				
+				header("Content-Type: application/json; charset=UTF-8");
+				exit( json_encode($response) );				
 			}
 		} else {
 			$response = array(

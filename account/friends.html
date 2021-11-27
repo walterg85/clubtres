@@ -89,51 +89,8 @@
                         });
 
                         $(".btnChat").unbind().click(function(){
-                            let globo    = $(".globoClone").clone(),
-                                data     = getData($(this), dataTableFriends),
-                                cssLeft = (countChat == 0) ? 340 : 340 + (countChat * 100);
-
-                            useridChat   = data.friend_id;
-
-                            globo.find(".usAvatar").attr("src", `../${data.avatar}`);                            
-                            globo.find(".usAvatar").attr("title", data.name);
-
-                            globo.removeClass("d-none globoClone");
-                            globo.css('left', cssLeft);
-
-                            $(globo).appendTo("#chatContain");
-                            countChat += 1;
-
-                            //Tooltips para globos del chat
-                            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                                return new bootstrap.Tooltip(tooltipTriggerEl)
-                            });
-
-                            // Accion para cerrar chat
-                            $(".btnCloceChat").click( function(){
-                                $(".wrapper").css("opacity", 0);
-                                $(".wrapper").css("left", 0);
-                                $(".labelChatTitle").html("");
-
-                                clearInterval(sincroniceLog);
-                            });
-
-                            $(".wrapper").css("opacity", 1);
-                            $(".wrapper").css("left", cssLeft);
-                            $(".labelChatTitle").html(data.name);
-
-                            loadLog();
-                            sincroniceLog = setInterval(loadLog, 2000);
-
-                            $(".usAvatar").click( function(){
-                                let leftPx = $(this).parent().css("left");
-                                $(".wrapper").css("opacity", 1);
-                                $(".wrapper").css("left", leftPx);
-
-                                loadLog();
-                                sincroniceLog = setInterval(loadLog, 2000);
-                            });
+                            invoqueChat( getData($(this), dataTableFriends) );
+                            
                         });
                     },
                     searching: false,

@@ -36,7 +36,7 @@
 				case 1:
 					$cmd = '
 						UPDATE chats
-						SET message = CONCAT(message, :message), unread = 2
+						SET message = CONCAT(message, :message), unread =:destiny
 						WHERE origin =:origin AND destiny =:destiny
 					';
 
@@ -70,7 +70,7 @@
 				case 2:
 					$cmd = '
 						UPDATE chats
-						SET message = CONCAT(message, :message), unread = 1
+						SET message = CONCAT(message, :message), unread =:destiny
 						WHERE origin =:destiny AND destiny =:origin
 					';
 
@@ -104,12 +104,12 @@
 						INSERT INTO chats
 							(message, origin, destiny, unread)
 						VALUES
-							(:message, :origin, :destiny, 2)
+							(:message, :origin, :destiny, :destiny)
 					';
 
 					$parametros = array(
 						':message'	=> '
-							<div class="alert alert-info" role="alert">
+							<div class="alert text-white" role="alert">
 	                            <figure class="mb-0">
 	                                <blockquote class="blockquote">
 	                                    <p class="small">'. $data['message'] .'</p>
@@ -142,10 +142,10 @@
 			$pdo = new Conexion();
 
 			$cmd = '
-				SELECT id, message FROM (
-					SELECT id, message FROM chats WHERE origin =:origin AND destiny =:destiny
+				SELECT id, message, unread FROM (
+					SELECT id, message, unread FROM chats WHERE origin =:origin AND destiny =:destiny
 					UNION
-					SELECT id, message FROM chats WHERE origin =:destiny AND destiny =:origin
+					SELECT id, message, unread FROM chats WHERE origin =:destiny AND destiny =:origin
 				) AS chatlog;
 			';
 
@@ -162,6 +162,8 @@
 
 		// Metodo para marcar el mensaje como leido
 		public function checkChat($chatId){
+			$pdo = new Conexion();
+
 			$cmd = '
 				UPDATE chats
 				SET unread = 0
@@ -180,6 +182,19 @@
 
 		// Metodo para monitorear mensajes nuevos y mostrar icono de alerta
 		public function monitorChat($userId){
+			$pdo = new Conexion();
 
+			$cmd = '
+				SELECT id, origin, destiny  FROM chats WHERE  unread =:userId
+			';
+
+			$parametros = array(
+				':userId'	=> $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
 	}
