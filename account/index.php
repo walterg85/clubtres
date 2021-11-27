@@ -207,6 +207,9 @@
 
                     <div class="globoChat globoClone d-none">
                         <img src="#" class="rounded-circle usAvatar" data-bs-toggle="tooltip">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger btnCloceChatGlobo">
+                            x
+                        </span>
                     </div>
                 </div>
             </div>
@@ -280,6 +283,9 @@
 
                 findNotifications();
                 setInterval(findNotifications, 2500);
+
+                loadUnreadChat();
+                setInterval(loadUnreadChat, 3000);
 
                 if( localStorage.getItem("currentLag") ){
                     lang = localStorage.getItem("currentLag");
@@ -399,6 +405,18 @@
                 });
             }
 
+            function loadUnreadChat(){
+                let objData = {
+                    "_method": "loadUnreadChat"
+                };
+
+                $.post("../core/controllers/chat.php", objData, function(result) {
+                    console.log(result);
+                }).fail( function(jqXHR, textStatus, errorThrown){
+                    ajaxResponseError(jqXHR, textStatus);
+                });
+            }
+
             function ajaxResponseError(jqXHR, textStatus){
                 let msgError = "";
 
@@ -470,17 +488,76 @@
                     if(result.log){
                         $("#chatLog").html(result.log.message);
 
-                        let objData = {
-                            "_method": "checkChat",
-                            "chatId": result.log.id
-                        };
+                        if(result.log.unread == result.myUserid){
+                            let objData = {
+                                "_method": "checkChat",
+                                "chatId": result.log.id
+                            };
 
-                        $.post("../core/controllers/chat.php", objData, {});
+                            $.post("../core/controllers/chat.php", objData);
+                        }                        
                     }
 
                     let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
                     if(newscrollHeight > oldscrollHeight)
                         $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
+                });
+            }
+
+            function invoqueChat(allInfo){
+                let globo    = $(".globoClone").clone(),
+                    data     = allInfo,
+                    cssLeft = (countChat == 0) ? 340 : 340 + (countChat * 100);
+
+                useridChat   = data.friend_id;
+
+                globo.find(".usAvatar").attr("src", `../${data.avatar}`);                            
+                globo.find(".usAvatar").attr("title", data.name);
+
+                globo.find(".usAvatar").attr("data-friendid", data.friend_id);
+
+                globo.removeClass("d-none globoClone");
+                globo.css('left', cssLeft);
+
+                $(globo).appendTo("#chatContain");
+                countChat += 1;
+
+                //Tooltips para globos del chat
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                });
+
+                // Accion para cerrar chat
+                $(".btnCloceChat").click( function(){
+                    $(".wrapper").css("opacity", 0);
+                    $(".wrapper").css("left", 0);
+                    $(".labelChatTitle").html("");
+
+                    clearInterval(sincroniceLog);
+                });
+
+                $(".btnCloceChatGlobo").unbind().click( function(){
+                    $(this).parent().remove();
+                    countChat -= 1;
+                });
+
+                $(".wrapper").css("opacity", 1);
+                $(".wrapper").css("left", cssLeft);
+                $(".labelChatTitle").html(data.name);
+
+                loadLog();
+                sincroniceLog = setInterval(loadLog, 2000);
+
+                $(".usAvatar").click( function(){
+                    let leftPx = $(this).parent().css("left");
+                    useridChat = $(this).data("friendid");
+
+                    $(".wrapper").css("opacity", 1);
+                    $(".wrapper").css("left", leftPx);
+
+                    loadLog();
+                    sincroniceLog = setInterval(loadLog, 2000);
                 });
             }
         </script>
