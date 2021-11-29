@@ -15,11 +15,23 @@
 			$cmd = '
 				SELECT 
 					CASE 
-						WHEN origin =:origin AND destiny =:destiny THEN 1
-				    	WHEN origin =:destiny AND destiny =:origin THEN 2
+						WHEN (origin =:origin AND destiny =:destiny) THEN 1
+				    	WHEN (origin =:destiny AND destiny =:origin) THEN 2
 				    	ELSE 3
 				    END AS metodo
-				FROM chats;
+				FROM chats
+				WHERE origin =:origin AND destiny =:destiny
+
+				UNION
+
+				SELECT 
+					CASE 
+						WHEN (origin =:origin AND destiny =:destiny) THEN 1
+				    	WHEN (origin =:destiny AND destiny =:origin) THEN 2
+				    	ELSE 3
+				    END AS metodo
+				FROM chats
+				WHERE origin =:destiny AND destiny =:origin
 			';
 
 			$parametros = array(

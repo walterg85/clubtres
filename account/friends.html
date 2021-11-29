@@ -89,8 +89,15 @@
                         });
 
                         $(".btnChat").unbind().click(function(){
-                            invoqueChat( getData($(this), dataTableFriends) );
-                            
+                            let data = getData($(this), dataTableFriends),
+                                contenedor = $("#chatContain").find(`.friendid-${data.friend_id}`);
+
+                            if(contenedor.length > 0){
+                                $(`.friendid-${data.friend_id}`).click();
+                                return;
+                            }
+
+                            invoqueChat(data);                            
                         });
                     },
                     searching: false,
