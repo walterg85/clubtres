@@ -500,8 +500,8 @@
                     $("#linkSettings, .linkSettings").html(`<i class="bi bi-wrench"></i> ${myLang.linkSettings}`);
                     $("#linkFriends").html(`<i class="bi bi-file-person"></i> ${myLang.linkFriends}`);
 
-                    // Condicion ternario para obligar a cargar las traducciones de home en la 1ra carga
-                    //currentSection = (currentSection) ? currentSection : "home";
+                    $("#btnSendmessage").html(myLang.btnSendmessage);
+                    $("#inputNewMessage").attr("placeholder", myLang.inputNewMessage);
 
                     // se setea en la variable global el JSON de idioma
                     actualLenguaje = data[lang];
@@ -589,7 +589,7 @@
 
                 $(".usAvatar").unbind().click( function(){
                     clearInterval(sincroniceLog);
-                    
+
                     let leftPx = $(this).parent().css("left");
                     useridChat = $(this).data("friendid");
 
