@@ -411,7 +411,24 @@
                 };
 
                 $.post("../core/controllers/chat.php", objData, function(result) {
-                    console.log(result);
+                    info = result.chats;
+
+                    if(info.length > 0){
+                        data = {};
+
+                        if(result.originalOrigin == info[0].origin){
+                            data.friend_id  = info[0].destiny;
+                            data.avatar     = info[0].destinyAvatar;
+                            data.name       = info[0].destinyName;
+                        } else{
+                            data.friend_id  = info[0].origin;
+                            data.avatar     = info[0].originAvatar;
+                            data.name       = info[0].originName;
+                        }
+
+                        invoqueChat(data)
+                    }
+                    
                 }).fail( function(jqXHR, textStatus, errorThrown){
                     ajaxResponseError(jqXHR, textStatus);
                 });
