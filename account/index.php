@@ -588,6 +588,8 @@
                 sincroniceLog = setInterval(loadLog, 2000);
 
                 $(".usAvatar").unbind().click( function(){
+                    clearInterval(sincroniceLog);
+                    
                     let leftPx = $(this).parent().css("left");
                     useridChat = $(this).data("friendid");
 
