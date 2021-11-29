@@ -1,8 +1,16 @@
 <?php
     session_start();
 
-    if(!isset($_SESSION['login']))
-        header("Location: ../index.html");
+    if(!isset($_SESSION['login'])){
+        echo '
+            <script type="text/javascript">
+                localStorage.removeItem("logged");
+                window.location.replace("logout.php");
+            </script>
+        ';
+
+        exit();
+    }
 ?>
 <!doctype html>
 <html lang="en">
@@ -411,16 +419,28 @@
                 };
 
                 $.post("../core/controllers/chat.php", objData, function(result) {
-                    info = result.chats;
+                    let info = result.chats;
 
                     if(info.length > 0){
-                        data = {};
+                        let data = {};
 
                         if(result.originalOrigin == info[0].origin){
+                            let contenedor = $("#chatContain").find(`.friendid-${info[0].destiny}`);
+                            if(contenedor.length > 0){
+                                $(`.friendid-${info[0].destiny}`).click();
+                                return;
+                            }                             
+
                             data.friend_id  = info[0].destiny;
                             data.avatar     = info[0].destinyAvatar;
                             data.name       = info[0].destinyName;
                         } else{
+                            let contenedor = $("#chatContain").find(`.friendid-${info[0].origin}`);
+                            if(contenedor.length > 0){
+                                $(`.friendid-${info[0].origin}`).click();
+                                return;
+                            } 
+
                             data.friend_id  = info[0].origin;
                             data.avatar     = info[0].originAvatar;
                             data.name       = info[0].originName;
@@ -532,6 +552,7 @@
                 globo.find(".usAvatar").attr("title", data.name);
 
                 globo.find(".usAvatar").attr("data-friendid", data.friend_id);
+                globo.find(".usAvatar").addClass(`friendid-${data.friend_id}`)
 
                 globo.removeClass("d-none globoClone");
                 globo.css('left', cssLeft);
@@ -546,7 +567,7 @@
                 });
 
                 // Accion para cerrar chat
-                $(".btnCloceChat").click( function(){
+                $(".btnCloceChat").unbind().click( function(){
                     $(".wrapper").css("opacity", 0);
                     $(".wrapper").css("left", 0);
                     $(".labelChatTitle").html("");
@@ -566,7 +587,7 @@
                 loadLog();
                 sincroniceLog = setInterval(loadLog, 2000);
 
-                $(".usAvatar").click( function(){
+                $(".usAvatar").unbind().click( function(){
                     let leftPx = $(this).parent().css("left");
                     useridChat = $(this).data("friendid");
 
