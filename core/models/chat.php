@@ -185,7 +185,14 @@
 			$pdo = new Conexion();
 
 			$cmd = '
-				SELECT id, origin, destiny  FROM chats WHERE  unread =:userId
+				SELECT
+					id, 
+					origin, 
+					(select concat(name, " ", last_name) from user where id = origin) AS originName,
+					destiny,
+					(select concat(name, " ", last_name) from user where id = destiny) AS destinyName
+				FROM chats 
+				WHERE unread =:userId
 			';
 
 			$parametros = array(

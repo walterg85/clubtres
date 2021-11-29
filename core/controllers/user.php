@@ -264,7 +264,7 @@
 			$tmpData   = $userModel->getFriends($_SESSION['authData']->id);
 
 			$data = [];
-			foreach ($tmpData as $key => $value) {				
+			foreach ($tmpData as $key => $value) {
 				$value['avatar'] = 'assets/img/user/default.jpg';
 
 				if( is_file(dirname(__FILE__, 3) . '/assets/img/user/'. $value['friend_id'] .'.jpg' ) )

@@ -56,9 +56,25 @@
 				exit('');
 			} else if($_POST['_method'] == 'loadUnreadChat'){
 				// Se ejecuta el metodo para buscar chats no leidos de este usuario
+				$tmpData = $chatModel->monitorChat( $_SESSION['authData']->id );
+
+				$data = [];
+				foreach ($tmpData as $key => $value) {
+					$value['destinyAvatar'] = 'assets/img/user/default.jpg';
+					if( is_file(dirname(__FILE__, 3) . '/assets/img/user/'. $value['destiny'] .'.jpg' ) )
+						$value['destinyAvatar'] = 'assets/img/user/'. $value['destiny'] .'.jpg';
+
+					$value['originAvatar'] = 'assets/img/user/default.jpg';
+					if( is_file(dirname(__FILE__, 3) . '/assets/img/user/'. $value['origin'] .'.jpg' ) )
+						$value['originAvatar'] = 'assets/img/user/'. $value['origin'] .'.jpg';
+
+					$data[] = $value;
+				}
+
 				$response = array(
 					'codeResponse' 	=> 200,
-					'chats'			=> $chatModel->monitorChat( $_SESSION['authData']->id )
+					'chats'			=> $data,
+					'originalOrigin'=> $_SESSION['authData']->id
 				);
 
 				header('HTTP/1.1 200 Ok');				
