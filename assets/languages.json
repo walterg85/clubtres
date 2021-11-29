@@ -31,7 +31,9 @@
 			"linkBusiness": "Business",
 			"linkSettings": "Settings",
 			"login": "Sign in",
-			"linkFriends": "Friends"
+			"linkFriends": "Friends",
+			"btnSendmessage": "Send",
+			"inputNewMessage": "Your Message"
 		},
 		"home":{
 			"card1": "My teams",
@@ -243,7 +245,9 @@
 			"linkBusiness": "Negocios",
 			"linkSettings": "Configuraciones",
 			"login": "Registrarse",
-			"linkFriends": "Amigos"
+			"linkFriends": "Amigos",
+			"btnSendmessage": "Enviar",
+			"inputNewMessage": "Mensaje"
 		},
 		"home":{
 			"card1": "Mis equipos",
