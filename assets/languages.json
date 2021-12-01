@@ -20,7 +20,6 @@
 			"footerNote": "A project of"
 		},
 		"main":{
-			"title":"Clubtres",
 			"logout": "Sign out",
 			"inputSearch": "Search",
 			"linkHome": "Home",
@@ -234,7 +233,6 @@
 			"footerNote": "Un proyecto de"
 		},
 		"main":{
-			"title":"Clubtres",
 			"logout": "Desconectar",
 			"inputSearch": "Buscar",
 			"linkHome": "Inicio",

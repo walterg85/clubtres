@@ -26,8 +26,8 @@
     <header class="p-3 mb-3 bg-dark">
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start ">
-                <a href="javascript:void(0);" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none text-white">
-                    <span class="fs-4">Clubtres</span>
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-decoration-none text-white">
+                    <span class="fs-4 text-secondary">Clubtres <small>id: 87576</small></span>
                 </a>
                 <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"></ul>
 
