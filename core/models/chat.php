@@ -216,4 +216,23 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		// Metodo para eliminar un chat
+		public function deleteChat($data){
+			$info = $this->loadChatLog($data);
+
+			$pdo = new Conexion();
+			$cmd = '
+				DELETE FROM chats WHERE id =:id
+			';
+
+			$parametros = array(
+				':id' => $info['id']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}

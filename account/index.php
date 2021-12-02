@@ -195,7 +195,10 @@
                 <div id="chatContain">
                     <div class="wrapper">
                         <div class="header">
-                            <h6 class="labelChatTitle">Nombre de usuario</h6>
+                            <h6>
+                                <text class="labelChatTitle">Nombre de usuario</text>
+                                <small class="btnDeleteChat" style="margin-left: 8rem !important; font-size: large;"><i class="bi bi-trash"></i></small>
+                            </h6>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger btnCloceChat">
                                 X
                             </span>
@@ -552,6 +555,7 @@
 
                 globo.find(".usAvatar").attr("data-friendid", data.friend_id);
                 globo.find(".usAvatar").addClass(`friendid-${data.friend_id}`)
+                globo.find(".usAvatar").attr("data-name", data.name);
 
                 globo.removeClass("d-none globoClone");
                 globo.css('left', cssLeft);
@@ -594,9 +598,27 @@
 
                     $(".wrapper").css("opacity", 1);
                     $(".wrapper").css("left", leftPx);
+                    $(".labelChatTitle").html($(this).data("name"));
 
                     loadLog();
                     sincroniceLog = setInterval(loadLog, 2000);
+                });
+
+                $(".btnDeleteChat").unbind().click( function(){
+                    $(".wrapper").css("opacity", 0);
+                    $(".wrapper").css("left", 0);
+                    $(".labelChatTitle").html("");
+
+                    clearInterval(sincroniceLog);
+
+                    let objData = {
+                        "_method": "deleteChat",
+                        "destiny": useridChat
+                    };
+
+                    $.post("../core/controllers/chat.php", objData);
+
+                    $("#chatLog").html("");
                 });
             }
         </script>
