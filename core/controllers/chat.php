@@ -80,6 +80,19 @@
 				header('HTTP/1.1 200 Ok');				
 				header("Content-Type: application/json; charset=UTF-8");
 				exit( json_encode($response) );				
+			} else if($_POST['_method'] == 'deleteChat'){
+				// Se crea una matriz para recoger los parametros enviados desde form
+				$data = array(
+					'destiny' 	=> $_POST['destiny'],
+					'origin' 	=> $_SESSION['authData']->id
+				);
+
+				// Se ejecuta el metodo para eliminar el chat correcto
+				$chatModel->deleteChat($data);
+
+				// Se termina la peticion
+				header('HTTP/1.1 200 Ok');
+				exit();
 			}
 		} else {
 			$response = array(
