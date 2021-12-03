@@ -50,7 +50,7 @@
                     if(result.data.image){
                       $("#businessPhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
                     }else{
-                      $("#businessPhoto").attr("src", `#`);
+                      $("#businessPhoto").attr("src", `https://www.distribucionactualidad.com/wp-content/uploads/2019/05/grow-my-store.png`);
                     }
 
                     $("#lblInfo").html(`${result.data.Descripcion}`);

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     // Se inicia el metodo para encapsular todo el contenido de las paginas (bufering), para dar salida al HTML 
     ob_start();
 ?>
@@ -9,9 +10,22 @@
             <div class="card mb-3">                    
                 <img src="#" class="card-img-top" alt="Team photo" id="teamPhoto">
                 <div class="card-body">
-                    <h4 class="card-title" id="lblNombreTeam"></h4>
-                    <p class="card-text" id="numMember"></p>
-                    <p class="card-text"><small class="text-muted labelSubtitle">Members list</small></p>
+                    <div class="row">
+                        <div class="col-9">
+                            <h4 class="card-title" id="lblNombreTeam"></h4>
+                            <p class="card-text" id="numMember"></p>
+                            <p class="card-text"><small class="text-muted labelSubtitle">Members list</small></p>
+                        </div>
+                        <?php if(isset($_SESSION['login'])) { ?>
+                            <div class="col">
+                                <div class="d-grid gap-2">
+                                  <button class="btn btn-outline-success" id="btnAdmission" type="button">Admission request</button>
+                                  <p class="lead d-none btnEnviado"><i class="bi bi-send-check"></i> Admission request sent</p>
+                                  <p class="lead d-none btnMiembro"><i class="bi bi-calendar-event"></i> <text class="lblMember"> Member since</text> <text class="lblDate"></text> </p>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
                     <table class="table">
                         <thead>
                             <tr>
@@ -25,7 +39,7 @@
                     </table>
                 </div>
             </div>
-        </div>
+        </div>        
     </div>       
 </div>
 
@@ -53,7 +67,7 @@
                     if(result.data.image){
                       $("#teamPhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
                     }else{
-                      $("#teamPhoto").attr("src", `#`);
+                      $("#teamPhoto").attr("src", `https://i.imgur.com/KIKKMcK.jpg`);
                     }
 
                     $("#numMember").html(`${(result.data.teamlist).length} Members`);
@@ -78,7 +92,7 @@
 
                 }else{
                     $("#lblNombreTeam").html("");
-                    $("#teamPhoto").attr("src", `#`);
+                    $("#teamPhoto").attr("src", `https://i.imgur.com/KIKKMcK.jpg`);
                 }
             });
         }else{
