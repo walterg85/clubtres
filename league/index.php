@@ -61,7 +61,7 @@
                     if(result.data.image){
                       $("#leaguePhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
                     }else{
-                      $("#leaguePhoto").attr("src", `#`);
+                      $("#leaguePhoto").attr("src", `https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Sport_balls.svg/1200px-Sport_balls.svg.png`);
                     }
 
                     dataLeague = {
@@ -95,7 +95,7 @@
 
                 }else{
                     $("#lblName").html("");
-                    $("#teamPhoto").attr("src", `#`);
+                    $("#leaguePhoto").attr("src", `https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Sport_balls.svg/1200px-Sport_balls.svg.png`);
                     $("#lblInfo").html("");
                 }
             });
