@@ -349,7 +349,7 @@
         formData.append('_method', "POST");
 
         if(leaguePhoto)
-            formData.append("imageleague", leaguePhoto, "leaguePhoto.jpg");
+            formData.append("bannerleague", leaguePhoto, "leaguePhoto.jpg");
 
         let active = ($("#chkActive").is(':checked')) ? 1 : 0;
         formData.append("chkActive", active);
