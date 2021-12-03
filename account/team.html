@@ -199,7 +199,7 @@
         formData.append("_method", "POST");
 
         if(teamPhoto)
-            formData.append("imageteam", teamPhoto, "teamPhoto.jpg");
+            formData.append("bannerteam", teamPhoto, "teamPhoto.jpg");
 
         let active = ($("#chkActive").is(':checked')) ? 1 : 0;
         formData.append("chkActive", active);

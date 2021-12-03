@@ -28,9 +28,9 @@
 				if($tmpResponse[0]){
 					$leagueId = $tmpResponse[1];
 
-					if (!empty($_FILES['imageleague'])){
-						$filename = $_FILES['imageleague']['name'];
-						$tempname = $_FILES['imageleague']['tmp_name'];    
+					if (!empty($_FILES['bannerleague'])){
+						$filename = $_FILES['bannerleague']['name'];
+						$tempname = $_FILES['bannerleague']['tmp_name'];    
 						$folder   = "assets/img/leagues/{$leagueId}";
 
 						if(file_exists("../../{$folder}/{$filename}"))

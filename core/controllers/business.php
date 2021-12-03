@@ -30,9 +30,9 @@
 				if($tmpResponse[0]){
 					$businessId = $tmpResponse[1];
 
-					if (!empty($_FILES['imageBusiness'])){
-						$filename = $_FILES['imageBusiness']['name'];
-						$tempname = $_FILES['imageBusiness']['tmp_name'];    
+					if (!empty($_FILES['bannerBusiness'])){
+						$filename = $_FILES['bannerBusiness']['name'];
+						$tempname = $_FILES['bannerBusiness']['tmp_name'];    
 						$folder   = "assets/img/business/{$businessId}";
 
 						if(file_exists("../../{$folder}/{$filename}"))
