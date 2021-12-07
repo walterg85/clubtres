@@ -259,4 +259,103 @@
 
 			return TRUE;
 		}
+
+		public function reviewRequest($data){
+			$pdo = new Conexion();
+			// Buscar si el usuario ya esta registrado en el equipo
+			$cmd = '
+				SELECT COUNT(id) AS existe, role, register_date FROM user_team WHERE user_id =:user_id AND team_id =:team_id
+			';
+
+			$parametros = array(
+				':user_id'		=> $data['userId'],
+				':team_id'		=> $data['teamId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+			$response = $sql->fetch();
+
+			if($response->existe == 1){
+				return [1, $response->register_date];
+			}else{
+				// Localizar al dueño del equipo
+				$cmd = 'SELECT `user_id` FROM `user_team` where team_id =:team_id and type = 1;';
+				$parametros = array(
+					':team_id' => $data['teamId']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+				$sql->setFetchMode(PDO::FETCH_OBJ);
+				$owner = $sql->fetch();
+
+				// Verificar si se envio solicitud al equipo
+				$cmd = '
+					SELECT COUNT(id) AS invitacion
+					FROM invitation 
+					WHERE udestiny_id =:udestiny_id 
+						AND uorigin_id =:uorigin_id
+						AND event_id =:event_id
+						AND event_type =:event_type
+				';
+
+				$parametros = array(
+					':udestiny_id'	=> $owner->user_id,
+					':uorigin_id'	=> $data['userId'],
+					':event_id'		=> $data['teamId'],
+					':event_type'	=> $data['event_type']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+				$sql->setFetchMode(PDO::FETCH_OBJ);
+				$response = $sql->fetch();
+
+				if($response->invitacion > 0)
+					return [2, 0];
+
+				return [0, 0];
+			}
+		}
+
+		public function sendAdmision($data){
+			$pdo = new Conexion();
+
+			// Localizar al dueño del equipo
+			$cmd = 'SELECT `user_id` FROM `user_team` where team_id =:team_id and type = 1;';
+			$parametros = array(
+				':team_id' => $data['teamId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+			$owner = $sql->fetch();
+
+			$cmd = '
+				INSERT INTO invitation
+					(udestiny_id, uorigin_id, event, event_id, event_type, register_date)
+				VALUES
+					(:udestiny_id, :uorigin_id, :event, :event_id, :event_type, now())
+			';
+
+			$parametros = array(
+				':udestiny_id'	=> $owner->user_id,
+				':uorigin_id'	=> $data['uorigin_id'],
+				':event'		=> $data['event'],
+				':event_id'		=> $data['event_id'],
+				':event_type'	=> $data['event_type']
+			);
+			
+			try {
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+
+				return [TRUE, $pdo->lastInsertId()];
+			} catch (PDOException $e) {
+		        return [FALSE, 'Invitation not sent'];
+		    }
+		}
 	}

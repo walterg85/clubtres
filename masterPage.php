@@ -194,13 +194,15 @@
         }
 
         function switchLanguage(lang){
-            let myLang = null;
+            let allLang = null;
 
             $.post(`${base_url}/assets/languages.json`, {}, function(data) {
+                allLang = data[lang];
+                
                 $(".changeLang").html(`<i class="bi bi-globe"></i> ${data[lang]["buttonText"]}`);
                 $(".lableSaludo").html(`${data[lang]["lableSaludo"]}`);
 
-                myLang = data[lang]["main"];
+                let myLang = data[lang]["main"];
 
                 $(".linkSettings").html(`<i class="bi bi-wrench"></i> ${myLang.linkSettings}`);
                 $("#btnLogout").html(`<i class="bi bi-shield-lock-fill"></i> ${myLang.logout}`);
@@ -208,10 +210,8 @@
 
                 $(".footerNote").html(data[lang]["login"].footerNote);
                 $(".linkLogin").html(myLang.login);
-
-                myLang = data[lang];
-            }).done(function() {
-                changePageLang(myLang);
+            }).always(function() {
+                changePageLang(allLang);
             });
         }
     </script>

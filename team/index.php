@@ -51,6 +51,12 @@
     $(document).ready(function(){
         // Cargar datos del team
         fnLoadData();
+
+        // Revisar el estado de las solicitudes
+        reviewRequest();
+
+        // Envio de solicitud
+        $("#btnAdmission").click( sendSolicitud);
     });
 
     function fnLoadData(){
@@ -112,6 +118,37 @@
             $(".col2").html(`${myLang.col2}`);
             $(".col3").html(`${myLang.col3}`);
         }        
+    }
+
+    // Metodo para revisar el estado de solicitudes y valorar el elemneto a mostrar
+    function reviewRequest(){
+        let objData = {
+            "_method": "reviewRequest",
+            "teamId": teamId
+        };
+
+        $.post("../core/controllers/team.php", objData, function(result) {
+            console.log(result);
+            let intStatus = result.status[0];
+
+            if(intStatus == 0){
+                $("#btnAdmission").removeClass("d-none");
+            }else{
+                $("#btnAdmission").addClass("d-none");
+
+                if(intStatus == 1){
+                    $(".btnMiembro").removeClass("d-none");
+                    $(".lblDate").html(result.status[1]);
+                } else if(intStatus == 2){
+                    $(".btnEnviado").removeClass("d-none");
+                }
+            }
+        });
+    }
+
+    // MEtodo para el envio de solicitud de admision
+    function sendSolicitud(){
+        
     }
 </script>
 
