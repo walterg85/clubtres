@@ -56,7 +56,7 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
-			}else if($_POST['_method'] == 'GET'){
+			} else if($_POST['_method'] == 'GET'){
 				$teamsModel = new Teamsmodel();
 				$tmpResponse = $teamsModel->getTeam( $_SESSION['authData']->id );		
 
@@ -69,13 +69,13 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				
 				exit(json_encode($response));
-			}else if($_POST['_method'] == 'DELETE'){
+			} else if($_POST['_method'] == 'DELETE'){
 				$teamsModel = new Teamsmodel();
 				$teamsModel->deleteTeam( $_POST['idTeam'] );
 
 				header('HTTP/1.1 200 Ok');				
 				exit();
-			}else if($_POST['_method'] == 'PUT'){
+			} else if($_POST['_method'] == 'PUT'){
 
 				$data = array(
 					'uorigin_id' => $_SESSION['authData']->id,
@@ -124,6 +124,41 @@
 				$response = array(
 					'codeResponse' => 200,
 					'message' => 'User removed from team'
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				
+				exit(json_encode($response));
+			} else if($_POST['_method'] == 'reviewRequest'){
+				$data = array(
+					'userId' 		=> $_SESSION['authData']->id,
+					'teamId' 		=> $_POST['teamId'],
+					'event_type' 	=> '-2'
+				);
+
+				$teamsModel= new Teamsmodel();
+				$response = array(
+					'codeResponse' 	=> 200,
+					'status'		=> $teamsModel->reviewRequest($data)
+				);
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");			
+				exit(json_encode($response));
+			} else if($put_vars['_method'] == 'inviteFriend'){
+				$data = array(
+					'uorigin_id' 	=> $_SESSION['authData']->id,
+					'event' 		=> 'Hello, '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' has sent you an application for admission to the team, respond soon.',
+					'event_type' 	=> '-2',
+					'event_id' 		=> $put_vars['teamId']
+				);
+
+				$teamsModel 	= new Teamsmodel();
+
+				$response = array(
+					'codeResponse' 	=> 0,
+					'message' 		=> $teamsModel->sendAdmision($data);
 				);
 
 				header('HTTP/1.1 200 Ok');
