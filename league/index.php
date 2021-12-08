@@ -15,7 +15,7 @@
                             <h5 class="card-title display-5 fw-bold lh-1 mb-3" id="lblName"></h5>
                             <p class="card-text lead" id="lblInfo"></p>
                             <?php if(isset($_SESSION['login'])) { ?>
-                                <div class="mb-3">                               
+                                <div class="mb-3 dvListaEquipo">                               
                                     <div class="d-grid gap-2">
                                         <div class="dropdown">
                                             <a class="btn btn-outline-secondary dropdown-toggle" href="javascript:void(0);" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
@@ -24,7 +24,7 @@
 
                                             <div class="mb-3 teamItem d-none itemClone">
                                                 <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input chkTeam" id="0">
+                                                    <input type="checkbox" class="form-check-input chkTeam" name="chkTeam" value="0">
                                                     <label class="form-check-label" for="team1">
                                                         Team 1
                                                     </label>
@@ -66,7 +66,8 @@
 <script type="text/javascript">
     var leagueId        = "<?php echo $_GET['id']; ?>",
         dataLeague      = null,
-        curentLanguage  = null;
+        curentLanguage  = null,
+        leagueName      = "";
 
     $(document).ready(function(){
         // Cargar datos de la liga
@@ -86,6 +87,8 @@
                 if(result.data){
                     $("#lblName").html(`#${result.data.id}`);
                     $("#lblName").append(` ${result.data.name}`);
+
+                    leagueName = result.data.name;
 
                     if(result.data.image){
                       $("#leaguePhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
@@ -149,23 +152,52 @@
     // Metodo para listar todos los equipos registrados del usuario logueado
     function fnLoadTeam(){
         let objData = {
-            "_method": "getTeamLeague"
+            "_method": "getTeamLeague",
+            "leagueId": leagueId
         };
 
         $.post(`${base_url}/core/controllers/team.php`, objData, function(result){
-            $.each(result.data, function(index, item){
-                if(item.type == 1){
-                    let team = $(".itemClone").clone();
+            if(result.data.length > 0){
+                $.each(result.data, function(index, item){
+                    if(item.type == 1){
+                        let team = $(".itemClone").clone();
 
-                    team.find(".chkTeam").attr("id", item.id);
-                    team.find(".form-check-label")
-                        .attr("for", item.id)
-                        .html(item.name);
+                        team.find(".chkTeam").attr("id", item.id);
+                        team.find(".chkTeam").attr("value", item.id);
 
-                    team.removeClass("d-none itemClone");
-                    $(team).appendTo(".teamContenedor");
-                }
-            });
+                        team.find(".form-check-label")
+                            .attr("for", item.id)
+                            .html(item.name);
+
+                        team.removeClass("d-none itemClone");
+                        $(team).appendTo(".teamContenedor");
+                    }
+                });
+
+                // Accion para procesar los equipos seleccionados
+                $("#btnSendRequest").click( function () {
+                    let equiposId = [];
+
+                    $('input[name="chkTeam"]:checked').each(function() {
+                       equiposId.push(this.value);
+                    });
+
+                    if(equiposId.length == 0)
+                        return false;
+
+                    let objData = {
+                        "_method": "sendSolicitud",
+                        "leagueId": leagueId,
+                        "leagueName": leagueName
+                    };
+
+                    $.post("../core/controllers/league.php", objData, function(result) {
+                        console.log(result);
+                    });
+                });
+            } else {
+                $(".dvListaEquipo").addClass("d-none");
+            }
         });
     }
 </script>

@@ -71,7 +71,7 @@
 				exit(json_encode($response));
 			} else if($_POST['_method'] == 'getTeamLeague'){
 				$teamsModel = new Teamsmodel();
-				$tmpResponse = $teamsModel->getTeamLeague( $_SESSION['authData']->id );		
+				$tmpResponse = $teamsModel->getTeamLeague( $_SESSION['authData']->id, $_POST['leagueId'] );		
 
 				$response = array(
 					'codeResponse' => 200,
