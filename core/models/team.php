@@ -121,7 +121,9 @@
 				INNER JOIN team t ON ut.team_id = t.id
 				WHERE ut.user_id =:user_id 
 					AND t.active = 1
+					AND ut.type = 1
 					AND t.id NOT IN (select tl.team_id FROM team_league tl where tl.league_id =:league_id)
+					AND t.id NOT IN (select comodin FROM invitation i where i.event_id =:league_id and i.uorigin_id =:user_id)
 			';
 
 			$parametros = array(
