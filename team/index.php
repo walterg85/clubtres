@@ -46,7 +46,8 @@
 <script type="text/javascript">
     var teamId          = "<?php echo $_GET['id']; ?>",
         curentLanguage  = null,
-        countMember     = 0;
+        countMember     = 0,
+        teamName        = "";
 
     $(document).ready(function(){
         // Cargar datos del team
@@ -69,6 +70,8 @@
                 if(result.data){
                     $("#lblNombreTeam").html(`#${result.data.id}`);
                     $("#lblNombreTeam").append(` ${result.data.name}`);
+
+                    teamName = result.data.name;
 
                     if(result.data.image){
                       $("#teamPhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
@@ -128,7 +131,6 @@
         };
 
         $.post("../core/controllers/team.php", objData, function(result) {
-            console.log(result);
             let intStatus = result.status[0];
 
             if(intStatus == 0){
@@ -148,7 +150,15 @@
 
     // MEtodo para el envio de solicitud de admision
     function sendSolicitud(){
-        
+        let objData = {
+            "_method": "sendSolicitud",
+            "teamId": teamId,
+            "teamName": teamName
+        };
+
+        $.post("../core/controllers/team.php", objData, function(result) {
+            reviewRequest();
+        });
     }
 </script>
 

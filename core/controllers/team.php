@@ -146,19 +146,18 @@
 				header('HTTP/1.1 200 Ok');
 				header("Content-Type: application/json; charset=UTF-8");			
 				exit(json_encode($response));
-			} else if($put_vars['_method'] == 'inviteFriend'){
+			} else if($_POST['_method'] == 'sendSolicitud'){
 				$data = array(
 					'uorigin_id' 	=> $_SESSION['authData']->id,
-					'event' 		=> 'Hello, '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' has sent you an application for admission to the team, respond soon.',
+					'event' 		=> 'Hello, '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' has sent you an application for admission to the team <b>'. $_POST["teamName"] .'</b>, respond soon.',
 					'event_type' 	=> '-2',
-					'event_id' 		=> $put_vars['teamId']
+					'event_id' 		=> $_POST['teamId']
 				);
 
 				$teamsModel 	= new Teamsmodel();
 
 				$response = array(
-					'codeResponse' 	=> 0,
-					'message' 		=> $teamsModel->sendAdmision($data);
+					'response' => $teamsModel->sendAdmision($data)
 				);
 
 				header('HTTP/1.1 200 Ok');

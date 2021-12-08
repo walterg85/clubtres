@@ -142,6 +142,19 @@
 
 				$sql = $pdo->prepare($cmd);
 				$sql->execute($parametros);
+			} else if($data['event_type'] == -2 && $data['action'] == 1){
+				$cmd = '
+					INSERT INTO user_team (user_id, team_id, type, role, register_date, status)
+					VALUES (:userId, :team_id, 2, "Invited", now(), 1);
+				';
+
+				$parametros = array(
+					':team_id' => $data['event_id'],
+					':userId' => $data['uorigin_id']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
 			}
 
 			return TRUE;

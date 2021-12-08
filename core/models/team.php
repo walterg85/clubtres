@@ -326,7 +326,7 @@
 			// Localizar al dueño del equipo
 			$cmd = 'SELECT `user_id` FROM `user_team` where team_id =:team_id and type = 1;';
 			$parametros = array(
-				':team_id' => $data['teamId']
+				':team_id' => $data['event_id']
 			);
 
 			$sql = $pdo->prepare($cmd);
