@@ -333,4 +333,43 @@
 
 			return [TRUE];
 		}
+
+		public function sendAdmision($data){
+			$pdo = new Conexion();
+
+			// Localizar al dueño de la liga
+			$cmd = 'SELECT `user_id` FROM `league` where id =:leagueId;';
+			$parametros = array(
+				':leagueId' => $data['event_id']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+			$owner = $sql->fetch();
+
+			$cmd = '
+				INSERT INTO invitation
+					(udestiny_id, uorigin_id, event, event_id, event_type, register_date)
+				VALUES
+					(:udestiny_id, :uorigin_id, :event, :event_id, :event_type, now())
+			';
+
+			$parametros = array(
+				':udestiny_id'	=> $owner->user_id,
+				':uorigin_id'	=> $data['uorigin_id'],
+				':event'		=> $data['event'],
+				':event_id'		=> $data['event_id'],
+				':event_type'	=> $data['event_type']
+			);
+			
+			try {
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+
+				return [TRUE, $pdo->lastInsertId()];
+			} catch (PDOException $e) {
+		        return [FALSE, 'Invitation not sent'];
+		    }
+		}
 	}
