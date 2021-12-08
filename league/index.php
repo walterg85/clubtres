@@ -158,6 +158,7 @@
 
         $.post(`${base_url}/core/controllers/team.php`, objData, function(result){
             if(result.data.length > 0){
+                $(".teamContenedor").html("");
                 $.each(result.data, function(index, item){
                     if(item.type == 1){
                         let team = $(".itemClone").clone();
@@ -176,7 +177,7 @@
                 });
 
                 // Accion para procesar los equipos seleccionados
-                $("#btnSendRequest").click( function () {
+                $("#btnSendRequest").unbind().click( function () {
                     let equiposData = [];
 
                     $('input[name="chkTeam"]:checked').each(function() {
@@ -194,7 +195,7 @@
                     };
 
                     $.post("../core/controllers/league.php", objData, function(result) {
-                        console.log(1);
+                        fnLoadTeam();
                     });
                 });
             } else {

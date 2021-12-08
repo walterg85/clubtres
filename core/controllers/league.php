@@ -277,20 +277,7 @@
 					$leagueModel->sendAdmision($data);
 				}
 
-				// for ($i=0; $i < count($equiposData); $i++) { 
-				// 	$data = array(
-				// 		'uorigin_id' 	=> $_SESSION['authData']->id,
-				// 		'event' 		=> 'Hello, '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' has sent you an application for admission to the league <b>'. $_POST["leagueName"] .'</b>, respond soon.',
-				// 		'event_type' 	=> '-3',
-				// 		'event_id' 		=> $_POST['leagueId']
-				// 	);
-
-				// 	$leagueModel->sendAdmision($data);
-				// }
-
-				header('HTTP/1.1 200 Ok');
-				header("Content-Type: application/json; charset=UTF-8");
-				
+				header('HTTP/1.1 200 Ok');				
 				exit();
 			}
 		} else {

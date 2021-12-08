@@ -77,7 +77,7 @@
 
 		public function getInvitation($userId){
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, uorigin_id, event, event_id, event_type, register_date, (SELECT CONCAT(NAME, " ", last_name) FROM user WHERE id = uorigin_id) AS fromName  FROM invitation WHERE udestiny_id =:userId';
+			$cmd = 'SELECT id, uorigin_id, event, event_id, event_type, register_date, (SELECT CONCAT(NAME, " ", last_name) FROM user WHERE id = uorigin_id) AS fromName, comodin  FROM invitation WHERE udestiny_id =:userId';
 
 			$parametros = array(
 				':userId' => $userId
@@ -151,6 +151,19 @@
 				$parametros = array(
 					':team_id' => $data['event_id'],
 					':userId' => $data['uorigin_id']
+				);
+
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+			} else if($data['event_type'] == -3 && $data['action'] == 1){
+				$cmd = '
+					INSERT INTO team_league (team_id, league_id, register_date, status)
+					VALUES (:team_id, :league_id, now(), 1);
+				';
+
+				$parametros = array(
+					':team_id' => $data['comodin'],
+					':league_id' => $data['event_id']
 				);
 
 				$sql = $pdo->prepare($cmd);
