@@ -1,4 +1,5 @@
 <?php
+    session_start();
     // Se inicia el metodo para encapsular todo el contenido de las paginas (bufering), para dar salida al HTML 
     ob_start();
 ?>
@@ -13,6 +14,31 @@
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold lh-1 mb-3" id="lblName"></h5>
                             <p class="card-text lead" id="lblInfo"></p>
+                            <?php if(isset($_SESSION['login'])) { ?>
+                                <div class="mb-3">                               
+                                    <div class="d-grid gap-2">
+                                        <div class="dropdown">
+                                            <a class="btn btn-outline-secondary dropdown-toggle" href="javascript:void(0);" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                                Request team admission
+                                            </a>
+
+                                            <div class="mb-3 teamItem d-none itemClone">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input chkTeam" id="0">
+                                                    <label class="form-check-label" for="team1">
+                                                        Team 1
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <form class="dropdown-menu p-4 dropdown-menu-end">
+                                                <div class="teamContenedor"></div>
+                                                <button type="button" class="btn btn-outline-success" id="btnSendRequest">Send request</button>
+                                            </form>
+                                        </div>                                  
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <p class="card-text"><small class="text-muted labelSubTitle">List of registered teams</small></p>
 
                             <table class="table">
@@ -45,6 +71,9 @@
     $(document).ready(function(){
         // Cargar datos de la liga
         fnLoadData();
+
+        //Cargar todos los equipos del usuario logueado
+        fnLoadTeam();
     });
 
     function fnLoadData(){
@@ -115,6 +144,27 @@
             $(".col1").html(`${myLang.col1}`);
             $(".col2").html(`${myLang.col2}`);
         }        
+    }
+
+    // Metodo para listar todos los equipos registrados del usuario logueado
+    function fnLoadTeam(){
+        let objData = {
+            "_method": "GET"
+        };
+
+        $.post(`${base_url}/core/controllers/team.php`, objData, function(result){
+            $.each(result.data, function(index, item){
+                let team = $(".itemClone").clone();
+
+                team.find(".chkTeam").attr("id", item.id);
+                team.find(".form-check-label")
+                    .attr("for", item.id)
+                    .html(item.name);
+
+                team.removeClass("d-none itemClone");
+                $(team).appendTo(".teamContenedor");
+            });
+        });
     }
 </script>
 
