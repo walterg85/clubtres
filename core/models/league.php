@@ -350,9 +350,9 @@
 
 			$cmd = '
 				INSERT INTO invitation
-					(udestiny_id, uorigin_id, event, event_id, event_type, register_date)
+					(udestiny_id, uorigin_id, event, event_id, event_type, register_date, comodin)
 				VALUES
-					(:udestiny_id, :uorigin_id, :event, :event_id, :event_type, now())
+					(:udestiny_id, :uorigin_id, :event, :event_id, :event_type, now(), :comodin)
 			';
 
 			$parametros = array(
@@ -360,7 +360,8 @@
 				':uorigin_id'	=> $data['uorigin_id'],
 				':event'		=> $data['event'],
 				':event_id'		=> $data['event_id'],
-				':event_type'	=> $data['event_type']
+				':event_type'	=> $data['event_type'],
+				':comodin'		=> $data['comodin']
 			);
 			
 			try {

@@ -24,7 +24,7 @@
 
                                             <div class="mb-3 teamItem d-none itemClone">
                                                 <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input chkTeam" name="chkTeam" value="0">
+                                                    <input type="checkbox" class="form-check-input chkTeam" name="chkTeam" value="0" data-name="">
                                                     <label class="form-check-label" for="team1">
                                                         Team 1
                                                     </label>
@@ -164,6 +164,7 @@
 
                         team.find(".chkTeam").attr("id", item.id);
                         team.find(".chkTeam").attr("value", item.id);
+                        team.find(".chkTeam").data("name", item.name);
 
                         team.find(".form-check-label")
                             .attr("for", item.id)
@@ -176,20 +177,20 @@
 
                 // Accion para procesar los equipos seleccionados
                 $("#btnSendRequest").click( function () {
-                    let equiposId = [];
+                    let equiposData = [];
 
                     $('input[name="chkTeam"]:checked').each(function() {
-                       equiposId.push(this.value);
+                       equiposData.push( { id: this.value, name: $(this).data("name") });
                     });
 
-                    if(equiposId.length == 0)
+                    if(equiposData.length == 0)
                         return false;
 
                     let objData = {
                         "_method": "sendSolicitud",
                         "leagueId": leagueId,
                         "leagueName": leagueName,
-                        "equiposId": JSON.stringify(equiposId)
+                        "equiposData": JSON.stringify(equiposData)
                     };
 
                     $.post("../core/controllers/league.php", objData, function(result) {
