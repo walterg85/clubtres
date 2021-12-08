@@ -268,7 +268,7 @@
 				foreach ($equiposData as $key => $value) {
 					$data = array(
 						'uorigin_id' 	=> $_SESSION['authData']->id,
-						'event' 		=> 'Hello, '. $value->name .' has sent you an application for admission to the league <b>'. $_POST["leagueName"] .'</b>, respond soon.',
+						'event' 		=> 'Hello, <b>'. $value->name .'</b> has sent you an application for admission to the league <b>'. $_POST["leagueName"] .'</b>, respond soon.',
 						'event_type' 	=> '-3',
 						'event_id' 		=> $_POST['leagueId'],
 						'comodin' 		=> $value->id
