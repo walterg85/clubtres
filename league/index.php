@@ -149,20 +149,22 @@
     // Metodo para listar todos los equipos registrados del usuario logueado
     function fnLoadTeam(){
         let objData = {
-            "_method": "GET"
+            "_method": "getTeamLeague"
         };
 
         $.post(`${base_url}/core/controllers/team.php`, objData, function(result){
             $.each(result.data, function(index, item){
-                let team = $(".itemClone").clone();
+                if(item.type == 1){
+                    let team = $(".itemClone").clone();
 
-                team.find(".chkTeam").attr("id", item.id);
-                team.find(".form-check-label")
-                    .attr("for", item.id)
-                    .html(item.name);
+                    team.find(".chkTeam").attr("id", item.id);
+                    team.find(".form-check-label")
+                        .attr("for", item.id)
+                        .html(item.name);
 
-                team.removeClass("d-none itemClone");
-                $(team).appendTo(".teamContenedor");
+                    team.removeClass("d-none itemClone");
+                    $(team).appendTo(".teamContenedor");
+                }
             });
         });
     }

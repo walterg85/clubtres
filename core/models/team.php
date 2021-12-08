@@ -113,6 +113,28 @@
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
 
+		public function getTeamLeague($user_id, $league_id) {
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT t.id, t.name, t.register_date, t.active, t.image, ut.type, ut.register_date
+				FROM user_team ut
+				INNER JOIN team t ON ut.team_id = t.id
+				WHERE ut.user_id =:user_id 
+					AND t.active = 1
+					AND t.id NOT IN (select tl.team_id FROM team_league tl where tl.league_id =:league_id)
+			';
+
+			$parametros = array(
+				':user_id'	=> $user_id,
+				'league_id' => $league_id
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
 		public function deleteTeam($teamId) {
 			$pdo = new Conexion();
 			$cmd = 'UPDATE team SET active = 0 WHERE id =:teamId';
