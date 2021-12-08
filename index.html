@@ -105,6 +105,12 @@
             // Validar inicio de session
             $("#btnLogin").on("click", fnValidateUser);
 
+            // Cuando se hace enter en el inputpassword se ejecuta el metodo de validar login
+            $('#inputPassword').keypress(function(e) {
+                if(e.which == 13)
+                    fnValidateUser();
+            });
+
             // si ya esta logueado redirigirlo a Home
             if(localStorage.getItem("logged"))
                     window.location.replace("account/index.php");
