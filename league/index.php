@@ -188,11 +188,12 @@
                     let objData = {
                         "_method": "sendSolicitud",
                         "leagueId": leagueId,
-                        "leagueName": leagueName
+                        "leagueName": leagueName,
+                        "equiposId": JSON.stringify(equiposId)
                     };
 
                     $.post("../core/controllers/league.php", objData, function(result) {
-                        console.log(result);
+                        console.log(1);
                     });
                 });
             } else {
