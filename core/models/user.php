@@ -3,8 +3,9 @@
         public function __construct() {
             require_once '../dbConnection.php';
         }
-
-        public function createUser($userData) {
+        
+        // Metodo para registrar un nuevo usurio
+        public function createUser($userData){
             $pdo = new Conexion();
             $cmd = '
                 INSERT INTO user
@@ -14,10 +15,10 @@
             ';
 
             $parametros = array(
-                ':name' => $userData['name'],
-                ':last_name' => $userData['last_name'],
-                ':email' => $userData['email'],
-                ':password' => $userData['password']            
+                ':name'         => $userData['name'],
+                ':last_name'    => $userData['last_name'],
+                ':email'        => $userData['email'],
+                ':password'     => $userData['password']            
             );
             
             try {
@@ -30,6 +31,7 @@
             }
         }
 
+        // Metodo auxiliar para obtener la iunformacion de inicio de session de un usuario
         public function login($email) {
             $pdo = new Conexion();
             $cmd = 'SELECT id, name, last_name, email, password FROM user WHERE email =:email AND active = 1';
@@ -45,6 +47,7 @@
             return $sql->fetch();
         }
 
+        // Metodo para obtener la informacion de un usuario especifico
         public function getUserId($userId) {
             $pdo = new Conexion();
             $cmd = 'SELECT id, name, last_name, active FROM user WHERE id =:userId';
@@ -60,6 +63,7 @@
             return $sql->fetch();
         }
 
+        // Metodo para conteo de invitaciones y marcar en el menu lateral como advertencia
         public function countInvitation($userId){
             $pdo = new Conexion();
             $cmd = 'SELECT COUNT(id) AS notifications FROM invitation WHERE udestiny_id =:userId;';
@@ -75,6 +79,7 @@
             return $sql->fetch();
         }
 
+        // Metodo para obtener las invitaciones que he enviado, para cancelarlas
         public function getInvitation($userId){
             $pdo = new Conexion();
             $cmd = 'SELECT id, uorigin_id, event, event_id, event_type, register_date, (SELECT CONCAT(NAME, " ", last_name) FROM user WHERE id = uorigin_id) AS fromName, comodin  FROM invitation WHERE udestiny_id =:userId';
