@@ -237,20 +237,21 @@
         <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
 
         <script type="text/javascript">
-            var currentLeague = null,
-                lang = (window.navigator.language).substring(0,2),
-                currentSection = "",
-                searchRequest = null,
-                actualLenguaje = null,
-                linkto = null,
-                countChat = 0,
-                refreshLog = null,
-                useridChat = 0,
-                sincroniceLog = null;
+            var currentLeague   = null,
+                lang            = (window.navigator.language).substring(0,2),
+                currentSection  = "",
+                searchRequest   = null,
+                actualLenguaje  = null,
+                linkto          = null,
+                countChat       = 0,
+                refreshLog      = null,
+                useridChat      = 0,
+                sincroniceLog   = null;
             
             $(document).ready(function(){
                 let queryString = window.location.search,
-                    urlParams = new URLSearchParams(queryString);
+                    urlParams   = new URLSearchParams(queryString);
+                    
                 linkto = urlParams.get('link');
 
                 $("#linkHome").on("click", function(){

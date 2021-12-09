@@ -111,13 +111,12 @@
     }
 
     function saveData(){
-        let forms = document.querySelectorAll('.needs-validation'),
-            continuar = true;
+        let forms       = document.querySelectorAll('.needs-validation'),
+            continuar   = true;
 
         Array.prototype.slice.call(forms).forEach(function (formv){ 
-            if (!formv.checkValidity()) {
-                    continuar = false;
-            }
+            if (!formv.checkValidity())
+                continuar = false;
 
             formv.classList.add('was-validated');
         });
@@ -176,9 +175,9 @@
         });
 
         // Image Cropper
-        let picture = $(".imgPreview"),
+        let picture     = $(".imgPreview"),
             image       = $("#previewCrop")[0],
-            inputFile1   = $("#inputPhoto")[0],
+            inputFile1  = $("#inputPhoto")[0],
             $modal      = $('#modalCrop'),
             cropper     = null;
 
