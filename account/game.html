@@ -188,6 +188,9 @@
                             pushpin = new Microsoft.Maps.Pushpin(location, {'draggable': false});
                             clubMap.entities.push(pushpin);
 
+                            //Center the map on the user's location.
+                            clubMap.setView({ center: location, zoom: 11 });
+
                             $("#mdlMap").modal("show");
                         });
 
