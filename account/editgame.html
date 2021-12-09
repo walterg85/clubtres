@@ -151,6 +151,9 @@
             location    = new Microsoft.Maps.Location(jsLoc.latitude, jsLoc.longitude);
         currentLocation = {latitude: jsLoc.latitude, longitude: jsLoc.longitude};
 
+        //Center the map on the user's location.
+        clubMap.setView({ center: location, zoom: 11 });
+
         pushpin = new Microsoft.Maps.Pushpin(location, {'draggable': false});
         clubMap.entities.push(pushpin);
     }
