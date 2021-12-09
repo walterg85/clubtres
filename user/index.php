@@ -20,11 +20,13 @@
                     <p class="lead d-none btnRecibido"><i class="bi bi-person-plus-fill"></i> Friend request received</p>
                     <p class="lead d-none btnFriends"><i class="bi bi-person-check-fill"></i> <text class="lblFriends">Friends since</text> <text class="lblDate"></text> </p>
                 <?php } ?>
+                <div id="qrcode"></div>
             </div>
         </div>
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" ></script>
 <script type="text/javascript">
     var userId = "<?php echo $_GET['id']; ?>";
 
@@ -36,6 +38,9 @@
         reviewFriendRequest();
 
         $("#btnEnviarSolicitud").click( sendInvitation);
+
+        // Generar codigo QR del usuario
+        new QRCode(document.getElementById("qrcode"), $(location).attr('href'));
     });
 
     function fnLoadData(){
