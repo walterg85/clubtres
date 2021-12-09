@@ -27,6 +27,9 @@
         <!-- Datatables -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
 
+        <!-- sweetalert2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <title>Account Page</title>
     </head>
     <style type="text/css">
@@ -67,7 +70,8 @@
             width: 300px;
             background-color: #383b3f;
             border-radius: 5px;
-            opacity: 0;
+            /*opacity: 0;*/
+            display: none;
             transition: all 0.4s;
             z-index: 9;
         }
@@ -196,8 +200,8 @@
                     <div class="wrapper">
                         <div class="header">
                             <h6>
+                                <small class="btnDeleteChat" style="font-size: large;"><i class="bi bi-trash"></i></small>
                                 <text class="labelChatTitle">Nombre de usuario</text>
-                                <small class="btnDeleteChat" style="margin-left: 8rem !important; font-size: large;"><i class="bi bi-trash"></i></small>
                             </h6>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger btnCloceChat">
                                 X
@@ -572,7 +576,7 @@
 
                 // Accion para cerrar chat
                 $(".btnCloceChat").unbind().click( function(){
-                    $(".wrapper").css("opacity", 0);
+                    $(".wrapper").css("display", "none");
                     $(".wrapper").css("left", 0);
                     $(".labelChatTitle").html("");
 
@@ -584,7 +588,7 @@
                     countChat -= 1;
                 });
 
-                $(".wrapper").css("opacity", 1);
+                $(".wrapper").css("display", "table-column");
                 $(".wrapper").css("left", cssLeft);
                 $(".labelChatTitle").html(data.name);
 
@@ -597,7 +601,7 @@
                     let leftPx = $(this).parent().css("left");
                     useridChat = $(this).data("friendid");
 
-                    $(".wrapper").css("opacity", 1);
+                    $(".wrapper").css("display", "table-column");
                     $(".wrapper").css("left", leftPx);
                     $(".labelChatTitle").html($(this).data("name"));
 
@@ -606,7 +610,7 @@
                 });
 
                 $(".btnDeleteChat").unbind().click( function(){
-                    $(".wrapper").css("opacity", 0);
+                    $(".wrapper").css("display", "none");
                     $(".wrapper").css("left", 0);
                     $(".labelChatTitle").html("");
 
@@ -621,6 +625,16 @@
 
                     $("#chatLog").html("");
                 });
+            }
+
+            function showAlert(){
+                Swal.fire({
+  position: 'top-end',
+  icon: 'success',
+  title: 'Your work has been saved',
+  showConfirmButton: false,
+  timer: 1500
+})
             }
         </script>
     </body>
