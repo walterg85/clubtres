@@ -185,8 +185,10 @@
         $teamsModel     = new Teamsmodel();
         $tmpResponse    = $teamsModel->getTeamId($_GET['teamId']);
 
-        if($tmpResponse)
-            $tmpResponse->id = str_pad($tmpResponse->id, 5, '0', STR_PAD_LEFT);         
+        if(is_object($tmpResponse)){
+            if(property_exists($tmpResponse, 'id'))
+                $tmpResponse->id = str_pad($tmpResponse->id, 5, '0', STR_PAD_LEFT);         
+        }
 
         $response = array(
             'codeResponse'  => 200,

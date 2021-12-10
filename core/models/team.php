@@ -90,7 +90,8 @@
 
 			// Buscar los miembros de este equipo
 			$data = $sql->fetch();
-			$data->teamlist = $this->getChilds($teamId);
+			if($data)
+				$data->teamlist = $this->getChilds($teamId);
 
 			return $data;
 		}
