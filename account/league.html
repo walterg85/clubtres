@@ -565,26 +565,29 @@
                                     if(result.data){
                                         let nameInvited = `${result.data.name}`;
 
-                                        if (confirm(`Will you surely invite ${nameInvited} to be part of your League?`)){
-                                            $.ajax({
-                                                url: '../core/controllers/league.php',
-                                                data:{
-                                                    idLeague: data.id,
-                                                    idTeam: inputText,
-                                                    nameLeague: data.name,
-                                                    idUser: result.data.user_id,
-                                                    _method: "PUT"
-                                                },
-                                                type: 'POST',
-                                                success: function(response){
-                                                    showAlert("info", response.message);
-                                                    $(`#inputTeamId${data.id}`).val("");
-                                                },
-                                                error: function(xhr, status) {
-                                                    showAlert("error", "Invitation not sent");
-                                                },
-                                            });
-                                        }
+                                        (async () => {
+                                            const tmpResult = await showConfirmation(`Will you surely invite ${nameInvited} to be part of your League?`, "", "Yes, invite");
+                                            if(tmpResult.isConfirmed){
+                                                $.ajax({
+                                                    url: '../core/controllers/league.php',
+                                                    data:{
+                                                        idLeague: data.id,
+                                                        idTeam: inputText,
+                                                        nameLeague: data.name,
+                                                        idUser: result.data.user_id,
+                                                        _method: "PUT"
+                                                    },
+                                                    type: 'POST',
+                                                    success: function(response){
+                                                        showAlert("info", response.message);
+                                                        $(`#inputTeamId${data.id}`).val("");
+                                                    },
+                                                    error: function(xhr, status) {
+                                                        showAlert("error", "Invitation not sent");
+                                                    },
+                                                });
+                                            }
+                                        })()
                                     }else{
                                         showAlert("error", "The Id number provided does not exist");
                                     }

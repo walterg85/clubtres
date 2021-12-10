@@ -374,7 +374,6 @@
                             let data = getData($(this), dataTableBusiness);
                             (async () => {
                                 const tmpResult = await showConfirmation(`Are you sure to eliminate this business? (${data.nombre})`, "this cannot be undone!", "Yes delete");
-                                console.log(tmpResult);
                                 if(tmpResult.isConfirmed){
                                     $.ajax({
                                         url: '../core/controllers/business.php',
