@@ -627,14 +627,49 @@
                 });
             }
 
-            function showAlert(){
+            // Metodo para mostrar una alerta de notificaicon
+            // icon: success || error
+            // text: texto que se mostrara en pantalla
+            function showAlert(icon, text){
                 Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  title: 'Your work has been saved',
-  showConfirmButton: false,
-  timer: 1500
-})
+                    position: 'top-end',
+                    icon: icon,
+                    text: text,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
+
+            // Metodo para mostrar una alerta de confirmacion
+            // title: Cuestion proincipal
+            // text: Texto explicativo
+            // confirmButtonText: texto que se colocara en el boton de confirmacion
+            /*
+            [USAGE]
+            (async () => {
+                const alert = await showConfirmation("¿Deseas eliminar?", "Esto no se podra revertir!", "Si eliminar");
+                console.log(alert);
+            })()
+
+            [RESULT]
+            {
+                "isConfirmed": false,
+                "isDenied": false,
+                "isDismissed": true,
+                "dismiss": "cancel"
+            }
+            */
+            function showConfirmation(title, text, confirmButtonText){
+                return Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: confirmButtonText,
+                    allowOutsideClick: false
+                });
             }
         </script>
     </body>
