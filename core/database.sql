@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-12-2021 a las 23:01:07
+-- Tiempo de generación: 13-12-2021 a las 20:54:17
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -74,7 +74,9 @@ CREATE TABLE `games` (
   `event_date` datetime DEFAULT NULL,
   `locations` varchar(500) DEFAULT NULL,
   `registered_date` datetime DEFAULT NULL,
-  `status` int(11) DEFAULT NULL
+  `status` int(11) DEFAULT NULL,
+  `gametype` int(11) NOT NULL,
+  `friends` longtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -93,6 +95,20 @@ CREATE TABLE `invitation` (
   `event_type` int(11) DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
   `comodin` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `invitationresponse`
+--
+
+DROP TABLE IF EXISTS `invitationresponse`;
+CREATE TABLE `invitationresponse` (
+  `id` int(11) NOT NULL,
+  `gameId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `response` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -225,6 +241,12 @@ ALTER TABLE `invitation`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `invitationresponse`
+--
+ALTER TABLE `invitationresponse`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `league`
 --
 ALTER TABLE `league`
@@ -287,6 +309,12 @@ ALTER TABLE `games`
 -- AUTO_INCREMENT de la tabla `invitation`
 --
 ALTER TABLE `invitation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `invitationresponse`
+--
+ALTER TABLE `invitationresponse`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
