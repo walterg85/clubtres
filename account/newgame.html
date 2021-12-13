@@ -16,10 +16,10 @@
         <div class="col-4">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="league-tab" data-bs-toggle="tab" data-bs-target="#league" type="button" role="tab" aria-controls="league" aria-selected="true">League games</button>
+                    <button class="nav-link active btnTab" data-gametype="1" id="league-tab" data-bs-toggle="tab" data-bs-target="#league" type="button" role="tab" aria-controls="league" aria-selected="true">League games</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="friendly-tab" data-bs-toggle="tab" data-bs-target="#friendly" type="button" role="tab" aria-controls="friendly" aria-selected="false">Friendly games</button>
+                    <button class="nav-link btnTab" data-gametype="2" id="friendly-tab" data-bs-toggle="tab" data-bs-target="#friendly" type="button" role="tab" aria-controls="friendly" aria-selected="false">Friendly games</button>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -65,7 +65,22 @@
                     </form>
                 </div>
                 <div class="tab-pane fade pt-3" id="friendly" role="tabpanel" aria-labelledby="friendly-tab">
-                    <div class="row g-3">
+                    <div class="friendAlert d-none">
+                        <figure class="text-center my-5">
+                            <blockquote class="blockquote">
+                                <p class="labelCardTeam">You have no people on your friends list</p>
+                            </blockquote>
+                            <figcaption class="blockquote-footer">
+                                <texto class="subLabel1">You can search for your friends and invite them to be part of your friends list. </texto>
+                            </figcaption>
+                        </figure>
+
+                        <label for="personList" class="form-label labelDatalist">Persons</label>
+                        <input class="form-control" list="personsOptions" id="personList" name="personList" placeholder="Type to search Persons...">
+                        <datalist id="personsOptions"></datalist>
+                    </div>
+
+                    <div class="row g-3 rowFriends">
                         <div class=" col-9 mb-3">
                             <label for="firendList" class="form-label labelDatalist">Friends</label>
                             <input class="form-control" list="datalistOptions" id="firendList" name="firendList" placeholder="Type to search...">
@@ -114,7 +129,8 @@
         currentLocation = null,
         tempFriends     = null,
         currentFriend   = 0,
-        arrayFriends    = [];
+        arrayFriends    = [],
+        gameType        = 1;
 
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
@@ -135,49 +151,86 @@
         $("#inputLeague").change( fnListTeams);
 
         $("#btnSavegame").on("click", function(){
-            if($("#inputLeague").val() == 0){
-                alert("You must choose a league for the game");
-                return false;
-            }
+            if(gameType == 1){
+                if($("#inputLeague").val() == 0){
+                    alert("You must choose a league for the game");
+                    return false;
+                }
 
-            if($("#inputTeam").val() == 0 || $("#inputTeam2").val() == 0){
-                alert("You must choose both teams for the game");
-                return false;
-            }
+                if($("#inputTeam").val() == 0 || $("#inputTeam2").val() == 0){
+                    alert("You must choose both teams for the game");
+                    return false;
+                }
 
-            if($("#inputTeam").val() == $("#inputTeam2").val()){
-                alert("You can't choose the same team for the game");
-                return false;
-            }
+                if($("#inputTeam").val() == $("#inputTeam2").val()){
+                    alert("You can't choose the same team for the game");
+                    return false;
+                }
 
-            if($("#inputDate").val() == ""){
-                alert("You must choose a date for the event");
-                return false;
-            }
+                if($("#inputDate").val() == ""){
+                    alert("You must choose a date for the event");
+                    return false;
+                }
 
-            if(!currentLocation){
-                alert("You must indicate on the map the place of the event");
-                return false;
-            }
+                if(!currentLocation){
+                    alert("You must indicate on the map the place of the event");
+                    return false;
+                }
 
-            let objData = {
-                "_method": "addEvent",
-                "leagueId": $("#inputLeague").val(),
-                "team1": $("#inputTeam").val(),
-                "team2": $("#inputTeam2").val(),
-                "date": $("#inputDate").val(),
-                "location": JSON.stringify(currentLocation)
-            };
+                let objData = {
+                    "_method": "addEvent",
+                    "leagueId": $("#inputLeague").val(),
+                    "team1": $("#inputTeam").val(),
+                    "team2": $("#inputTeam2").val(),
+                    "date": $("#inputDate").val(),
+                    "location": JSON.stringify(currentLocation),
+                    "gameType": gameType
+                };
 
-            if (confirm(`Do you want to go ahead and register the event?`)){
-                $.post("../core/controllers/league.php", objData, function(result) {
-                    alert(result.message)
+                if (confirm(`Do you want to go ahead and register the event?`)){
+                    $.post("../core/controllers/league.php", objData, function(result) {
+                        alert(result.message)
 
-                    if(result.codeResponse == 200)
-                        $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
-                }).fail( function(jqXHR, textStatus, errorThrown){
-                    ajaxResponseError(jqXHR, textStatus);
-                });
+                        if(result.codeResponse == 200)
+                            $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                    }).fail( function(jqXHR, textStatus, errorThrown){
+                        ajaxResponseError(jqXHR, textStatus);
+                    });
+                }
+            } else {
+                if(arrayFriends.length == 0){
+                    alert("No friends on the guest list");
+                    return false;
+                }
+
+                if($("#inputDate2").val() == ""){
+                    alert("You must choose a date for the event");
+                    return false;
+                }
+
+                if(!currentLocation){
+                    alert("You must indicate on the map the place of the event");
+                    return false;
+                }
+
+                let objData = {
+                    "_method": "addEvent2",
+                    "date": $("#inputDate2").val(),
+                    "location": JSON.stringify(currentLocation),
+                    "friendlist": JSON.stringify(arrayFriends),
+                    "gameType": gameType
+                };
+
+                if (confirm(`Do you want to go ahead and register the event?`)){
+                    $.post("../core/controllers/league.php", objData, function(result) {
+                        alert(result.message)
+
+                        if(result.codeResponse == 200)
+                            $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                    }).fail( function(jqXHR, textStatus, errorThrown){
+                        ajaxResponseError(jqXHR, textStatus);
+                    });
+                }
             }
         });
 
@@ -190,6 +243,10 @@
         });
 
         $("#btnAdd").click( addFriend);
+
+        $(".btnTab").click( function(){
+            gameType = $(this).data("gametype");
+        });
 
         fnListLeague();
         changePageLang();
@@ -302,7 +359,12 @@
     // Metodo para listar todos los amigos del usuario
     function loadFriends() {
         $.post('../core/controllers/user.php', { _method: 'getFriends' }, function(result){
-            console.log(result);
+            if(result.data.length == 0){
+                $(".rowFriends").addClass("d-none");
+                $(".friendAlert").removeClass("d-none");
+                return false;
+            }
+
             $("#datalistOptions").html("");
             tempFriends = result.data;
 

@@ -240,14 +240,37 @@
         // Metodo para registrar un nuevo juego
         public function addEvent($data){
             $pdo = new Conexion();
-            $cmd = 'INSERT INTO games (league_id, teama_id, teamb_id, event_date, locations, registered_date, status) VALUES (:league_id, :teama_id, :teamb_id, :event_date, :locations, now(), 1)';
+            $cmd = 'INSERT INTO games (league_id, teama_id, teamb_id, event_date, locations, registered_date, status, gametype) VALUES (:league_id, :teama_id, :teamb_id, :event_date, :locations, now(), 1, :gametype)';
 
             $parametros = array(
                 ':league_id'    => $data['leagueId'],
                 ':teama_id'     => $data['team1'],
                 ':teamb_id'     => $data['team2'],
                 ':event_date'   => $data['date'],
-                ':locations'    => $data['location']
+                ':locations'    => $data['location'],
+                ':gametype'      => $data['gameType']
+            );
+
+            try {
+                $sql = $pdo->prepare($cmd);
+                $sql->execute($parametros);
+
+                return [TRUE, $pdo->lastInsertId()];
+            } catch (PDOException $e) {
+                return [FALSE, 0];
+            }
+        }
+
+        // Metodo para registrar un nuevo juego amistoso
+        public function addEvent2($data){
+            $pdo = new Conexion();
+            $cmd = 'INSERT INTO games (event_date, locations, registered_date, status, gametype, friends) VALUES (:event_date, :locations, now(), 1, :gametype, :friendlist)';
+
+            $parametros = array(
+                ':event_date'   => $data['date'],
+                ':locations'    => $data['location'],
+                ':gametype'     => $data['gameType'],
+                ':friendlist'   => $data['friendlist']
             );
 
             try {
@@ -268,6 +291,7 @@
                 FROM games AS g
                 INNER JOIN league AS l ON g.league_id = l.id
                 WHERE l.user_id =:user_id
+                AND g.gametype = 1
 
                 UNION DISTINCT
 
@@ -276,6 +300,7 @@
                 INNER JOIN  games AS g ON l.id = g.league_id
                 INNER JOIN user_team AS ut ON g.teama_id = ut.team_id
                 WHERE ut.user_id =:user_id AND ut.status = 1 AND l.user_id !=:user_id
+                AND g.gametype = 1
 
                 UNION DISTINCT
 
@@ -284,6 +309,7 @@
                 INNER JOIN  games AS g ON l.id = g.league_id
                 INNER JOIN user_team AS ut ON g.teamb_id = ut.team_id
                 WHERE ut.user_id =:user_id AND ut.status = 1 AND l.user_id !=:user_id
+                AND g.gametype = 1
             ';
 
             $parametros = array(
