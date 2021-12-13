@@ -10,7 +10,8 @@
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
                 <button type="button" class="btn btn-sm btn-outline-secondary" id="tmpNewLeague">Create new league</button>
-                <button class="btn btn-primary d-none" type="button" id="btnPanel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLeague" aria-controls="offcanvasLeague">panel nuevo</button>
+                <button class="btn btn-primary d-none" type="button" id="btnPanel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLeague" aria-controls="offcanvasLeague">    panel nuevo
+                </button>
             </div>
         </div>
     </div>
@@ -35,44 +36,6 @@
         <texto class="subLabel1">Whenever you want, you can register a new league by</texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnPnlLeague" class=""><texto class="subLabel2" >clicking here</texto></a> </cite>
     </figcaption>
 </figure>
-     
-<!-- Modal para registrar nuevo League-->
-<div class="modal fade" id="addLeagueModal" tabindex="-1" aria-labelledby="modalTitle2" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title lblNewLeague" id="modalTitle2">Add new league</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body mdbyLeague">
-                <form id="frmLeague">
-                    <input type="hidden" name="idLeague" id="idLeague" value="0">
-                    <div class="mb-3">
-                        <label for="inputNameL" class="form-label lblInputName">League Name</label>
-                        <input type="text" name="inputNameL" class="form-control" id="inputNameL">              
-                    </div>
-                    <select class="form-select mb-3" name="sportType" id="sportType" aria-label="Default select example">
-                        <option class="lblOption" value="0" selected>Select sport</option>
-                        <option class="dp1" value="1">Soccer</option>
-                        <option class="dp2" value="2">Basketball</option>
-                        <option class="dp3" value="3">Football</option>
-                    </select>
-                    <div class="mb-3">
-                        <label for="imageleague" class="form-label lblimgPreview">League image</label>
-                        <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
-                        <input class="form-control form-control-sm" id="imageleague" name="imageleague" type="file" accept="image/*">
-                    </div>
-                    <div class="form-check form-switch mb-3 d-none">
-                        <input class="form-check-input" type="checkbox" id="chkActive">
-                        <label class="form-check-label switch labelActive" for="chkActive">Active</label>
-                    </div> 
-                    <button type="button" class="btn btn-primary" id="btnRegisterLeague">Submit</button>
-                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Modal para editar las imagenes -->
 <div class="modal fade" id="modalCrop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
@@ -128,10 +91,44 @@
 <!-- Panel lateral para invitar al usuario a crear una nueva liga -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasLeague" aria-labelledby="offcanvasWithBackdropLabel"  >
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title lblNewLeague" id="offcanvasWithBackdropLabel">Create a new league</h5>
+        <h5 class="offcanvas-title lblNewLeague" id="offcanvasWithBackdropLabel">Add new league</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body"></div>
+    <div class="offcanvas-body">
+        <figure class="text-center leagueAlert d-none">
+            <blockquote class="blockquote">
+                <p class="labelCardLeague">Does not manage any league</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                <texto class="subLabel1">Whenever you want, you can register a new league </texto> <cite title="here"> <texto class="subLabel2" >here</texto></cite>
+            </figcaption>
+        </figure>
+
+        <form id="frmLeague">
+            <input type="hidden" name="idLeague" id="idLeague" value="0">
+            <div class="mb-3">
+                <label for="inputNameL" class="form-label lblInputName">League Name</label>
+                <input type="text" name="inputNameL" class="form-control" id="inputNameL">              
+            </div>
+            <select class="form-select mb-3" name="sportType" id="sportType" aria-label="Default select example">
+                <option class="lblOption" value="0" selected>Select sport</option>
+                <option class="dp1" value="1">Soccer</option>
+                <option class="dp2" value="2">Basketball</option>
+                <option class="dp3" value="3">Football</option>
+            </select>
+            <div class="mb-3">
+                <label for="imageleague" class="form-label lblimgPreview">League image</label>
+                <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
+                <input class="form-control form-control-sm" id="imageleague" name="imageleague" type="file" accept="image/*">
+            </div>
+            <div class="form-check form-switch mb-3 d-none">
+                <input class="form-check-input" type="checkbox" id="chkActive">
+                <label class="form-check-label switch labelActive" for="chkActive">Active</label>
+            </div> 
+            <button type="button" class="btn btn-primary" id="btnRegisterLeague">Submit</button>
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+        </form>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -164,7 +161,7 @@
 
             $(".form-switch").addClass("d-none");
 
-            $("#addLeagueModal").modal("show");
+            $("#btnPanel").click();
         });
 
         $('#leagueList').on('click', 'tbody td.dt-control', function () {
@@ -321,22 +318,12 @@
         })
 
         var myOffcanvas = document.getElementById('offcanvasLeague');
-        myOffcanvas.addEventListener('shown.bs.offcanvas', function () {
-            let myForm = $(".mdbyLeague").html();
-            $(".mdbyLeague").html("");
-
-            $(".offcanvas-body").html(myForm);
-            
+        myOffcanvas.addEventListener('shown.bs.offcanvas', function () {            
             // Iniciar componentes compartidos
             initComponent();
         });
 
-        myOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
-            let myForm = $(".offcanvas-body").html();
-            $(".offcanvas-body").html("");
-
-            $(".mdbyLeague").html(myForm);
-            
+        myOffcanvas.addEventListener('hidden.bs.offcanvas', function () {            
             // Iniciar componentes compartidos
             initComponent();
         });
@@ -368,7 +355,7 @@
                 if(!countMyLeague){
                     $("#btnPanel").click();
                 }else{
-                    $("#addLeagueModal").modal("hide");
+                    $("#btnPanel").click();
                 }
 
                 fnListLeague();
@@ -395,6 +382,7 @@
                 if( (response.data).length == 0 ){
                     $("#dvControl").addClass("d-none");
                     $(".leagueAlert").removeClass("d-none");
+                    $("#btnPanel").click();
 
                     countMyLeague = false;
 
@@ -504,7 +492,7 @@
                     ],
                     "fnDrawCallback":function(oSettings){
                         $(".btnEditLeague").unbind().click(function(){
-                            $("#addLeagueModal").modal("show");
+                            $("#btnPanel").click();
 
                             let data = getData($(this), dataTableLeague);
 
