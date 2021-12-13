@@ -35,38 +35,6 @@
     </figcaption>
 </figure>
 
-<!-- Modal para registrar nuevo equipo -->
-<div class="modal fade" id="addTeamModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title labelMdolaTitle" id="modalTitle">Add new team</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body mdbyTeam">
-                <form id="frmTeam">
-                    <input type="hidden" name="idTeam" id="idTeam" value="0">
-                    <div class="mb-3">
-                        <label for="inputName" class="form-label labelInputName">Team Name</label>
-                        <input type="text" name="inputName" class="form-control" id="inputName" autocomplete="off">              
-                    </div>
-                    <div class="mb-3">
-                        <label for="imageteam" class="form-label inputImageTeam">Team image</label>
-                        <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
-                        <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
-                    </div>
-                    <div class="form-check form-switch mb-3 d-none">
-                        <input class="form-check-input" type="checkbox" id="chkActive">
-                        <label class="form-check-label switch inputActive" for="chkActive">Active</label>
-                    </div> 
-                    <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
-                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Modal para editar las imagenes -->
 <div class="modal fade" id="modalCrop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg" role="document">
@@ -94,7 +62,34 @@
         <h5 class="offcanvas-title labelMdolaTitle" id="offcanvasWithBackdropLabel">Create a new team</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body"></div>
+    <div class="offcanvas-body">
+        <figure class="text-center teamAlert d-none">
+            <blockquote class="blockquote">
+                <p class="labelCardTeam">Does not manage any team</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                <texto class="subLabel1">Whenever you want, you can register a new team </texto> <cite title="here"><texto class="subLabel2">here</texto></cite>
+            </figcaption>
+        </figure>
+        <form id="frmTeam">
+            <input type="hidden" name="idTeam" id="idTeam" value="0">
+            <div class="mb-3">
+                <label for="inputName" class="form-label labelInputName">Team Name</label>
+                <input type="text" name="inputName" class="form-control" id="inputName" autocomplete="off">              
+            </div>
+            <div class="mb-3">
+                <label for="imageteam" class="form-label inputImageTeam">Team image</label>
+                <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
+                <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
+            </div>
+            <div class="form-check form-switch mb-3 d-none">
+                <input class="form-check-input" type="checkbox" id="chkActive">
+                <label class="form-check-label switch inputActive" for="chkActive">Active</label>
+            </div> 
+            <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+        </form>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -126,7 +121,7 @@
             teamPhoto = null;
 
             $(".form-switch").addClass("d-none");
-            $("#addTeamModal").modal("show");
+            $("#btnPanel").click();
         });
 
         $('#teamList').on('click', 'tbody td.dt-control', function () {
@@ -172,21 +167,11 @@
 
         var myOffcanvas = document.getElementById('offcanvasTeam');
         myOffcanvas.addEventListener('shown.bs.offcanvas', function () {
-            let myForm = $(".mdbyTeam").html();
-            $(".mdbyTeam").html("");
-
-            $(".offcanvas-body").html(myForm);
-            
             // Iniciar componentes compartidos
             initComponent();
         });
 
         myOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
-            let myForm = $(".offcanvas-body").html();
-            $(".offcanvas-body").html("");
-
-            $(".mdbyTeam").html(myForm);
-            
             // Iniciar componentes compartidos
             initComponent();
         });
@@ -219,7 +204,7 @@
                 if(!countMyTeams){
                     $("#btnPanel").click();
                 }else{
-                    $("#addTeamModal").modal("hide");
+                    $("#btnPanel").click();
                 }
 
                 fnListTeam();
@@ -251,6 +236,8 @@
                     $(".teamAlert").removeClass("d-none");
 
                     countMyTeams = false;
+
+                    $("#btnPanel").click();
 
                     return false;
                 }else{
@@ -337,7 +324,7 @@
                     ],
                     "fnDrawCallback":function(oSettings){
                         $(".btnEditTeam").unbind().click(function(){
-                            $("#addTeamModal").modal("show");
+                            $("#btnPanel").click();
 
                             let data = getData($(this), dataTableTeam);
 
