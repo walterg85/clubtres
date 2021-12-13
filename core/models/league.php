@@ -277,6 +277,31 @@
                 $sql = $pdo->prepare($cmd);
                 $sql->execute($parametros);
 
+                $eventoId = $pdo->lastInsertId();
+
+                // Enviar la notificacion a todos los invitados
+                $listFirend = json_decode($data['friendlist']);
+                for ($i=0; $i < count($listFirend); $i++) {
+                    $cmd = '
+                        INSERT INTO invitation
+                            (udestiny_id, uorigin_id, event, event_id, event_type, register_date)
+                        VALUES
+                            (:udestiny_id, :uorigin_id, :event, :event_id, :event_type, now())
+                    ';
+
+                    $parametros = array(
+                        ':udestiny_id'      => $listFirend[$i],
+                        ':uorigin_id'       => $_SESSION['authData']->id,
+                        ':event'        => 'The '. $_SESSION['authData']->name .' '. $_SESSION['authData']->last_name .' has invited you to a friendly game, reply soon.',
+                        ':event_id'     => $eventoId,
+                        ':event_type'       => -4
+                    );
+
+                    $sql = $pdo->prepare($cmd);
+                    $sql->execute($parametros);
+                }
+                
+
                 return [TRUE, $pdo->lastInsertId()];
             } catch (PDOException $e) {
                 return [FALSE, 0];

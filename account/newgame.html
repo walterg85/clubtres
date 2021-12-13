@@ -128,8 +128,11 @@
         pushpin         = null,
         currentLocation = null,
         tempFriends     = null,
+        tempPeople      = 0,
         currentFriend   = 0,
+        currentPeople   = 0,
         arrayFriends    = [],
+        arrayPeople     = [],
         gameType        = 1;
 
     $(document).ready(function(){
@@ -362,6 +365,7 @@
             if(result.data.length == 0){
                 $(".rowFriends").addClass("d-none");
                 $(".friendAlert").removeClass("d-none");
+                loadPeoples();
                 return false;
             }
 
@@ -432,6 +436,32 @@
             let index = $(this).data("index");
             arrayFriends.splice(index, 1);
             listarFriends();
+        });
+    }
+
+    // Metodo para listar todos los miembros de clubtres
+    function loadPeoples() {
+        $.post('../core/controllers/user.php', { _method: 'getPeople' }, function(result){
+
+            $("#personsOptions").html("");
+            tempPeople = result.data;
+
+            let options = "";
+            $.each( result.data, function(index, item){
+                options += `<option data-id="${item.id}" value="${item.name.toUpperCase()}">`;
+            });
+
+            $("#personsOptions").html(options);
+
+            $("input[name='personList']").on('input', function(e){
+                let option      = $('datalist').find('option[value="'+this.value+'"]');
+                currentPeople   = (option.data("id")) ? option.data("id") : 0;
+
+                if(currentPeople > 0){
+                    window.open(`../user/index.php?id=${currentPeople}`, "_blank");
+                    $("#personList").val("");
+                }
+            });
         });
     }
 </script>

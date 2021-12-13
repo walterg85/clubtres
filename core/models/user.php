@@ -419,6 +419,20 @@
             return $sql->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        // Metodo para listar todos los usuarios del sistema
+        public function getPeople(){
+            $pdo = new Conexion();
+
+            $cmd = '
+                select id, concat(name, " ", last_name) as name from user where active = 1
+            ';
+
+            $sql = $pdo->prepare($cmd);
+            $sql->execute();
+
+            return $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         // Metodo para eliminar el registro de amistad
         public function deleteFriend($data){
             $pdo = new Conexion();
