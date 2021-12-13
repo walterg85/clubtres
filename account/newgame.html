@@ -65,7 +65,33 @@
                     </form>
                 </div>
                 <div class="tab-pane fade pt-3" id="friendly" role="tabpanel" aria-labelledby="friendly-tab">
-                    <p>juegos amistosos</p>
+                    <div class="row g-3">
+                        <div class=" col-9 mb-3">
+                            <label for="firendList" class="form-label labelDatalist">Friends</label>
+                            <input class="form-control" list="datalistOptions" id="firendList" name="firendList" placeholder="Type to search...">
+                            <datalist id="datalistOptions"></datalist>
+                        </div>
+                        <div class="col">
+                            <div class="d-grid gap-2 pt-4">
+                                <button class="btn btn-outline-success" id="btnAdd" type="button">Add</button>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="inputDate2" class="form-label labelDate">* Event date</label>
+                            <input type="text" class="form-control" id="inputDate2" name="inputDate2" readonly="readonly">
+                        </div> 
+
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th class="labelControl2" scope="col">Friend name</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblFriends"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,13 +111,16 @@
 <script type="text/javascript">
     var clubMap         = null,
         pushpin         = null,
-        currentLocation = null;
+        currentLocation = null,
+        tempFriends     = null,
+        currentFriend   = 0,
+        arrayFriends    = [];
 
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "newGame";
 
-        $("#inputDate").datetimepicker({
+        $("#inputDate, #inputDate2").datetimepicker({
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: true,
@@ -160,8 +189,11 @@
             $( "#mainContenedor" ).load( `team.html?v=${Math.random()}` );
         });
 
+        $("#btnAdd").click( addFriend);
+
         fnListLeague();
         changePageLang();
+        loadFriends();
     });
 
     function loadMapScenario() {
@@ -265,6 +297,79 @@
         $(".labelTeam1").html(actualLenguaje[currentSection].labelTeam1);
         $(".labelTeam2").html(actualLenguaje[currentSection].labelTeam2);
         $(".labelDate").html(actualLenguaje[currentSection].labelDate);
+    }
 
+    // Metodo para listar todos los amigos del usuario
+    function loadFriends() {
+        $.post('../core/controllers/user.php', { _method: 'getFriends' }, function(result){
+            console.log(result);
+            $("#datalistOptions").html("");
+            tempFriends = result.data;
+
+            let options = "";
+            $.each( result.data, function(index, item){
+                options += `<option data-id="${item.friend_id}" value="${item.name.toUpperCase()}">`;
+            });
+
+            $("#datalistOptions").html(options);
+
+            $("input[name='firendList']").on('input', function(e){
+                let option      = $('datalist').find('option[value="'+this.value+'"]');
+                currentFriend   = (option.data("id")) ? option.data("id") : 0;
+            });
+        });
+    }
+
+    // Metodo para agregar nuevos amigos a la lista de invitados
+    function addFriend(){
+        if(currentFriend != 0){
+            arrayFriends.push(currentFriend);
+            listarFriends();
+
+            $("#firendList").val("");
+            $("#firendList").focus();
+        }else{
+            showAlert("info", "You must choose a valid friend");
+        }
+    }
+
+    // Metodo para dibujar en la tabla los amigos agregados
+    function listarFriends(){
+        currentFriend = 0;
+        let filas = "";
+
+        $("#tblFriends").html("");
+
+        // Se recore el contenido del array de conceptos
+        $.each(arrayFriends, function(index, item){
+            let friend = "";
+            $.each( tempFriends, function(i, p){
+                if(item == p.friend_id){
+                    friend = p.name.toUpperCase();
+                    return false;
+                }
+            });
+
+            filas += `
+                <tr>
+                    <td>${index +1}</td>
+                    <td>${friend}</td>
+                    <td class="text-center">
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDelete" title="Delete"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+            `;
+        });
+
+        // Se agrega el contenido del HTML en el body de la tabla contenedora
+        $("#tblFriends").append(filas);
+
+
+        // Accion del boton para eliminar un elemento del array y redibujar la tabla
+        $(".btnDelete").unbind().click( function(){
+            let index = $(this).data("index");
+            arrayFriends.splice(index, 1);
+            listarFriends();
+        });
     }
 </script>
