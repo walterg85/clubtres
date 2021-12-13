@@ -14,35 +14,60 @@
 <div class="bd-content ps-lg-4">
     <div class="row">
         <div class="col-4">
-            <form class="row g-3">
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label for="inputLeague" class="form-label labeLeague">* League</label>
-                        <select id="inputLeague" name="inputLeague" class="form-select"></select>
-                    </div>
-                </div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="league-tab" data-bs-toggle="tab" data-bs-target="#league" type="button" role="tab" aria-controls="league" aria-selected="true">League games</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="friendly-tab" data-bs-toggle="tab" data-bs-target="#friendly" type="button" role="tab" aria-controls="friendly" aria-selected="false">Friendly games</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active pt-3" id="league" role="tabpanel" aria-labelledby="league-tab">
+                    <figure class="text-center leagueAlert d-none my-5">
+                        <blockquote class="blockquote">
+                            <p class="labelCardLeague">Does not manage any league</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            <texto class="subLabel1">Whenever you want, you can register a new league by</texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnLeague" class=""><texto class="subLabel2" >clicking here</texto></a> </cite>
+                        </figcaption>
+                    </figure>
 
-                <div class="col-6">
-                    <div class="mb-3">
-                        <label for="inputTeam" class="form-label labelTeam1">* Team 1</label>
-                        <select id="inputTeam" name="inputTeam" class="form-select"></select>
-                    </div>
-                </div>
+                    <figure class="text-center teamAlert my-5 d-none">
+                        <blockquote class="blockquote">
+                            <p class="labelCardTeam">Not enough equipment</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            <texto class="subLabel1">There are not enough teams registered in this league, you can register a new team by </texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnTeam" class=""> <texto class="subLabel2">clicking here</texto> </a> </cite>
+                        </figcaption>
+                    </figure>   
 
-                <div class="col-6">
-                    <div class="mb-3">
-                        <label for="inputTeam2" class="form-label labelTeam2">* Team 2</label>
-                        <select id="inputTeam2" name="inputTeam2" class="form-select"></select>
-                    </div>
-                </div>
+                    <form class="row g-3">
+                        <div class="col-12 mb-3">
+                            <label for="inputLeague" class="form-label labeLeague">* League</label>
+                            <select id="inputLeague" name="inputLeague" class="form-select"></select>
+                        </div>
 
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label for="inputDate" class="form-label labelDate">* Event date</label>
-                        <input type="text" class="form-control" id="inputDate" name="inputDate" readonly="readonly">
-                    </div>
-                </div>         
-            </form>
+                        <div class="col-6 d-none mb-3">
+                            <label for="inputTeam" class="form-label labelTeam1">* Team 1</label>
+                            <select id="inputTeam" name="inputTeam" class="form-select"></select>
+                        </div>
+
+                        <div class="col-6 d-none mb-3">
+                            <label for="inputTeam2" class="form-label labelTeam2">* Team 2</label>
+                            <select id="inputTeam2" name="inputTeam2" class="form-select"></select>
+                        </div>
+
+                        <div class="col-12 d-none mb-3">
+                            <label for="inputDate" class="form-label labelDate">* Event date</label>
+                            <input type="text" class="form-control" id="inputDate" name="inputDate" readonly="readonly">
+                        </div>         
+                    </form>
+                </div>
+                <div class="tab-pane fade pt-3" id="friendly" role="tabpanel" aria-labelledby="friendly-tab">
+                    <p>juegos amistosos</p>
+                </div>
+            </div>
         </div>
         <div class="col-8">
             <label class="form-label labelMapa">* Indicates the place where the event will take place</label>
@@ -127,6 +152,14 @@
             }
         });
 
+        $("#btnLeague").click( function(){
+            $( "#mainContenedor" ).load( `league.html?v=${Math.random()}` );
+        });
+
+        $("#btnTeam").click( function(){
+            $( "#mainContenedor" ).load( `team.html?v=${Math.random()}` );
+        });
+
         fnListLeague();
         changePageLang();
     });
@@ -165,6 +198,11 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
+                if(response.data.length == 0){
+                    $("#inputLeague").parent().addClass("d-none");
+                    $(".leagueAlert").removeClass("d-none");
+                    return false;
+                }
                 let options = '<option value="0">Choose an option</option>';
                 $.each(response.data, function( index, item){
                     if(item.type == 1)
@@ -192,6 +230,13 @@
             };
 
         $.post("../core/controllers/league.php", objData, function(result) {
+            if(result.data.length < 2){
+                $(".teamAlert").removeClass("d-none");
+                return false;
+            }
+
+            $("#inputTeam, #inputTeam2, #inputDate").parent().removeClass("d-none");
+
             let options = '<option value="0">Choose an option</option>';
             $.each(result.data, function( index, item){
                 if(item.status == 1)

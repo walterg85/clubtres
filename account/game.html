@@ -82,6 +82,7 @@
                 let mypaging = false;
 
                 if( (response.data).length == 0 ){
+                    $(".tmpNewGame").click();
                     $(".gameAlert").removeClass("d-none");
                     $(".dvContro").addClass("d-none");
                 }else{
