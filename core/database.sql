@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 13-12-2021 a las 20:54:17
+-- Tiempo de generación: 15-12-2021 a las 21:00:27
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -76,7 +76,8 @@ CREATE TABLE `games` (
   `registered_date` datetime DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `gametype` int(11) NOT NULL,
-  `friends` longtext NOT NULL
+  `friends` longtext NOT NULL,
+  `owner` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

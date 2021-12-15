@@ -197,7 +197,7 @@
                 exit(json_encode($response));
             }else if($_POST['_method'] == 'addEvent2'){
                 $leagueModel = new Leaguemodel();
-                $tmpResponse = $leagueModel->addEvent2($_POST);
+                $tmpResponse = $leagueModel->addEvent2($_POST, $_SESSION['authData']->id);
 
                 if($tmpResponse[0]){
                     $response = array(
