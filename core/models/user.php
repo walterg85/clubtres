@@ -174,6 +174,45 @@
 
                 $sql = $pdo->prepare($cmd);
                 $sql->execute($parametros);
+            } else if($data['event_type'] == -4 && $data['action'] == 1){ // Un jugador acepto la invitacion para un juego amistoso
+                $cmd = '
+                    INSERT INTO invitationresponse (gameId, userId, response)
+                    VALUES (:gameId, :userId, 1);
+                ';
+
+                $parametros = array(
+                    ':gameId' => $data['event_id'],
+                    ':userId' => $userId
+                );
+
+                $sql = $pdo->prepare($cmd);
+                $sql->execute($parametros);
+            } else if($data['event_type'] == -4 && $data['action'] == 2){ // Un jugador rechazo la invitacion para un juego amistoso
+                $cmd = '
+                    INSERT INTO invitationresponse (gameId, userId, response)
+                    VALUES (:gameId, :userId, 2);
+                ';
+
+                $parametros = array(
+                    ':gameId' => $data['event_id'],
+                    ':userId' => $userId
+                );
+
+                $sql = $pdo->prepare($cmd);
+                $sql->execute($parametros);
+            } else if($data['event_type'] == -4 && $data['action'] == 3){ // Un jugador talvez asistira al juego amistoso
+                $cmd = '
+                    INSERT INTO invitationresponse (gameId, userId, response)
+                    VALUES (:gameId, :userId, 3);
+                ';
+
+                $parametros = array(
+                    ':gameId' => $data['event_id'],
+                    ':userId' => $userId
+                );
+
+                $sql = $pdo->prepare($cmd);
+                $sql->execute($parametros);
             }
 
             return TRUE;
