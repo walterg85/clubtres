@@ -342,6 +342,7 @@
             }
 
             $("#inputTeam, #inputTeam2, #inputDate").parent().removeClass("d-none");
+            $(".teamAlert").addClass("d-none");
 
             let options = '<option value="0">Choose an option</option>';
             $.each(result.data, function( index, item){
