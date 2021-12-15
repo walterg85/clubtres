@@ -133,7 +133,7 @@
                         }
                     ],
                     "fnDrawCallback":function(oSettings){
-                        $(".btnAcept").click(function(){
+                        $(".btnAcept").unbind().click(function(){
                             let data = getData($(this), dataTableInvitation);
                             if (confirm(`Are you sure to accept ${data.fromName} invitation?`)) {
                                 let objData = {
@@ -150,21 +150,22 @@
                             }
                         });
 
-                        $(".btnRechaze").click(function(){
+                        $(".btnRechaze").unbind().click(function(){
                             let data = getData($(this), dataTableInvitation);
                             if (confirm(`you sure want to decline the ${data.fromName} invitation`)) {
                                 let objData = {
                                     "_method": "updateInvitation",
                                     "action": 2,
                                     "invitationId": data.id,
-                                    "event_type": data.event_type
+                                    "event_type": data.event_type,
+                                    "event_id": data.event_id
                                 };
 
                                 updateInvitation(objData);                                
                             }
                         });
 
-                        $(".btnClose").click(function(){
+                        $(".btnClose").unbind().click(function(){
                             let data = getData($(this), dataTableInvitation);
                             if (confirm(`mark notification as read?`)) {
                                 let objData = {
@@ -175,7 +176,23 @@
 
                                 updateInvitation(objData);                                
                             }
-                        });                      
+                        });
+
+                        $(".btnMaybe").unbind().click(function(){
+                            let data = getData($(this), dataTableInvitation);
+                            if (confirm(`Do you want to respond with a maybe to this invitation?`)) {
+                                let objData = {
+                                    "_method": "updateInvitation",
+                                    "action": 3,
+                                    "invitationId": data.id,
+                                    "event_id": data.event_id,
+                                    "event_type": data.event_type,
+                                    "udestiny_id": data.udestiny_id
+                                };
+
+                                updateInvitation(objData);                                
+                            }
+                        });
                     },
                     searching: false,
                     pageLength: 20,
