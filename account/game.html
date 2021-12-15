@@ -11,23 +11,11 @@
         <thead class="table-light">
             <th class="colA">#</th>
             <th class="colB">League</th>
-            <th class="colC">Sport</th>
+            <!-- <th class="colC">Sport</th> -->
             <th class="colD">Event date</th>
             <th class="colE">Teams</th>
             <th class="colF">Status</th>
             <th class="colG"></th>
-        </thead>
-    </table>
-
-    <p class="lead mt-5">Friendly games</p>
-    <table class="table" id="teamList">
-        <thead class="table-light">
-            <th class="colbA"></th>
-            <th class="colbB">#</th>
-            <th class="colbC">Name</th>
-            <th class="colbD">Register date</th>
-            <th class="colbE">Status</th>
-            <th class="colbF"></th>
         </thead>
     </table>
 </div>
@@ -116,35 +104,44 @@
                             }
                         },
                         {
-                            data: 'name'
-                        },
-                        {
-                            data: 'sport',
+                            data: 'name',
                             render: function(data, type, row){
-                                let strSport = "";
-                                switch (data) {
-                                    case '1':
-                                        strSport = "Soccer";
-                                        break;
-                                    case '2':
-                                        strSport = "Basketball";
-                                        break;
-                                    case '3':
-                                        strSport = "Football";
-                                        break;
-                                    default:
-                                        strSport = "Other";
-                                }
+                                if(row.type == 3)
+                                    return "<i class='bi bi-person-fill text-success fs-5'></i>";
 
-                                return strSport;
+                                return data;
                             }
                         },
+                        // {
+                        //     data: 'sport',
+                        //     render: function(data, type, row){
+                        //         let strSport = "";
+                        //         switch (data) {
+                        //             case '1':
+                        //                 strSport = "Soccer";
+                        //                 break;
+                        //             case '2':
+                        //                 strSport = "Basketball";
+                        //                 break;
+                        //             case '3':
+                        //                 strSport = "Football";
+                        //                 break;
+                        //             default:
+                        //                 strSport = "Other";
+                        //         }
+
+                        //         return strSport;
+                        //     }
+                        // },
                         {
                             data: 'event_date'
                         },
                         {
                             data: null,
                             render: function(data, type, row) {
+                                if(row.type == 3)
+                                    return "<i class='bi bi-person-fill text-success fs-5'></i>";
+                                
                                 return `${row.team1} VS ${row.team2}`;
                             }
                         },
