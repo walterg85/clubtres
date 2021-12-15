@@ -14,35 +14,101 @@
 <div class="bd-content ps-lg-4">
     <div class="row">
         <div class="col-4">
-            <form class="row g-3">
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label for="inputLeague" class="form-label labeLeague">* League</label>
-                        <select id="inputLeague" name="inputLeague" class="form-select"></select>
+            <ul class="nav nav-tabs d-none" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active btnTab" data-gametype="1" id="league-tab" data-bs-toggle="tab" data-bs-target="#league" type="button" role="tab" aria-controls="league" aria-selected="true">League games</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link btnTab" data-gametype="2" id="friendly-tab" data-bs-toggle="tab" data-bs-target="#friendly" type="button" role="tab" aria-controls="friendly" aria-selected="false">Friendly games</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade pt-3" id="league" role="tabpanel" aria-labelledby="league-tab">
+                    <figure class="text-center leagueAlert d-none my-5">
+                        <blockquote class="blockquote">
+                            <p class="labelCardLeague">Does not manage any league</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            <texto class="subLabel1">Whenever you want, you can register a new league by</texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnLeague" class=""><texto class="subLabel2" >clicking here</texto></a> </cite>
+                        </figcaption>
+                    </figure>
+
+                    <figure class="text-center teamAlert my-5 d-none">
+                        <blockquote class="blockquote">
+                            <p class="labelCardTeam">Not enough equipment</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            <texto class="subLabel1">There are not enough teams registered in this league, you can register a new team by </texto> <cite title="clicking here"> <a href="javascript:void(0);" id="btnTeam" class=""> <texto class="subLabel2">clicking here</texto> </a> </cite>
+                        </figcaption>
+                    </figure>   
+
+                    <form class="row g-3">
+                        <div class="col-12 mb-3">
+                            <label for="inputLeague" class="form-label labeLeague">* League</label>
+                            <select id="inputLeague" name="inputLeague" class="form-select"></select>
+                        </div>
+
+                        <div class="col-6 d-none mb-3">
+                            <label for="inputTeam" class="form-label labelTeam1">* Team 1</label>
+                            <select id="inputTeam" name="inputTeam" class="form-select"></select>
+                        </div>
+
+                        <div class="col-6 d-none mb-3">
+                            <label for="inputTeam2" class="form-label labelTeam2">* Team 2</label>
+                            <select id="inputTeam2" name="inputTeam2" class="form-select"></select>
+                        </div>
+
+                        <div class="col-12 d-none mb-3">
+                            <label for="inputDate" class="form-label labelDate">* Event date</label>
+                            <input type="text" class="form-control" id="inputDate" name="inputDate" readonly="readonly">
+                        </div>         
+                    </form>
+                </div>
+                <div class="tab-pane fade pt-3" id="friendly" role="tabpanel" aria-labelledby="friendly-tab">
+                    <div class="friendAlert d-none">
+                        <figure class="text-center my-5">
+                            <blockquote class="blockquote">
+                                <p class="labelCardTeam">You have no people on your friends list</p>
+                            </blockquote>
+                            <figcaption class="blockquote-footer">
+                                <texto class="subLabel1">You can search for your friends and invite them to be part of your friends list. </texto>
+                            </figcaption>
+                        </figure>
+
+                        <label for="personList" class="form-label labelDatalist">Persons</label>
+                        <input class="form-control" list="personsOptions" id="personList" name="personList" placeholder="Type to search Persons...">
+                        <datalist id="personsOptions"></datalist>
+                    </div>
+
+                    <div class="row g-3 rowFriends">
+                        <div class=" col-9 mb-3">
+                            <label for="firendList" class="form-label labelDatalist">Friends</label>
+                            <input class="form-control" list="datalistOptions" id="firendList" name="firendList" placeholder="Type to search...">
+                            <datalist id="datalistOptions"></datalist>
+                        </div>
+                        <div class="col">
+                            <div class="d-grid gap-2 pt-4">
+                                <button class="btn btn-outline-success" id="btnAdd" type="button">Add</button>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="inputDate2" class="form-label labelDate">* Event date</label>
+                            <input type="text" class="form-control" id="inputDate2" name="inputDate2" readonly="readonly">
+                        </div> 
+
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th class="labelControl2" scope="col">Friend name</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblFriends"></tbody>
+                        </table>
                     </div>
                 </div>
-
-                <div class="col-6">
-                    <div class="mb-3">
-                        <label for="inputTeam" class="form-label labelTeam1">* Team 1</label>
-                        <select id="inputTeam" name="inputTeam" class="form-select"></select>
-                    </div>
-                </div>
-
-                <div class="col-6">
-                    <div class="mb-3">
-                        <label for="inputTeam2" class="form-label labelTeam2">* Team 2</label>
-                        <select id="inputTeam2" name="inputTeam2" class="form-select"></select>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label for="inputDate" class="form-label labelDate">* Event date</label>
-                        <input type="text" class="form-control" id="inputDate" name="inputDate" readonly="readonly">
-                    </div>
-                </div>         
-            </form>
+            </div>
         </div>
         <div class="col-8">
             <label class="form-label labelMapa">* Indicates the place where the event will take place</label>
@@ -61,13 +127,20 @@
     var clubMap         = null,
         pushpin         = null,
         currentLocation = null,
-        currentGame     = JSON.parse(localStorage.getItem('currentGame'));
+        currentGame     = JSON.parse(localStorage.getItem('currentGame')),
+        gameType        = currentGame.gametype,
+        tempFriends     = null,
+        tempPeople      = 0,
+        currentFriend   = 0,
+        currentPeople   = 0,
+        arrayFriends    = [],
+        arrayPeople     = [];
 
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "editGame";
 
-        $("#inputDate").datetimepicker({
+        $("#inputDate, #inputDate2").datetimepicker({
             format: "yyyy-mm-dd hh:ii",
             autoclose: true,
             todayBtn: true,
@@ -75,7 +148,15 @@
             startDate:new Date()
         });
 
-        $("#inputDate").val(currentGame.event_date);
+        $("#btnLeague").click( function(){
+            $( "#mainContenedor" ).load( `league.html?v=${Math.random()}` );
+        });
+
+        $("#btnTeam").click( function(){
+            $( "#mainContenedor" ).load( `team.html?v=${Math.random()}` );
+        });
+
+        $("#inputDate, #inputDate2").val(currentGame.event_date);
 
         $("#btnCancelreg").on("click", function(){
             $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
@@ -84,57 +165,105 @@
         $("#inputLeague").change( fnListTeams);
 
         $("#btnSavegame").on("click", function(){
-            if($("#inputLeague").val() == 0){
-                alert("You must choose a league for the game");
-                return false;
+            if(gameType == 1){
+                if($("#inputLeague").val() == 0){
+                    alert("You must choose a league for the game");
+                    return false;
+                }
+
+                if($("#inputTeam").val() == 0 || $("#inputTeam2").val() == 0){
+                    alert("You must choose both teams for the game");
+                    return false;
+                }
+
+                if($("#inputTeam").val() == $("#inputTeam2").val()){
+                    alert("You can't choose the same team for the game");
+                    return false;
+                }
+
+                if($("#inputDate").val() == ""){
+                    alert("You must choose a date for the event");
+                    return false;
+                }
+
+                if(!currentLocation){
+                    alert("You must indicate on the map the place of the event");
+                    return false;
+                }
+
+                let objData = {
+                    "_method": "updateEvent",
+                    "eventId": currentGame.id,
+                    "leagueId": $("#inputLeague").val(),
+                    "team1": $("#inputTeam").val(),
+                    "team2": $("#inputTeam2").val(),
+                    "date": $("#inputDate").val(),
+                    "location": JSON.stringify(currentLocation)
+                };
+
+                if (confirm(`Do you want to update this event?`)){
+                    $.post("../core/controllers/league.php", objData, function(result) {
+                        alert(result.message)
+
+                        if(result.codeResponse == 200)
+                            $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                    }).fail( function(jqXHR, textStatus, errorThrown){
+                        ajaxResponseError(jqXHR, textStatus);
+                    });
+                }
+            } else {
+                if(arrayFriends.length == 0){
+                    alert("No friends on the guest list");
+                    return false;
+                }
+
+                if($("#inputDate2").val() == ""){
+                    alert("You must choose a date for the event");
+                    return false;
+                }
+
+                if(!currentLocation){
+                    alert("You must indicate on the map the place of the event");
+                    return false;
+                }
+
+                let objData = {
+                    "_method": "updateEvent2",
+                    "eventId": currentGame.id,
+                    "date": $("#inputDate2").val(),
+                    "location": JSON.stringify(currentLocation),
+                    "friendlist": JSON.stringify(arrayFriends)
+                };
+
+                if (confirm(`Do you want to go ahead and register the event?`)){
+                    $.post("../core/controllers/league.php", objData, function(result) {
+                        alert(result.message)
+
+                        if(result.codeResponse == 200)
+                            $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                    }).fail( function(jqXHR, textStatus, errorThrown){
+                        ajaxResponseError(jqXHR, textStatus);
+                    });
+                }
             }
-
-            if($("#inputTeam").val() == 0 || $("#inputTeam2").val() == 0){
-                alert("You must choose both teams for the game");
-                return false;
-            }
-
-            if($("#inputTeam").val() == $("#inputTeam2").val()){
-                alert("You can't choose the same team for the game");
-                return false;
-            }
-
-            if($("#inputDate").val() == ""){
-                alert("You must choose a date for the event");
-                return false;
-            }
-
-            if(!currentLocation){
-                alert("You must indicate on the map the place of the event");
-                return false;
-            }
-
-            let objData = {
-                "_method": "updateEvent",
-                "eventId": currentGame.id,
-                "leagueId": $("#inputLeague").val(),
-                "team1": $("#inputTeam").val(),
-                "team2": $("#inputTeam2").val(),
-                "date": $("#inputDate").val(),
-                "location": JSON.stringify(currentLocation)
-            };
-
-            if (confirm(`Do you want to update this event?`)){
-                $.post("../core/controllers/league.php", objData, function(result) {
-                    alert(result.message)
-
-                    if(result.codeResponse == 200)
-                        $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
-                }).fail( function(jqXHR, textStatus, errorThrown){
-                    ajaxResponseError(jqXHR, textStatus);
-                });
-            }
+            
         });
-
-        fnListLeague();
 
         // Cambiar idioma de la pagina
         changePageLang();
+
+        $("#btnAdd").click( addFriend);
+
+        // Detectar tipo de evento para mostrar los controles correctos
+        if(gameType == 1){
+            $("#league").addClass("show active");
+            fnListLeague();
+        }else{
+            $("#friendly").addClass("show active");
+            loadFriends();
+
+            arrayFriends = JSON.parse(currentGame.friends);
+        }
     });
 
     function loadMapScenario() {
@@ -206,6 +335,14 @@
             };
 
         $.post("../core/controllers/league.php", objData, function(result) {
+            if(result.data.length < 2){
+                $(".teamAlert").removeClass("d-none");
+                $("#inputTeam, #inputTeam2, #inputDate").parent().addClass("d-none");
+                return false;
+            }
+
+            $("#inputTeam, #inputTeam2, #inputDate").parent().removeClass("d-none");
+
             let options = '<option value="0">Choose an option</option>';
             $.each(result.data, function( index, item){
                 if(item.status == 1)
@@ -234,5 +371,113 @@
         $(".labelTeam1").html(actualLenguaje[currentSection].labelTeam1);
         $(".labelTeam2").html(actualLenguaje[currentSection].labelTeam2);
         $(".labelDate").html(actualLenguaje[currentSection].labelDate);
+    }
+
+    // Metodo para listar todos los amigos del usuario
+    function loadFriends() {
+        $.post('../core/controllers/user.php', { _method: 'getFriends' }, function(result){
+            if(result.data.length == 0){
+                $(".rowFriends").addClass("d-none");
+                $(".friendAlert").removeClass("d-none");
+                loadPeoples();
+                return false;
+            }
+
+            $("#datalistOptions").html("");
+            tempFriends = result.data;
+
+            let options = "";
+            $.each( result.data, function(index, item){
+                options += `<option data-id="${item.friend_id}" value="${item.name.toUpperCase()}">`;
+            });
+
+            $("#datalistOptions").html(options);
+
+            $("input[name='firendList']").on('input', function(e){
+                let option      = $('datalist').find('option[value="'+this.value+'"]');
+                currentFriend   = (option.data("id")) ? option.data("id") : 0;
+            });
+
+            listarFriends();
+        });
+    }
+
+    // Metodo para listar todos los miembros de clubtres
+    function loadPeoples() {
+        $.post('../core/controllers/user.php', { _method: 'getPeople' }, function(result){
+
+            $("#personsOptions").html("");
+            tempPeople = result.data;
+
+            let options = "";
+            $.each( result.data, function(index, item){
+                options += `<option data-id="${item.id}" value="${item.name.toUpperCase()}">`;
+            });
+
+            $("#personsOptions").html(options);
+
+            $("input[name='personList']").on('input', function(e){
+                let option      = $('datalist').find('option[value="'+this.value+'"]');
+                currentPeople   = (option.data("id")) ? option.data("id") : 0;
+
+                if(currentPeople > 0){
+                    window.open(`../user/index.php?id=${currentPeople}`, "_blank");
+                    $("#personList").val("");
+                }
+            });
+        });
+    }
+
+    // Metodo para agregar nuevos amigos a la lista de invitados
+    function addFriend(){
+        if(currentFriend != 0){
+            arrayFriends.push(currentFriend);
+            listarFriends();
+
+            $("#firendList").val("");
+            $("#firendList").focus();
+        }else{
+            showAlert("info", "You must choose a valid friend");
+        }
+    }
+
+    // Metodo para dibujar en la tabla los amigos agregados
+    function listarFriends(){
+        currentFriend = 0;
+        let filas = "";
+
+        $("#tblFriends").html("");
+
+        // Se recore el contenido del array de conceptos
+        $.each(arrayFriends, function(index, item){
+            let friend = "";
+            $.each( tempFriends, function(i, p){
+                if(item == p.friend_id){
+                    friend = p.name.toUpperCase();
+                    return false;
+                }
+            });
+
+            filas += `
+                <tr>
+                    <td>${index +1}</td>
+                    <td>${friend}</td>
+                    <td class="text-center">
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDelete" title="Delete"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+            `;
+        });
+
+        // Se agrega el contenido del HTML en el body de la tabla contenedora
+        $("#tblFriends").append(filas);
+
+
+        // Accion del boton para eliminar un elemento del array y redibujar la tabla
+        $(".btnDelete").unbind().click( function(){
+            let index = $(this).data("index");
+            arrayFriends.splice(index, 1);
+            listarFriends();
+        });
     }
 </script>

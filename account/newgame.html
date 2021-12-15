@@ -324,6 +324,7 @@
         $.post("../core/controllers/league.php", objData, function(result) {
             if(result.data.length < 2){
                 $(".teamAlert").removeClass("d-none");
+                $("#inputTeam, #inputTeam2, #inputDate").parent().addClass("d-none");
                 return false;
             }
 

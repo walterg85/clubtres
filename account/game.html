@@ -106,7 +106,7 @@
                         {
                             data: 'name',
                             render: function(data, type, row){
-                                if(row.type == 3)
+                                if(row.gametype == 2)
                                     return "<i class='bi bi-person-fill text-success fs-5'></i>";
 
                                 return data;
@@ -139,9 +139,9 @@
                         {
                             data: null,
                             render: function(data, type, row) {
-                                if(row.type == 3)
+                                if(row.gametype == 2)
                                     return "<i class='bi bi-person-fill text-success fs-5'></i>";
-                                
+
                                 return `${row.team1} VS ${row.team2}`;
                             }
                         },

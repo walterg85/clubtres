@@ -313,7 +313,7 @@
         public function getGames($user_id){
             $pdo = new Conexion();
             $cmd = '
-                SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 1 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2, g.league_id, g.teama_id, g.teamb_id
+                SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 1 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2, g.league_id, g.teama_id, g.teamb_id, g.gametype, g.friends
                 FROM games AS g
                 INNER JOIN league AS l ON g.league_id = l.id
                 WHERE l.user_id =:user_id
@@ -321,7 +321,7 @@
 
                 UNION DISTINCT
 
-                SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2, g.league_id, g.teama_id, g.teamb_id
+                SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2, g.league_id, g.teama_id, g.teamb_id, g.gametype, g.friends
                 FROM league AS l
                 INNER JOIN  games AS g ON l.id = g.league_id
                 INNER JOIN user_team AS ut ON g.teama_id = ut.team_id
@@ -330,7 +330,7 @@
 
                 UNION DISTINCT
 
-                SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2, g.league_id, g.teama_id, g.teamb_id
+                SELECT g.id, g.event_date, g.locations, g.status, l.name, l.sport, 2 AS type, (SELECT NAME FROM team WHERE id = g.teama_id) AS team1, (SELECT NAME FROM team WHERE id = g.teamb_id) AS team2, g.league_id, g.teama_id, g.teamb_id, g.gametype, g.friends
                 FROM league AS l
                 INNER JOIN  games AS g ON l.id = g.league_id
                 INNER JOIN user_team AS ut ON g.teamb_id = ut.team_id
@@ -339,7 +339,7 @@
 
                 UNION DISTINCT
 
-                SELECT g.id, g.event_date, g.locations, g.status, "" AS name, "" AS sport, 3 AS type, "" AS team1, "" AS team2, g.league_id, g.teama_id, g.teamb_id
+                SELECT g.id, g.event_date, g.locations, g.status, "" AS name, "" AS sport, 1 AS type, "" AS team1, "" AS team2, g.league_id, g.teama_id, g.teamb_id, g.gametype, g.friends
                 FROM games AS g
                 WHERE g.gametype = 2
                 AND g.owner =:user_id
@@ -402,6 +402,24 @@
                 ':teamb_id'     => $data['team2'],
                 ':event_date'   => $data['date'],
                 ':locations'    => $data['location']
+            );
+
+            $sql = $pdo->prepare($cmd);
+            $sql->execute($parametros);
+
+            return [TRUE];
+        }
+
+        public function updateEvent2($data){
+            $pdo = new Conexion();
+            $cmd = 'UPDATE games SET event_date =:event_date, locations =:locations, friends =:friends WHERE id =:eventId';
+
+            $parametros = array(
+                'eventId'       => $data['eventId'],
+                ':event_date'   => $data['date'],
+                ':locations'    => $data['location'],
+                ':friends'      => $data['friendlist']
+                
             );
 
             $sql = $pdo->prepare($cmd);
