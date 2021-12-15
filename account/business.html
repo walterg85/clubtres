@@ -9,7 +9,7 @@
         <h1 class="h2 pageTitle">Business</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary tmpNewBusiness labelBtnNew">Create new business</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary tmpNewBusiness labelBtnNew" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBusiness" aria-controls="offcanvasBusiness">Create new business</button>
             </div>
         </div>
     </div>
@@ -31,67 +31,71 @@
         <p class="blackTitle">Does not manage any business</p>
     </blockquote>
     <figcaption class="blockquote-footer">
-        <texto class="blackA">Whenever you want, you can register a new business by</texto> <cite title="clicking here"> <a href="javascript:void(0);" class="tmpNewBusiness"> <texto class="blackB">clicking here</texto> </a> </cite>
+        <texto class="blackA">Whenever you want, you can register a new business by</texto> <cite title="clicking here"> <a href="javascript:void(0);" class="tmpNewBusiness" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBusiness" aria-controls="offcanvasBusiness"> <texto class="blackB">clicking here</texto> </a> </cite>
     </figcaption>
 </figure>
-     
-<!-- Modal para registrar nuevo Business -->
-<div class="modal fade" id="addBusinessModal" tabindex="-1" aria-labelledby="modalTitle2" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle2">Add new business</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="frmBusiness">
-                    <input type="hidden" name="idBusiness" id="idBusiness" value="0">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="inputName" class="form-label labelInputName">Name</label>
-                                <input type="text" name="inputName" class="form-control" id="inputName">              
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="inputDescription" class="form-label labelInputDesc">Description</label>
-                                <textarea  name="inputDescription" class="form-control" id="inputDescription" rows="3"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="inputAddress" class="form-label labelInputAddres">Address</label>
-                                <textarea  name="inputAddress" class="form-control" id="inputAddress" rows="2"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="inputNumber" class="form-label labelInputNumber">Phone number</label>
-                                <input type="text" name="inputNumber" class="form-control" id="inputNumber">              
-                            </div>
-                            <div class="mb-3">
-                                <label for="inputWeb" class="form-label labelInputWeb">Web page</label>
-                                <input type="text" name="inputWeb" class="form-control" id="inputWeb">              
-                            </div>
-                            <div class="form-check form-switch mb-3 d-none">
-                                <input class="form-check-input" type="checkbox" id="chkActive">
-                                <label class="form-check-label switch labelCheck" for="chkActive">Active</label>
-                            </div> 
-                        </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <label for="imageBusiness" class="form-label labelImage">Business image</label>
-                                <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
-                                <input class="form-control form-control-sm" id="imageBusiness" name="imageBusiness" type="file" accept="image/*">
-                            </div>
-                        </div>                        
+
+<!-- Panel lateral para invitar al usuario a crear una nueva liga -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasBusiness" aria-labelledby="offcanvasWithBackdropLabel"  >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title modalTitle2" id="offcanvasWithBackdropLabel">Add new business</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <figure class="text-center businessAlert d-none">
+            <blockquote class="blockquote">
+                <p class="blackTitle">Does not manage any business</p>
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                <texto class="blackA">Whenever you want, you can register a new business by</texto> <cite title="clicking here"> <texto class="blackB">clicking here</texto> </cite>
+            </figcaption>
+        </figure>
+
+        <form id="frmBusiness">
+            <input type="hidden" name="idBusiness" id="idBusiness" value="0">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="inputName" class="form-label labelInputName">Name</label>
+                        <input type="text" name="inputName" class="form-control" id="inputName">              
                     </div>
-                    <button type="button" class="btn btn-primary" id="btnRegisterBusiness">Submit</button>
-                    <button type="button" class="btn btn-secondary labelButonC" data-bs-dismiss="modal">Close</button>
-                </form>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="inputDescription" class="form-label labelInputDesc">Description</label>
+                        <textarea  name="inputDescription" class="form-control" id="inputDescription" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="inputAddress" class="form-label labelInputAddres">Address</label>
+                        <textarea  name="inputAddress" class="form-control" id="inputAddress" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="inputNumber" class="form-label labelInputNumber">Phone number</label>
+                        <input type="text" name="inputNumber" class="form-control" id="inputNumber">              
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputWeb" class="form-label labelInputWeb">Web page</label>
+                        <input type="text" name="inputWeb" class="form-control" id="inputWeb">              
+                    </div>
+                    <div class="form-check form-switch mb-3 d-none">
+                        <input class="form-check-input" type="checkbox" id="chkActive">
+                        <label class="form-check-label switch labelCheck" for="chkActive">Active</label>
+                    </div> 
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label for="imageBusiness" class="form-label labelImage">Business image</label>
+                        <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
+                        <input class="form-control form-control-sm" id="imageBusiness" name="imageBusiness" type="file" accept="image/*">
+                    </div>
+                </div>                        
             </div>
-        </div>
+            <button type="button" class="btn btn-primary" id="btnRegisterBusiness">Submit</button>
+        </form>
     </div>
 </div>
 
@@ -181,7 +185,7 @@
             }
         });
 
-        $modal.on('shown.bs.modal', function(){
+        $modal.unbind().on('shown.bs.modal', function(){
             let URL         = window.URL || window.webkitURL,
                 container   = document.querySelector('.img-container'),
                 download    = document.getElementById('download');
@@ -236,7 +240,6 @@
             businessPhoto = null;
 
             $(".form-switch").addClass("d-none");
-            $("#addBusinessModal").modal("show");
         });
 
         // Listar comercios
@@ -265,7 +268,7 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
-                $("#addBusinessModal").modal("hide");
+                $(".tmpNewBusiness").click();
                 $("#frmBusiness")[0].reset();
                 $("#imgPreview").addClass("d-none");
 
@@ -293,6 +296,7 @@
                 let mypaging = false;
 
                 if( (response.data).length == 0 ){
+                    $(".tmpNewBusiness").click();
                     $(".businessAlert").removeClass("d-none");
                     $(".dvContro").addClass("d-none");
                 }else{
@@ -349,7 +353,7 @@
                     ],
                     "fnDrawCallback":function(oSettings){
                         $(".btnEditBusiness").unbind().click(function(){
-                            $("#addBusinessModal").modal("show");
+                            $(".tmpNewBusiness").click();
 
                             let data = getData($(this), dataTableBusiness);
 
@@ -414,7 +418,7 @@
         $(".blackTitle").html(actualLenguaje[currentSection].blackTitle);
         $(".blackA").html(actualLenguaje[currentSection].blackA);
         $(".blackB").html(actualLenguaje[currentSection].blackB);
-        $("#modalTitle2").html(actualLenguaje[currentSection].modalTitle2);
+        $(".modalTitle2").html(actualLenguaje[currentSection].modalTitle2);
         $(".labelInputName").html(actualLenguaje[currentSection].labelInputName);
         $(".labelInputDesc").html(actualLenguaje[currentSection].labelInputDesc);
         $(".labelInputAddres").html(actualLenguaje[currentSection].labelInputAddres);
