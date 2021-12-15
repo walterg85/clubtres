@@ -336,26 +336,14 @@
                 INNER JOIN user_team AS ut ON g.teamb_id = ut.team_id
                 WHERE ut.user_id =:user_id AND ut.status = 1 AND l.user_id !=:user_id
                 AND g.gametype = 1
-            ';
 
-            $parametros = array(
-                ':user_id' => $user_id
-            );
+                UNION DISTINCT
 
-            $sql = $pdo->prepare($cmd);
-            $sql->execute($parametros);
+                SELECT g.id, g.event_date, g.locations, g.status, "" AS name, "" AS sport, 3 AS type, "" AS team1, "" AS team2, g.league_id, g.teama_id, g.teamb_id
+                FROM games AS g
+                WHERE g.gametype = 2
+                AND g.owner =:user_id
 
-            return $sql->fetchAll(PDO::FETCH_ASSOC);
-        }
-
-        // Metodo para listar todos los juegos amistosos
-        public function getGamesFrendly($user_id){
-            $pdo = new Conexion();
-            $cmd = '
-                SELECT event_date, locations, registered_date, status, friends
-                FROM games
-                WHERE owner =:user_id
-                AND gametype = 2
             ';
 
             $parametros = array(
