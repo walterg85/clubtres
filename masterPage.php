@@ -88,7 +88,7 @@
         </ul>
         <p>
             <text class="footerNote">A project of</text>
-            <a class="text-secondary text-decoration-none" target="_blank" href="https://www.intelatlas.com">IntelAtlas</a>
+            <a class="text-warning text-decoration-none" target="_blank" href="https://www.intelatlas.com">INTELATLAS</a>
         </p>
     </footer>
 
