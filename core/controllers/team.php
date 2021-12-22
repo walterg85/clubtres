@@ -19,7 +19,8 @@
                     'idTeam'    => $_POST['idTeam'],
                     'chkActive' => $_POST['chkActive'],
                     'country'   => $_POST['countryDatalist'],
-                    'city'      => $_POST['inputCity']
+                    'city'      => $_POST['inputCity'],
+                    'visible'   => $_POST['visible']
                 );
 
                 $teamModel      = new Teamsmodel();

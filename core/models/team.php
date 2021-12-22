@@ -9,15 +9,16 @@
 			if( $data['idTeam'] == 0 ){
 				$cmd = '
 					INSERT INTO team
-						(name, register_date, active, country, city)
+						(name, register_date, active, country, city, receive_requests)
 					VALUES
-						(:name, now(), 1, :country, :city)
+						(:name, now(), 1, :country, :city, :visible)
 				';
 
 				$parametros = array(
 					':name'		=> $data['name'],
 					':country'	=> $data['country'],
-					':city'		=> $data['city']
+					':city'		=> $data['city'],
+					':visible'	=> $data['visible']
 				);
 				
 				try {
@@ -47,13 +48,16 @@
 			    }
 			} else {
 				$cmd = '
-					UPDATE team SET name =:name, active =:active WHERE id =:id
+					UPDATE team SET name =:name, active =:active, country =:country, city =:city, receive_requests =:visible WHERE id =:id
 				';
 
 				$parametros = array(
 					':id'		=> $data['idTeam'],
 					':name'		=> $data['name'],
-					':active'	=> $data['chkActive']
+					':active'	=> $data['chkActive'],
+					':country'	=> $data['country'],
+					':city'		=> $data['city'],
+					':visible'	=> $data['visible']
 				);
 
 				$sql = $pdo->prepare($cmd);
@@ -80,7 +84,7 @@
 
 		public function getTeamId($teamId) {
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, name, image, active, (select user_id FROM user_team where team_id =:teamId AND type = 1) AS user_id FROM team WHERE id =:teamId';
+			$cmd = 'SELECT id, name, image, active, (select user_id FROM user_team where team_id =:teamId AND type = 1) AS user_id, country, city, receive_requests FROM team WHERE id =:teamId';
 
 			$parametros = array(
 				':teamId' => $teamId
@@ -101,9 +105,9 @@
 		public function getTeam($user_id) {
 			$pdo = new Conexion();
 			$cmd = '
-				SELECT t.id, t.name, t.register_date, t.active, t.image, (SELECT ut.type FROM user_team AS ut WHERE ut.team_id = t.id AND ut.user_id =:user_id) AS type
+				SELECT t.id, t.name, t.register_date, t.active, t.image, (SELECT ut.type FROM user_team AS ut WHERE ut.team_id = t.id AND ut.user_id =:user_id) AS type, t.country, t.city, t.receive_requests
 				FROM team AS t
-				WHERE t.id in(select team_id from user_team where user_id =:user_id) AND t.active = 1;
+				WHERE t.id in (select team_id from user_team where user_id =:user_id) AND t.active = 1;
 			';
 
 			$parametros = array(
