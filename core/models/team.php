@@ -9,13 +9,15 @@
 			if( $data['idTeam'] == 0 ){
 				$cmd = '
 					INSERT INTO team
-						(name, register_date, active)
+						(name, register_date, active, country, city)
 					VALUES
-						(:name, now(), 1)
+						(:name, now(), 1, :country, :city)
 				';
 
 				$parametros = array(
-					':name'		=> $data['name']	
+					':name'		=> $data['name'],
+					':country'	=> $data['country'],
+					':city'		=> $data['city']
 				);
 				
 				try {

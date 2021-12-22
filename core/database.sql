@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 15-12-2021 a las 21:00:27
+-- Tiempo de generación: 22-12-2021 a las 22:58:01
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -144,6 +144,8 @@ CREATE TABLE `team` (
   `name` varchar(250) DEFAULT NULL,
   `image` varchar(250) DEFAULT NULL,
   `register_date` datetime DEFAULT NULL,
+  `country` varchar(250) NOT NULL,
+  `city` varchar(250) NOT NULL,
   `active` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

@@ -13,12 +13,13 @@
         if($is_jwt_valid){
             // parse_str(file_get_contents("php://input"), $put_vars);
             if($_POST['_method'] == 'POST'){
-
                 $data = array(
                     'name'      => $_POST['inputName'],
                     'user_id'   => $_SESSION['authData']->id,
                     'idTeam'    => $_POST['idTeam'],
-                    'chkActive' => $_POST['chkActive']
+                    'chkActive' => $_POST['chkActive'],
+                    'country'   => $_POST['countryDatalist'],
+                    'city'      => $_POST['inputCity']
                 );
 
                 $teamModel      = new Teamsmodel();
