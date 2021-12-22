@@ -196,7 +196,7 @@
         function switchLanguage(lang){
             let allLang = null;
 
-            $.post(`${base_url}/assets/languages.json`, {}, function(data) {
+            $.post(`${base_url}/core/controllers/language.php`, {}, function(data) {
                 allLang = data[lang];
                 
                 $(".changeLang").html(`<i class="bi bi-globe"></i> ${data[lang]["buttonText"]}`);

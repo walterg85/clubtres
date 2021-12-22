@@ -489,7 +489,7 @@
             }
 
             function switchLanguage(lang){
-                $.post("../assets/languages.json", {}, function(data) {
+                $.post("../core/controllers/language.php", {}, function(data) {
                     $(".changeLang").html('<i class="bi bi-globe2"></i> ' + data[lang]["buttonText"]);
                     $(".lableSaludo").html(`${data[lang]["lableSaludo"]}`);
                 
