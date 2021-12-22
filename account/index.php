@@ -166,6 +166,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="javascript:void(0);" id="linkSearchTeam">
+                                    <i class="bi bi-flag-fill"></i> Search teams
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0);" id="linkInvitation">
                                     <i class="bi bi-bell-fill"></i> Invitations <span class="badge bg-danger bdg-Notification">0</span>
                                 </a>
@@ -264,6 +269,10 @@
 
                 $("#linkTeam").on("click", function(){
                     $( "#mainContenedor" ).load( `team.html?v=${Math.random()}` );
+                });
+
+                $("#linkSearchTeam").on("click", function(){
+                    $( "#mainContenedor" ).load( `searchteam.html?v=${Math.random()}` );
                 });
 
                 $("#linkLeague").on("click", function(){

@@ -91,9 +91,13 @@
                 <img class="rounded w-100 d-none img-fluid" id="imgPreview" src="#" alt="Preview" data-btnid="btnDelete" data-foto="1">
                 <input class="form-control form-control-sm" id="imageteam" name="imageteam" type="file" accept="image/*">
             </div>
-            <div class="form-check form-switch mb-3 d-none">
+            <div class="form-check form-switch mb-3 chkControlStatus d-none">
                 <input class="form-check-input" type="checkbox" id="chkActive">
                 <label class="form-check-label switch inputActive" for="chkActive">Active</label>
+            </div> 
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="chkVisible" checked>
+                <label class="form-check-label switch" for="chkVisible">Receive requests from new members</label>
             </div> 
             <button type="button" class="btn btn-primary" id="btnRegisterTeam">Submit</button>
             <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
@@ -380,7 +384,10 @@
 
             teamPhoto = null;
 
-            $(".form-switch").addClass("d-none");
+            $(".chkControlStatus").addClass("d-none");
+            $("#chkVisible").prop("checked", true);
+            $("#countryDatalist").val("");
+            $("#inputCity").val("");
             $("#btnPanel").click();
         });
 
@@ -451,6 +458,10 @@
 
         let active = ($("#chkActive").is(':checked')) ? 1 : 0;
         formData.append("chkActive", active);
+
+        let visible = ($("#chkVisible").is(':checked')) ? 1 : 0;
+        formData.append("visible", visible);
+
         $("#btnRegisterTeam").attr("disabled","disabled");
 
         $.ajax({
@@ -595,6 +606,8 @@
 
                             $("#inputName").val(data.name);
                             $("#idTeam").val(data.id);
+                            $("#countryDatalist").val(data.country);
+                            $("#inputCity").val(data.city);
 
                             $("#imgPreview").addClass("d-none");
 
@@ -605,10 +618,16 @@
 
                             if(data.active == 0){
                                 $("#chkActive").attr('checked', false);
-                                $(".form-switch").removeClass("d-none");
+                                $(".chkControlStatus").removeClass("d-none");
                             }else{
                                 $("#chkActive").attr('checked', true);
-                                $(".form-switch").addClass("d-none");
+                                $(".chkControlStatus").addClass("d-none");
+                            }
+
+                            if(data.receive_requests == 0){
+                                $("#chkVisible").prop("checked", false);
+                            } else {
+                                $("#chkVisible").prop("checked", true);
                             }
 
                             teamPhoto = null;
