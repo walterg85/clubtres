@@ -230,7 +230,6 @@
             };
 
             $.post("core/controllers/user.php", objData, function(result) {
-                console.log(result);
                 if(result.data.existe == 0){
                     alert("The user is not registered");
                 } else {
