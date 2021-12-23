@@ -122,7 +122,13 @@
     }
 
     function show_error(errors){
-        $(".lableCurrentLocation").html(`To use this module you must share your location`);
+        $(".lableCurrentLocation")
+            .html(`To use this module you must <a href="#" class="btnCompartirUbicacion">share your location</a>`)
+            .addClass("text-danger");
+
+        $(".btnCompartirUbicacion").unbind().click( function(){
+            console.log("entro");
+        });
     }
 
 </script>

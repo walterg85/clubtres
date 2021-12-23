@@ -280,7 +280,6 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
-
 		} else if($put_vars['_method'] == 'deleteFriend'){
 			$data = array(
 				'user_id' 	=> $_SESSION['authData']->id,
@@ -292,6 +291,31 @@
 
 			$response = array(
 				'codeResponse' 	=> 200
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($put_vars['_method'] == '_RestorePassword'){
+			$userModel = new Usersmodel();
+			$data = $userModel->getTorestore($put_vars['email']);
+
+			if($data['existe'] > 0){
+				$to      = $put_vars['email'];
+			    $subject = 'Restore de password';
+			    $message = '
+			    	Recover your account and reset your password in the following link: http://localhost/clubtres/core/controllers/user.php?restore='. $data["id"] .'
+			    ';
+			    $headers = 'From: webmaster@clubtres.com'       . "\r\n" .
+			               'Reply-To: webmaster@clubtres.com' . "\r\n" .
+			               'X-Mailer: PHP/' . phpversion();
+
+			    mail($to, $subject, $message, $headers);
+			}
+			
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data'			=> $data
 			);
 
 			header('HTTP/1.1 200 Ok');
