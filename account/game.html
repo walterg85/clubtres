@@ -213,7 +213,7 @@
                                     };
 
                                 $.post("../core/controllers/league.php", objData, function(result) {
-                                    alert('Event canceled');
+                                    showAlert("success", "Event canceled");
                                     fnListGames();
                                 });
                             }
@@ -228,7 +228,7 @@
                                     };
 
                                 $.post("../core/controllers/league.php", objData, function(result) {
-                                    alert('Event removed');
+                                    showAlert("success", "Event removed");
                                     fnListGames();
                                 });
                             }

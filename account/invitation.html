@@ -213,7 +213,7 @@
 
     function updateInvitation(objData){
         $.post("../core/controllers/user.php", objData, function(result) {
-            alert(result.message);
+            showAlert("info", result.message);
             fnListInvitation();
             showInvitations();
         }).fail( function(jqXHR, textStatus, errorThrown){

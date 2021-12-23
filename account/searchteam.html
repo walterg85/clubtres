@@ -4,10 +4,55 @@
     </div>
 </div>
 
+<table class="table" id="teamList">
+    <thead class="table-light">
+        <th class="colB">#</th>
+        <th class="colC">Team name</th>
+        <th class="colD">Team owner</th>
+    </thead>
+</table>
 
+<script src="https://ipinfo.io/json?token=6a6ff9d33edfac&callback=mostrarEquipos"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "searchteam";
     });
+
+    function mostrarEquipos(data) {
+        let objData = {
+                "_method": "searchByLocation",
+                "miCiuadad": data.city
+            };
+
+        $.post("../core/controllers/team.php", objData, function(result) {
+            $("#teamList").DataTable({
+                data: result.data,
+                order: [[ 1, "desc" ]],
+                columns:
+                [
+                    {
+                        data: 'id',
+                        render: function(data, type, row){
+                            return pad(data, 5);
+                        }
+                    },
+                    {
+                        data: 'name',
+                        render: function(data, type, row){
+                            return `<a href="../team/index.php?id=${row.id}" target="_blank" class="text-decoration-none text-dark">${data}</a>`;
+                        }
+                    },
+                    {
+                        data: 'owner'
+                    }
+                ],
+                searching: false,
+                pageLength: 20,
+                info: false,
+                lengthChange: false,
+                paging: false
+            });
+        });
+    }
 </script>

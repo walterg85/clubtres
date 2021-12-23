@@ -389,4 +389,28 @@
 		        return [FALSE, 'Invitation not sent'];
 		    }
 		}
+
+		public function searchByLocation($miCiuadad) {
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT 
+					id, 
+					name, 
+					image, 
+					active, 
+					(select concat(name, " ", last_name) FROM user where id = (select user_id FROM user_team where team_id = team.id AND type = 1)) AS owner, 
+					country, 
+					city 
+				FROM 
+					team 
+				WHERE 
+					city LIKE "%'. str_replace(" ", "%", $miCiuadad) .'%"
+					AND receive_requests = 1
+			';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}

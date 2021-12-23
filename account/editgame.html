@@ -167,27 +167,27 @@
         $("#btnSavegame").on("click", function(){
             if(gameType == 1){
                 if($("#inputLeague").val() == 0){
-                    alert("You must choose a league for the game");
+                    showAlert("error", "You must choose a league for the game");
                     return false;
                 }
 
                 if($("#inputTeam").val() == 0 || $("#inputTeam2").val() == 0){
-                    alert("You must choose both teams for the game");
+                    showAlert("error", "You must choose both teams for the game");
                     return false;
                 }
 
                 if($("#inputTeam").val() == $("#inputTeam2").val()){
-                    alert("You can't choose the same team for the game");
+                    showAlert("error", "You can't choose the same team for the game");
                     return false;
                 }
 
                 if($("#inputDate").val() == ""){
-                    alert("You must choose a date for the event");
+                    showAlert("error", "You must choose a date for the event");
                     return false;
                 }
 
                 if(!currentLocation){
-                    alert("You must indicate on the map the place of the event");
+                    showAlert("error", "You must indicate on the map the place of the event");
                     return false;
                 }
 
@@ -203,7 +203,7 @@
 
                 if (confirm(`Do you want to update this event?`)){
                     $.post("../core/controllers/league.php", objData, function(result) {
-                        alert(result.message)
+                        showAlert("info", result.message);
 
                         if(result.codeResponse == 200)
                             $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
@@ -213,17 +213,17 @@
                 }
             } else {
                 if(arrayFriends.length == 0){
-                    alert("No friends on the guest list");
+                    showAlert("error", "No friends on the guest list");
                     return false;
                 }
 
                 if($("#inputDate2").val() == ""){
-                    alert("You must choose a date for the event");
+                    showAlert("error", "You must choose a date for the event");
                     return false;
                 }
 
                 if(!currentLocation){
-                    alert("You must indicate on the map the place of the event");
+                    showAlert("error", "You must indicate on the map the place of the event");
                     return false;
                 }
 
@@ -237,7 +237,7 @@
 
                 if (confirm(`Do you want to go ahead and register the event?`)){
                     $.post("../core/controllers/league.php", objData, function(result) {
-                        alert(result.message)
+                        showAlert("info", result.message);
 
                         if(result.codeResponse == 200)
                             $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
