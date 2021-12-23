@@ -112,7 +112,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" novalidate>
+                    <form class="needs-validation-restore" novalidate>
                         <div class="mb-4">
                             <input type="text" class="form-control" id="inputRestoreMail" name="inputRestoreMail" aria-describedby="emailHelp" placeholder="Email to restore" required>
                         </div>
@@ -135,6 +135,9 @@
         $(document).ready(function(){
             // Registrar nuevo usuario
             $("#btnRegister").on("click", fnRegisterUser);
+
+            // Activar solicitud de restableciiento
+            $("#btnRestore").click( fnRestorePassword);
 
             // Validar inicio de session
             $("#btnLogin").on("click", fnValidateUser);
@@ -203,6 +206,38 @@
                         } else {
                             alert(result.message);
                         }
+            });
+        }
+
+        function fnRestorePassword(){
+            let forms = document.querySelectorAll('.needs-validation-restore'),
+                continuar = true;
+
+            Array.prototype.slice.call(forms).forEach(function (form){ 
+                    if (!form.checkValidity()) {
+                            continuar = false;
+                    }
+
+                    form.classList.add('was-validated');
+            });
+
+            if(!continuar)
+                    return false;
+
+            let objData = {
+                "_method": "_RestorePassword",
+                "email": $("#inputRestoreMail").val()
+            };
+
+            $.post("core/controllers/user.php", objData, function(result) {
+                console.log(result);
+                if(result.data.existe == 0){
+                    alert("The user is not registered");
+                } else {
+                    $("#inputRestoreMail").val("");
+                    $("#restoreModal").modal("hide");
+                    alert("An email was sent with the league to reset your password");
+                }
             });
         }
 

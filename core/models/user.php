@@ -492,4 +492,20 @@
 
             return TRUE;
         }
+
+        // Metodo para buscaar un usuario especifico
+        public function getTorestore($email){
+            $pdo = new Conexion();
+            $cmd = 'SELECT COUNT(id) AS existe, id FROM user WHERE email =:email AND active = 1';
+
+            $parametros = array(
+                ':email' => $email
+            );
+
+            $sql = $pdo->prepare($cmd);
+            $sql->execute($parametros);
+            $sql->setFetchMode(PDO::FETCH_OBJ);
+
+            return $sql->fetch();
+        }
     }
