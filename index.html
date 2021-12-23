@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link href="assets/css/main.css" rel="stylesheet" >
 
+    <!-- sweetalert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Club Tres</title>
 </head>
 <body>
@@ -231,11 +234,23 @@
 
             $.post("core/controllers/user.php", objData, function(result) {
                 if(result.data.existe == 0){
-                    alert("The user is not registered");
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: "warning",
+                        text: "The user is not registered",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
                 } else {
                     $("#inputRestoreMail").val("");
                     $("#restoreModal").modal("hide");
-                    alert("An email was sent with the league to reset your password");
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: "success",
+                        text: "An email was sent with the league to reset your password",
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
                 }
             });
         }
