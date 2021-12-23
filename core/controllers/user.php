@@ -300,17 +300,27 @@
 			$userModel = new Usersmodel();
 			$data = $userModel->getTorestore($put_vars['email']);
 
-			if($data->existe > 0){
-				$to      = $put_vars['email'];
-			    $subject = 'Restore de password';
-			    $message = '
-			    	Recover your account and reset your password in the following link: http://localhost/clubtres/user/recoverypassword.php?restore='. $data->id .'
-			    ';
-			    $headers = 'From: webmaster@clubtres.com'       . "\r\n" .
-			               'Reply-To: webmaster@clubtres.com' . "\r\n" .
-			               'X-Mailer: PHP/' . phpversion();
+			// Generar token para recuperacion de contraseña
+			// Al tiempo actual se le suman 900 Segundos (15 min), para que al paso de ello no sea valido el token
+			$headers = array('alg' => 'HS256', 'typ' => 'JWT');
+			$payload = array('usEmail' => $put_vars['email'], 'exp' => (time() + 900));
+			$token = generate_jwt($headers, $payload);
+			//==============================================
 
-			    mail($to, $subject, $message, $headers);
+			if($data->existe > 0){
+				//Se bypasea por que no tengo activo el mailserver, se debe activar ya en hosting
+				// $to      = $put_vars['email'];
+				//    $subject = 'Restore de password';
+				//    $message = '
+				//    	Recover your account and reset your password in the following link: http://localhost/clubtres/user/recoverypassword.php?restore='. $data->id .'&token='. $token.'
+				//    ';
+				//    $headers = 'From: webmaster@clubtres.com'       . "\r\n" .
+				//               'Reply-To: webmaster@clubtres.com' . "\r\n" .
+				//               'X-Mailer: PHP/' . phpversion();
+				//    mail($to, $subject, $message, $headers);
+
+				// Esto es solo para completar el proceso sin interuppciones, se debe borrar
+				$data->url = 'http://localhost/clubtres/user/recoverypassword.php?restore='. $data->id .'&token='. $token;
 			}
 			
 			$response = array(
@@ -320,6 +330,24 @@
 
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($put_vars['_method'] == 'updatePassword'){
+			$usersModel 	= new Usersmodel();
+			$newPassword 	= encryptPass($put_vars['newPassword']);
+
+			$usData = array(
+				'userId' 	=> $put_vars['userId'],
+				'password'	=> $newPassword
+			);
+			
+			$usersModel->updatePassword($usData);
+
+			$response = array(
+				'codeResponse' 	=> 200
+			);			
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
 			exit(json_encode($response));
 		}
 	}

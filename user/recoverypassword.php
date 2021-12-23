@@ -9,13 +9,19 @@
         <div class="row">
             <div class="col-lg-4">
             	<form class="needs-validation-restore" novalidate>
-	                <div class="mb-3">
+	                <div class="mb-3 position-relative">
 						<label for="inputNewPassword" class="form-label">Please enter your new password</label>
 						<input type="password" class="form-control" id="inputNewPassword" required>
+						<div class="invalid-tooltip">
+							This required
+						</div>
 					</div>
-					<div class="mb-3">
+					<div class="mb-3 position-relative">
 						<label for="inputConfirmPassword" class="form-label">Please confirm your new password</label>
-						<input type="text" class="form-control" id="inputConfirmPassword" required>
+						<input type="password" class="form-control" id="inputConfirmPassword" required>
+						<div class="invalid-tooltip lableVerify">
+							This required
+						</div>
 					</div>
 
 					<button type="button" class="btn btn-success mb-3" id="btnRestore">Change my password</button>
@@ -53,10 +59,21 @@
         	return false;
 
         if( $("#inputNewPassword").val() != $("#inputConfirmPassword").val() ){
+        	$(".needs-validation-restore").removeClass("was-validated");
+        	$("#inputConfirmPassword").addClass("is-invalid");
+        	$(".lableVerify").html("Passwords do not match");
         	return false;
         }
 
+        let objData = {
+        	"_method": "updatePassword",
+        	"newPassword": $("#inputConfirmPassword").val(),
+        	"userId": userId
+        };
 
+        $.post(`${base_url}/core/controllers/user.php`, objData, function(result) {
+        	window.location.replace("../index.html");
+        });
     }
 
     function changePageLang(language) {

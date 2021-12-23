@@ -508,4 +508,20 @@
 
             return $sql->fetch();
         }
+
+        // Metodo para actulizar contraseña
+        public function updatePassword($data){
+            $pdo = new Conexion();
+            $cmd = 'UPDATE user SET password =:password WHERE id =:userId ';
+
+            $parametros = array(
+                ':password'     => $data['password'],
+                ':userId'       => $data['userId']
+            );
+
+            $sql = $pdo->prepare($cmd);
+            $sql->execute($parametros);
+
+            return TRUE;
+        }
     }
