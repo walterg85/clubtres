@@ -82,7 +82,7 @@
                                     };
 
                                 $.post("../core/controllers/user.php", objData, function(result) {
-                                    alert('Friend removed');
+                                    showAlert("success", "Friend removed");
                                     fnListFriends();
                                 });
                             }

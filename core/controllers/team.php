@@ -170,6 +170,16 @@
                 header('HTTP/1.1 200 Ok');
                 header("Content-Type: application/json; charset=UTF-8");                
                 exit(json_encode($response));
+            } else if($_POST['_method'] == 'searchByLocation'){
+                $teamsModel     = new Teamsmodel();
+                $response = array(
+                    'codeResponse'  => 200,
+                    'data'          => $teamsModel->searchByLocation( $_POST['miCiuadad'] )
+                );
+
+                header('HTTP/1.1 200 Ok');
+                header("Content-Type: application/json; charset=UTF-8");                
+                exit(json_encode($response));
             }
         } else {
             $response = array(
@@ -200,6 +210,16 @@
         header('HTTP/1.1 200 Ok');
         header("Content-Type: application/json; charset=UTF-8");        
         exit(json_encode($response));
+    }
+
+    function getRealIP(){
+        if (!empty($_SERVER['HTTP_CLIENT_IP']))
+            return $_SERVER['HTTP_CLIENT_IP'];
+
+        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+        return $_SERVER['REMOTE_ADDR'];
     }
 
     header('HTTP/1.1 400 Bad Request');

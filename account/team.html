@@ -417,7 +417,7 @@
                             };
 
                             $.post("../core/controllers/team.php", objData, function(result) {
-                                alert(result.message);
+                                showAlert("info", result.message);
                                 fnListTeam();
                             });
                         }
@@ -470,7 +470,7 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
-                alert(response.message);
+                showAlert("info", response.message);
 
                 $("#frmTeam")[0].reset();
                 $("#imgPreview").addClass("d-none");
@@ -644,7 +644,7 @@
                                     },
                                     type: 'POST',
                                     success: function(response){
-                                        alert("Team deactivated");
+                                        showAlert("success", "Team deactivated");
                                         fnListTeam();
                                     },
                                     error: function(xhr, status) {
@@ -679,20 +679,20 @@
                                                 },
                                                 type: 'POST',
                                                 success: function(response){
-                                                    alert(response.message);
+                                                    showAlert("success", response.message);
                                                     $(`#inputPlayerId${data.id}`).val("");
                                                 },
                                                 error: function(xhr, status) {
-                                                    alert("Invitation not sent");
+                                                    showAlert("error", "Invitation not sent");
                                                 },
                                             });
                                         }
                                     }else{
-                                        alert("The Id number provided does not exist");
+                                        showAlert("warning", "The Id number provided does not exist");
                                     }
                                 });
                             }else{
-                                alert("Enter a correct Id");
+                                showAlert("warning", "Enter a correct Id");
                             }
                         });
                     },
@@ -752,11 +752,11 @@
                 if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
                     if($(this)[0].files[0].size > 1048576){
                         $( this ).val('');
-                        alert('Your selected file is larger than 1MB');
+                        showAlert("error", 'Your selected file is larger than 1MB');
                     }
                 }else{
                     $( this ).val('');
-                    alert(`${ext} files not allowed, only images`);
+                    showAlert("error", `${ext} files not allowed, only images`);
                 }
             }
         });
