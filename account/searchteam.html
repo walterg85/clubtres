@@ -3,7 +3,7 @@
         <h1 class="h2 pageTitle">Search Teams</h1>
     </div>
 </div>
-
+<p class="lead lableCurrentLocation"></p>
 <table class="table" id="teamList">
     <thead class="table-light">
         <th class="colB">#</th>
@@ -25,6 +25,7 @@
                 "miCiuadad": data.city
             };
 
+        $(".lableCurrentLocation").html(`Show the teams in the ${data.city} citys`);
         $.post("../core/controllers/team.php", objData, function(result) {
             $("#teamList").DataTable({
                 data: result.data,
