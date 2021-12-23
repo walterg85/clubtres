@@ -3,7 +3,7 @@
         <h1 class="h2 pageTitle">Search Teams</h1>
     </div>
 </div>
-<p class="lead lableCurrentLocation"></p>
+<p class="lead lableCurrentLocation">Wait where the city is located</p>
 <table class="table" id="teamList">
     <thead class="table-light">
         <th class="colB">#</th>
@@ -12,18 +12,22 @@
     </thead>
 </table>
 
-<script src="https://ipinfo.io/json?token=6a6ff9d33edfac&callback=mostrarEquipos"></script>
+<!-- <script src="https://ipinfo.io/json?token=6a6ff9d33edfac&callback=mostrarEquipos"></script> -->
+<!-- <script src="http://api.positionstack.com/v1/forward?access_key=784ef9950842f87a2075ad65dd027260&callback=mostrarEquipos" crossorigin="anonymous"></script> -->
 <script type="text/javascript">
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "searchteam";
+
+        // Solicitar permiso para obtener la ubicacion
+        GetGeolocation();
     });
 
     function mostrarEquipos(data) {
         let objData = {
-                "_method": "searchByLocation",
-                "miCiuadad": data.city
-            };
+            "_method": "searchByLocation",
+            "miCiuadad": data.city
+        };
 
         $(".lableCurrentLocation").html(`Show the teams in the ${data.city} citys`);
         $.post("../core/controllers/team.php", objData, function(result) {
@@ -56,4 +60,69 @@
             });
         });
     }
+
+    function GetGeolocation() {
+        navigator.geolocation.getCurrentPosition(GetCoords, show_error);
+    }
+
+
+    function GetCoords(position) {
+        $.get(`http://api.positionstack.com/v1/reverse?access_key=784ef9950842f87a2075ad65dd027260&query=${position.coords.latitude},${position.coords.longitude}`, function(result){
+            let myCitys = [];
+            $.each(result.data, function(index, item){
+                if(item.locality && myCitys.indexOf(item.locality) == -1)
+                    myCitys.push(item.locality);
+            });
+
+            let objData = {
+                "_method": "searchByLocation",
+                "miCiuadad": JSON.stringify(myCitys)
+            };
+
+            let strCitys = "";
+            $.each(myCitys, function(index, item){
+                if(index == 0)
+                    strCitys = `${item}`;
+
+                if(index > 0)
+                    strCitys = `, ${item}`;
+            });
+
+            $(".lableCurrentLocation").html(`Show the teams in the ${strCitys} citys`);
+            $.post("../core/controllers/team.php", objData, function(result) {
+                $("#teamList").DataTable({
+                    data: result.data,
+                    order: [[ 1, "desc" ]],
+                    columns:
+                    [
+                        {
+                            data: 'id',
+                            render: function(data, type, row){
+                                return pad(data, 5);
+                            }
+                        },
+                        {
+                            data: 'name',
+                            render: function(data, type, row){
+                                return `<a href="../team/index.php?id=${row.id}" target="_blank" class="text-decoration-none text-dark">${data}</a>`;
+                            }
+                        },
+                        {
+                            data: 'owner'
+                        }
+                    ],
+                    searching: false,
+                    pageLength: 20,
+                    info: false,
+                    lengthChange: false,
+                    paging: false
+                });
+            });
+        });
+    }
+
+    function show_error(errors){
+        $(".lableCurrentLocation").html(`To use this module you must share your location`);
+    }
+
 </script>
