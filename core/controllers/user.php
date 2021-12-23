@@ -300,11 +300,11 @@
 			$userModel = new Usersmodel();
 			$data = $userModel->getTorestore($put_vars['email']);
 
-			if($data['existe'] > 0){
+			if($data->existe > 0){
 				$to      = $put_vars['email'];
 			    $subject = 'Restore de password';
 			    $message = '
-			    	Recover your account and reset your password in the following link: http://localhost/clubtres/core/controllers/user.php?restore='. $data["id"] .'
+			    	Recover your account and reset your password in the following link: http://localhost/clubtres/user/recoverypassword.php?restore='. $data->id .'
 			    ';
 			    $headers = 'From: webmaster@clubtres.com'       . "\r\n" .
 			               'Reply-To: webmaster@clubtres.com' . "\r\n" .
