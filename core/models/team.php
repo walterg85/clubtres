@@ -404,7 +404,7 @@
 				FROM 
 					team 
 				WHERE 
-					city LIKE "%'. str_replace(" ", "%", $miCiuadad) .'%"
+					'. $miCiuadad .'
 					AND receive_requests = 1
 			';
 

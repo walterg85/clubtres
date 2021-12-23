@@ -284,10 +284,8 @@
                 });
 
                 $("#btnLogout").on("click", function(){
-                    if (confirm(`do you really want to log out?`)){
-                        localStorage.removeItem("logged");
-                        window.location.replace("logout.php");
-                    }
+                    localStorage.removeItem("logged");
+                    window.location.replace("logout.php");
                 });
 
                 $("#linkGames").on("click", function(){
