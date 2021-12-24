@@ -44,10 +44,10 @@
                         <input type="text" class="form-control" placeholder="Your email" id="inputEmail" name="inputEmail" readonly>
                     </div>
                     <div class="col-6">
-                        <label for="inputPass" class="form-label lblPassword">Change Password</label>
-                        <input type="password" class="form-control" placeholder="New Password" id="inputPass" name="inputPass" autocomplete="off">
+                        <div class="d-grid mt-4">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#mdlChangepassword">Change password</button>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -75,6 +75,40 @@
     </div>
 </div>
 
+<!-- Modal para Cambiar la contraseña -->
+<div class="modal fade" id="mdlChangepassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Change password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation-restore" novalidate>
+                    <div class="mb-3 position-relative">
+                        <label for="inputNewPassword" class="form-label">Please enter your new password</label>
+                        <input type="password" class="form-control" id="inputNewPassword" required>
+                        <div class="invalid-tooltip">
+                            This required
+                        </div>
+                    </div>
+                    <div class="mb-3 position-relative">
+                        <label for="inputConfirmPassword" class="form-label">Please confirm your new password</label>
+                        <input type="password" class="form-control" id="inputConfirmPassword" required>
+                        <div class="invalid-tooltip lableVerify">
+                            This required
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary btnClose" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-success btnChangepassword">Change my password</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     var autData             = null,
         maxCroppedWidth     = 400,
@@ -86,6 +120,9 @@
         currentSection = "Settings";
 
         $(".btnSaveChanges").on("click", saveData);
+
+        // Accion para cambiar la contraseña
+        $(".btnChangepassword").click( fnChangepassword);
 
         fnGetconfig();
         initComponent();
@@ -258,9 +295,52 @@
         $(".lblPassword").html(actualLenguaje[currentSection].lblPassword);
         $("#inputName").attr("placeholder", actualLenguaje[currentSection].inputName);
         $("#inputLastName").attr("placeholder", actualLenguaje[currentSection].inputLastName);
-        $("#inputPass").attr("placeholder", actualLenguaje[currentSection].inputPass);
         $(".labelButonC").html(actualLenguaje[currentSection].labelButonC);
         $("#modalLabel").html(actualLenguaje[currentSection].modalLabel);
         $("#cropImage").html(actualLenguaje[currentSection].cropImage);
+    }
+
+    // Metodo para cambiar contraseña
+    function fnChangepassword() {
+        let forms = document.querySelectorAll('.needs-validation-restore'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (form){ 
+                if (!form.checkValidity()) {
+                        continuar = false;
+                }
+
+                form.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
+
+        if( $("#inputNewPassword").val() != $("#inputConfirmPassword").val() ){
+            $(".needs-validation-restore").removeClass("was-validated");
+            $("#inputConfirmPassword").addClass("is-invalid");
+            $(".lableVerify").html("Passwords do not match");
+            return false;
+        }
+
+        let objData = {
+            "_method": "updatePasswordConfig",
+            "newPassword": $("#inputConfirmPassword").val(),
+            "userId": autData.id
+        };
+
+        $.ajax({
+            url: `../core/controllers/user.php`,
+            data: objData,
+            type: 'POST',
+            dataType: 'json',
+            success: function(response){
+                alert("The password has been changed");
+                $("#inputConfirmPassword").val("");
+                $("#inputNewPassword").val("");
+                $("#mdlChangepassword").modal("hide");
+                $(".needs-validation-restore").removeClass("was-validated");
+            }
+        });
     }
 </script>

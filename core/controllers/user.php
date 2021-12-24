@@ -162,13 +162,10 @@
 			exit(json_encode($_SESSION['authData']));
 		} else if($put_vars['_method'] == 'updateData'){
 			$usersModel 	= new Usersmodel();
-			$newPassword 	= ($put_vars['inputPass'] == '') ? '' : encryptPass($put_vars['inputPass']);
-
 			$usData = array(
 				'userId' 	=> $put_vars['userId'],
 				'name' 		=> $put_vars['inputName'],
-				'lastName'	=> $put_vars['inputLastName'],
-				'password'	=> $newPassword
+				'lastName'	=> $put_vars['inputLastName']
 			);
 			
 			$usersModel->updateData($usData);
@@ -303,7 +300,7 @@
 			// Generar token para recuperacion de contraseña
 			// Al tiempo actual se le suman 900 Segundos (15 min), para que al paso de ello no sea valido el token
 			$headers = array('alg' => 'HS256', 'typ' => 'JWT');
-			$payload = array('usEmail' => $put_vars['email'], 'exp' => (time() + 900));
+			$payload = array('usEmail' => $put_vars['email'], 'exp' => (time() + 10));
 			$token = generate_jwt($headers, $payload);
 			//==============================================
 
@@ -332,6 +329,39 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		} else if($put_vars['_method'] == 'updatePassword'){
+			$bearer_token 	= get_bearer_token();
+			$is_jwt_valid 	= is_jwt_valid($bearer_token);
+
+			if($is_jwt_valid){
+				$usersModel 	= new Usersmodel();
+				$newPassword 	= encryptPass($put_vars['newPassword']);
+
+				$usData = array(
+					'userId' 	=> $put_vars['userId'],
+					'password'	=> $newPassword
+				);
+				
+				$usersModel->updatePassword($usData);
+
+				$response = array(
+					'codeResponse' 	=> 200
+				);			
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				exit(json_encode($response));
+			} else{
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+
+				$response = array(
+					'codeResponse' => 401,
+					'message' => 'Unauthorized'
+				);
+
+				exit( json_encode($response) );
+			}
+		} else if($put_vars['_method'] == 'updatePasswordConfig'){
 			$usersModel 	= new Usersmodel();
 			$newPassword 	= encryptPass($put_vars['newPassword']);
 
@@ -348,7 +378,7 @@
 
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");
-			exit(json_encode($response));
+			exit(json_encode($response));			
 		}
 	}
 
