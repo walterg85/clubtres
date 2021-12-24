@@ -201,16 +201,19 @@
                     "location": JSON.stringify(currentLocation)
                 };
 
-                if (confirm(`Do you want to update this event?`)){
-                    $.post("../core/controllers/league.php", objData, function(result) {
-                        showAlert("info", result.message);
+                (async () => {
+                    const tmpResult = await showConfirmation(`Update event`, "Do you want to update this event?", "Yes update");
+                    if(tmpResult.isConfirmed){
+                        $.post("../core/controllers/league.php", objData, function(result) {
+                            showAlert("info", result.message);
 
-                        if(result.codeResponse == 200)
-                            $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
-                    }).fail( function(jqXHR, textStatus, errorThrown){
-                        ajaxResponseError(jqXHR, textStatus);
-                    });
-                }
+                            if(result.codeResponse == 200)
+                                $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                        }).fail( function(jqXHR, textStatus, errorThrown){
+                            ajaxResponseError(jqXHR, textStatus);
+                        });
+                    }
+                })()
             } else {
                 if(arrayFriends.length == 0){
                     showAlert("error", "No friends on the guest list");
@@ -235,16 +238,19 @@
                     "friendlist": JSON.stringify(arrayFriends)
                 };
 
-                if (confirm(`Do you want to go ahead and register the event?`)){
-                    $.post("../core/controllers/league.php", objData, function(result) {
-                        showAlert("info", result.message);
+                (async () => {
+                    const tmpResult = await showConfirmation(``, "Do you want to go ahead and register the event?", "Yes");
+                    if(tmpResult.isConfirmed){
+                        $.post("../core/controllers/league.php", objData, function(result) {
+                            showAlert("info", result.message);
 
-                        if(result.codeResponse == 200)
-                            $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
-                    }).fail( function(jqXHR, textStatus, errorThrown){
-                        ajaxResponseError(jqXHR, textStatus);
-                    });
-                }
+                            if(result.codeResponse == 200)
+                                $( "#mainContenedor" ).load( `game.html?v=${Math.random()}` );
+                        }).fail( function(jqXHR, textStatus, errorThrown){
+                            ajaxResponseError(jqXHR, textStatus);
+                        });
+                    }
+                })()
             }
             
         });

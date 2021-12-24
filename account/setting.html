@@ -335,7 +335,7 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
-                alert("The password has been changed");
+                showAlert("success", "The password has been changed");
                 $("#inputConfirmPassword").val("");
                 $("#inputNewPassword").val("");
                 $("#mdlChangepassword").modal("hide");

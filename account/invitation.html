@@ -135,63 +135,75 @@
                     "fnDrawCallback":function(oSettings){
                         $(".btnAcept").unbind().click(function(){
                             let data = getData($(this), dataTableInvitation);
-                            if (confirm(`Are you sure to accept ${data.fromName} invitation?`)) {
-                                let objData = {
-                                    "_method": "updateInvitation",
-                                    "action": 1,
-                                    "invitationId": data.id,
-                                    "event_id": data.event_id,
-                                    "event_type": data.event_type,
-                                    "uorigin_id": data.uorigin_id,
-                                    "comodin": data.comodin
-                                };
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, `Are you sure to accept ${data.fromName} invitation?`, "Acept");
+                                if(tmpResult.isConfirmed){
+                                    let objData = {
+                                        "_method": "updateInvitation",
+                                        "action": 1,
+                                        "invitationId": data.id,
+                                        "event_id": data.event_id,
+                                        "event_type": data.event_type,
+                                        "uorigin_id": data.uorigin_id,
+                                        "comodin": data.comodin
+                                    };
 
-                                updateInvitation(objData);                                
-                            }
+                                    updateInvitation(objData); 
+                                }
+                            })()
                         });
 
                         $(".btnRechaze").unbind().click(function(){
                             let data = getData($(this), dataTableInvitation);
-                            if (confirm(`you sure want to decline the ${data.fromName} invitation`)) {
-                                let objData = {
-                                    "_method": "updateInvitation",
-                                    "action": 2,
-                                    "invitationId": data.id,
-                                    "event_type": data.event_type,
-                                    "event_id": data.event_id
-                                };
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, `you sure want to decline the ${data.fromName} invitation`, "Decline");
+                                if(tmpResult.isConfirmed){
+                                    let objData = {
+                                        "_method": "updateInvitation",
+                                        "action": 2,
+                                        "invitationId": data.id,
+                                        "event_type": data.event_type,
+                                        "event_id": data.event_id
+                                    };
 
-                                updateInvitation(objData);                                
-                            }
+                                    updateInvitation(objData);
+                                }
+                            })()
                         });
 
                         $(".btnClose").unbind().click(function(){
                             let data = getData($(this), dataTableInvitation);
-                            if (confirm(`mark notification as read?`)) {
-                                let objData = {
-                                    "_method": "updateInvitation",
-                                    "action": 2,
-                                    "invitationId": data.id
-                                };
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, `mark notification as read?`, "Ok");
+                                if(tmpResult.isConfirmed){
+                                    let objData = {
+                                        "_method": "updateInvitation",
+                                        "action": 2,
+                                        "invitationId": data.id
+                                    };
 
-                                updateInvitation(objData);                                
-                            }
+                                    updateInvitation(objData); 
+                                }
+                            })()
                         });
 
                         $(".btnMaybe").unbind().click(function(){
                             let data = getData($(this), dataTableInvitation);
-                            if (confirm(`Do you want to respond with a maybe to this invitation?`)) {
-                                let objData = {
-                                    "_method": "updateInvitation",
-                                    "action": 3,
-                                    "invitationId": data.id,
-                                    "event_id": data.event_id,
-                                    "event_type": data.event_type,
-                                    "udestiny_id": data.udestiny_id
-                                };
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, "`Do you want to respond with a maybe to this invitation?`", "Yes");
+                                if(tmpResult.isConfirmed){
+                                    let objData = {
+                                        "_method": "updateInvitation",
+                                        "action": 3,
+                                        "invitationId": data.id,
+                                        "event_id": data.event_id,
+                                        "event_type": data.event_type,
+                                        "udestiny_id": data.udestiny_id
+                                    };
 
-                                updateInvitation(objData);                                
-                            }
+                                    updateInvitation(objData);
+                                }
+                            })()
                         });
                     },
                     searching: false,
@@ -270,17 +282,20 @@
                 // Se obtiene el evento click del boton heredado, para poder eliminar una invitacion enviada
                 let data = $(this).data("event");
 
-                if (confirm(`Are you sure to delete this invitation?`)) {
-                    let objData = {
-                        "_method": "updateInvitation",
-                        "action": 2,
-                        "invitationId": data.id,
-                        "event_type": data.event_type
-                    };
+                (async () => {
+                    const tmpResult = await showConfirmation(`Delete`, `Are you sure to delete this invitation?`, "Delete");
+                    if(tmpResult.isConfirmed){
+                        let objData = {
+                            "_method": "updateInvitation",
+                            "action": 2,
+                            "invitationId": data.id,
+                            "event_type": data.event_type
+                        };
 
-                    // Se recicla metodo para actualizar una initacion
-                    updateInvitation(objData);
-                }
+                        // Se recicla metodo para actualizar una initacion
+                        updateInvitation(objData);
+                    }
+                })()
             });
         });
     }

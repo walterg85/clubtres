@@ -410,17 +410,20 @@
 
                     $(".btnDeleteFromTeam").unbind().click( function(){
                         let idRegistro = $(this).data("id-registro");
-                        if (confirm(`You want to remove this user from the team?`)){
-                            objData = {
-                                "_method": "deleteChild",
-                                "idRegistro": idRegistro
-                            };
+                        (async () => {
+                            const tmpResult = await showConfirmation(``, `You want to remove this user from the team?`, "Remove");
+                            if(tmpResult.isConfirmed){
+                                objData = {
+                                    "_method": "deleteChild",
+                                    "idRegistro": idRegistro
+                                };
 
-                            $.post("../core/controllers/team.php", objData, function(result) {
-                                showAlert("info", result.message);
-                                fnListTeam();
-                            });
-                        }
+                                $.post("../core/controllers/team.php", objData, function(result) {
+                                    showAlert("info", result.message);
+                                    fnListTeam();
+                                });
+                            }
+                        })()
                     });
                 }).fail( function(jqXHR, textStatus, errorThrown){
                     ajaxResponseError(jqXHR, textStatus);
@@ -635,23 +638,26 @@
 
                         $(".btnDeleteTeam").unbind().click(function(){
                             let data = getData($(this), dataTableTeam);
-                            if (confirm(`do you want to deactivate this team (${data.name})?`)){
-                                $.ajax({
-                                    url: '../core/controllers/team.php',
-                                    data:{
-                                        idTeam: data.id,
-                                        _method: "DELETE"
-                                    },
-                                    type: 'POST',
-                                    success: function(response){
-                                        showAlert("success", "Team deactivated");
-                                        fnListTeam();
-                                    },
-                                    error: function(xhr, status) {
-                                        console.log(status);
-                                    },
-                                });
-                            }
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, `do you want to deactivate this team (${data.name})?`, "Deactivate");
+                                if(tmpResult.isConfirmed){
+                                    $.ajax({
+                                        url: '../core/controllers/team.php',
+                                        data:{
+                                            idTeam: data.id,
+                                            _method: "DELETE"
+                                        },
+                                        type: 'POST',
+                                        success: function(response){
+                                            showAlert("success", "Team deactivated");
+                                            fnListTeam();
+                                        },
+                                        error: function(xhr, status) {
+                                            console.log(status);
+                                        },
+                                    });
+                                }
+                            })()
                         });
 
                         $(".tmpInviteTeam").unbind().click(function() {
@@ -668,25 +674,28 @@
                                     if(result.data){
                                         let nameInvited = `${result.data.name} ${result.data.last_name}`;
 
-                                        if (confirm(`Will you surely invite ${nameInvited} to be part of your team?`)){
-                                            $.ajax({
-                                                url: '../core/controllers/team.php',
-                                                data:{
-                                                    idTeam: data.id,
-                                                    idUser: inputText,
-                                                    nameTeam: data.name,
-                                                    _method: "PUT"
-                                                },
-                                                type: 'POST',
-                                                success: function(response){
-                                                    showAlert("success", response.message);
-                                                    $(`#inputPlayerId${data.id}`).val("");
-                                                },
-                                                error: function(xhr, status) {
-                                                    showAlert("error", "Invitation not sent");
-                                                },
-                                            });
-                                        }
+                                        (async () => {
+                                            const tmpResult = await showConfirmation(``, `Will you surely invite ${nameInvited} to be part of your team?`, "Acept");
+                                            if(tmpResult.isConfirmed){
+                                                $.ajax({
+                                                    url: '../core/controllers/team.php',
+                                                    data:{
+                                                        idTeam: data.id,
+                                                        idUser: inputText,
+                                                        nameTeam: data.name,
+                                                        _method: "PUT"
+                                                    },
+                                                    type: 'POST',
+                                                    success: function(response){
+                                                        showAlert("success", response.message);
+                                                        $(`#inputPlayerId${data.id}`).val("");
+                                                    },
+                                                    error: function(xhr, status) {
+                                                        showAlert("error", "Invitation not sent");
+                                                    },
+                                                });
+                                            }
+                                        })()
                                     }else{
                                         showAlert("warning", "The Id number provided does not exist");
                                     }

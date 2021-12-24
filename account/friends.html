@@ -74,18 +74,21 @@
                     ],
                     "fnDrawCallback":function(oSettings){
                         $(".btnDelete").unbind().click(function(){
-                            if (confirm(`you want to delete this friend?`)){
-                                let data = getData($(this), dataTableFriends),
-                                    objData = {
-                                        "_method": "deleteFriend",
-                                        "friend_id": data.friend_id
-                                    };
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, "you want to delete this friend?", "Delete");
+                                if(tmpResult.isConfirmed){
+                                    let data = getData($(this), dataTableFriends),
+                                        objData = {
+                                            "_method": "deleteFriend",
+                                            "friend_id": data.friend_id
+                                        };
 
-                                $.post("../core/controllers/user.php", objData, function(result) {
-                                    showAlert("success", "Friend removed");
-                                    fnListFriends();
-                                });
-                            }
+                                    $.post("../core/controllers/user.php", objData, function(result) {
+                                        showAlert("success", "Friend removed");
+                                        fnListFriends();
+                                    });
+                                }
+                            })()
                         });
 
                         $(".btnChat").unbind().click(function(){
