@@ -85,10 +85,22 @@
 
         $.post("../core/controllers/user.php", objData, function(result) {
             if(result.codeResponse == 200){
-                alert("Invitation sent");
+                Swal.fire({
+                    position: 'top-end',
+                    icon: "success",
+                    text: "Invitation sent",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
                 reviewFriendRequest();
             }else{
-                alert(result.message)
+                Swal.fire({
+                    position: 'top-end',
+                    icon: "info",
+                    text: result.message,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
             }
         });
     }

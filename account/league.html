@@ -184,54 +184,63 @@
                         let idTeam   = $(this).data("idteam"),
                             idLeague = $(this).data("leagueid");
 
-                        if (confirm(`Do you want to suspend the league team?`)){
-                            objData = {
-                                "_method": "disableChild",
-                                "idTeam": idTeam,
-                                "idLeague":idLeague
-                            };
+                        (async () => {
+                            const tmpResult = await showConfirmation(``, `Do you want to suspend the league team?`, "Suspend");
+                            if(tmpResult.isConfirmed){
+                                objData = {
+                                    "_method": "disableChild",
+                                    "idTeam": idTeam,
+                                    "idLeague":idLeague
+                                };
 
-                            $.post("../core/controllers/league.php", objData, function(result) {
-                                showAlert("info", result.message);
-                                fnListLeague();
-                            });
-                        }
+                                $.post("../core/controllers/league.php", objData, function(result) {
+                                    showAlert("info", result.message);
+                                    fnListLeague();
+                                });
+                            }
+                        })()
                     });
 
                     $(".btnEnableFromLeague").unbind().click( function(){
                         let idTeam   = $(this).data("idteam"),
                             idLeague = $(this).data("leagueid");
 
-                        if (confirm(`Are you sure you want to reactivate this team to the league?`)){
-                            objData = {
-                                "_method": "enableChild",
-                                "idTeam": idTeam,
-                                "idLeague":idLeague
-                            };
+                        (async () => {
+                            const tmpResult = await showConfirmation(``, "`Are you sure you want to reactivate this team to the league?`", "Activate");
+                            if(tmpResult.isConfirmed){
+                                objData = {
+                                    "_method": "enableChild",
+                                    "idTeam": idTeam,
+                                    "idLeague":idLeague
+                                };
 
-                            $.post("../core/controllers/league.php", objData, function(result) {
-                                showAlert("info", result.message);
-                                fnListLeague();
-                            });
-                        }
+                                $.post("../core/controllers/league.php", objData, function(result) {
+                                    showAlert("info", result.message);
+                                    fnListLeague();
+                                });
+                            }
+                        })()
                     });
 
                     $(".btnDeleteFromLeague").unbind().click( function(){
                         let idTeam   = $(this).data("idteam"),
                             idLeague = $(this).data("leagueid");
 
-                        if (confirm(`Do you really want to eliminate this team?`)){
-                            objData = {
-                                "_method": "deleteChild",
-                                "idTeam": idTeam,
-                                "idLeague":idLeague
-                            };
+                        (async () => {
+                            const tmpResult = await showConfirmation(``, `Do you really want to eliminate this team?`, "Eliminate");
+                            if(tmpResult.isConfirmed){
+                                objData = {
+                                    "_method": "deleteChild",
+                                    "idTeam": idTeam,
+                                    "idLeague":idLeague
+                                };
 
-                            $.post("../core/controllers/league.php", objData, function(result) {
-                                showAlert("info", result.message);
-                                fnListLeague();
-                            });
-                        }
+                                $.post("../core/controllers/league.php", objData, function(result) {
+                                    showAlert("info", result.message);
+                                    fnListLeague();
+                                });
+                            }
+                        })()
                     });
 
                     $(".btnListTeamMember").unbind().click( function(){
@@ -277,33 +286,39 @@
                             $(".btnDisablePersonFromLeague").unbind().click( function() {
                                 let idRegistro = $(this).data("registroid");
 
-                                if (confirm(`Do you really want to suspend this team member?`)){
-                                    objData = {
-                                        "_method": "disableMemberChild",
-                                        "idRegistro": idRegistro
-                                    };
+                                (async () => {
+                                    const tmpResult = await showConfirmation(``, `Do you really want to suspend this team member?`, "Suspend");
+                                    if(tmpResult.isConfirmed){
+                                        objData = {
+                                            "_method": "disableMemberChild",
+                                            "idRegistro": idRegistro
+                                        };
 
-                                    $.post("../core/controllers/league.php", objData, function(result) {
-                                        showAlert("info", result.message);
-                                        currentBtn.click();
-                                    });
-                                }
+                                        $.post("../core/controllers/league.php", objData, function(result) {
+                                            showAlert("info", result.message);
+                                            currentBtn.click();
+                                        });
+                                    }
+                                })()
                             });
 
                             $(".btnEnablePersonFromLeague").unbind().click( function() {
                                 let idRegistro = $(this).data("registroid");
 
-                                if (confirm(`Do you really want to reactivate this team member?`)){
-                                    objData = {
-                                        "_method": "enableMemberChild",
-                                        "idRegistro": idRegistro
-                                    };
+                                (async () => {
+                                    const tmpResult = await showConfirmation("", `Do you really want to reactivate this team member?`, "Activate");
+                                    if(tmpResult.isConfirmed){
+                                        objData = {
+                                            "_method": "enableMemberChild",
+                                            "idRegistro": idRegistro
+                                        };
 
-                                    $.post("../core/controllers/league.php", objData, function(result) {
-                                        showAlert("info", result.message);
-                                        currentBtn.click();
-                                    });
-                                }
+                                        $.post("../core/controllers/league.php", objData, function(result) {
+                                            showAlert("info", result.message);
+                                            currentBtn.click();
+                                        });
+                                    }
+                                })()
                             });
                         });
                     });
@@ -520,23 +535,26 @@
 
                         $(".btnDeleteLeague").unbind().click(function(){
                             let data = getData($(this), dataTableLeague);
-                            if (confirm(`do you want to deactivate this league (${data.name})?`)){
-                                $.ajax({
-                                    url: '../core/controllers/league.php',
-                                    data:{
-                                        idLeague: data.id,
-                                        _method: "DELETE"
-                                    },
-                                    type: 'POST',
-                                    success: function(response){
-                                        showAlert("success", "League deactivated");
-                                        fnListLeague();
-                                    },
-                                    error: function(xhr, status) {
-                                        console.log(status);
-                                    },
-                                });
-                            }
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, `do you want to deactivate this league (${data.name})?`, "Acept");
+                                if(tmpResult.isConfirmed){
+                                    $.ajax({
+                                        url: '../core/controllers/league.php',
+                                        data:{
+                                            idLeague: data.id,
+                                            _method: "DELETE"
+                                        },
+                                        type: 'POST',
+                                        success: function(response){
+                                            showAlert("success", "League deactivated");
+                                            fnListLeague();
+                                        },
+                                        error: function(xhr, status) {
+                                            console.log(status);
+                                        },
+                                    });
+                                }
+                            })()
                         });
 
                         $(".tmpInviteLeague").unbind().click(function() {
@@ -587,10 +605,13 @@
 
                         $(".btnAddGame").unbind().click(function(){
                             let data = getData($(this), dataTableLeague);
-                            if (confirm(`You want to add a game to the ${data.name} league?`)){
-                                currentLeague = data.id;
-                                $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
-                            }
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, `You want to add a game to the ${data.name} league?`, "Add game");
+                                if(tmpResult.isConfirmed){
+                                    currentLeague = data.id;
+                                    $( "#mainContenedor" ).load( `newgame.html?v=${Math.random()}` );
+                                }
+                            })()
                         });
                     },
                     searching: false,

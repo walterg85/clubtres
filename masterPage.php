@@ -106,10 +106,8 @@
         $(document).ready(function(){
             // Metodo para el cierre de session
             $("#btnLogout").on("click", function(){
-                if (confirm(`do you really want to log out?`)){
-                    localStorage.removeItem("logged");
-                    window.location.replace(`${base_url}/account/logout.php`);
-                }
+                localStorage.removeItem("logged");
+                window.location.replace(`${base_url}/account/logout.php`);
             });
 
             // Se agrega la accion de buscar cada vez que se presiona una tecla
@@ -215,6 +213,19 @@
                 $(".linkLogin").html(myLang.login);
             }).always(function() {
                 changePageLang(allLang);
+            });
+        }
+
+        function showConfirmation(title, text, confirmButtonText){
+            return Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: confirmButtonText,
+                allowOutsideClick: false
             });
         }
     </script>

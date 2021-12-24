@@ -205,33 +205,39 @@
                         });
 
                         $(".btnCancelGame").unbind().click(function(){
-                            if (confirm(`do you want to cancel this event?`)){
-                                let data = getData($(this), dataTableGames),
-                                    objData = {
-                                        "_method": "cancelGame",
-                                        "gameId": data.id
-                                    };
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, "do you want to cancel this event?", "Cancel");
+                                if(tmpResult.isConfirmed){
+                                    let data = getData($(this), dataTableGames),
+                                        objData = {
+                                            "_method": "cancelGame",
+                                            "gameId": data.id
+                                        };
 
-                                $.post("../core/controllers/league.php", objData, function(result) {
-                                    showAlert("success", "Event canceled");
-                                    fnListGames();
-                                });
-                            }
+                                    $.post("../core/controllers/league.php", objData, function(result) {
+                                        showAlert("success", "Event canceled");
+                                        fnListGames();
+                                    });
+                                }
+                            })()
                         });
 
                         $(".deleteGame").unbind().click(function(){
-                            if (confirm(`you want to delete this event?`)){
-                                let data = getData($(this), dataTableGames),
-                                    objData = {
-                                        "_method": "deleteGame",
-                                        "gameId": data.id
-                                    };
+                            (async () => {
+                                const tmpResult = await showConfirmation(``, "you want to delete this event?", "Delete");
+                                if(tmpResult.isConfirmed){
+                                    let data = getData($(this), dataTableGames),
+                                        objData = {
+                                            "_method": "deleteGame",
+                                            "gameId": data.id
+                                        };
 
-                                $.post("../core/controllers/league.php", objData, function(result) {
-                                    showAlert("success", "Event removed");
-                                    fnListGames();
-                                });
-                            }
+                                    $.post("../core/controllers/league.php", objData, function(result) {
+                                        showAlert("success", "Event removed");
+                                        fnListGames();
+                                    });
+                                }
+                            })()
                         });
 
                         $(".btnEditGame").unbind().click(function(){
