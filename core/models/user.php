@@ -269,12 +269,7 @@
         // Metodo para actualizacion de datos de usuario
         public function updateData($data){
             $pdo = new Conexion();
-
-            $updatePass = '';
-            if($data['password'] != '')
-                $updatePass = ', password ="' . $data['password'] .'"';
-
-            $cmd = 'UPDATE user SET name =:name, last_name =:last_name'. $updatePass .' WHERE id =:userId ';
+            $cmd = 'UPDATE user SET name =:name, last_name =:last_name WHERE id =:userId ';
 
             $parametros = array(
                 ':name'         => $data['name'],
