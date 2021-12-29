@@ -99,7 +99,7 @@
         <div class="modal-dialog modal-sm">
             <div class="modal-content bg-dark text-center">
                 <div class="modal-header">
-                    <h5 class="modal-title text-light">Restore password</h5>
+                    <h5 class="modal-title text-light lblChangepassword">Restore password</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -286,7 +286,10 @@
                 $("#btnLogin").html(myLang.button + ' <i class="bi bi-box-arrow-in-right"></i>');
                 $(".lblNewAccount").html(myLang.link);
                 $(".footerNote").html(myLang.footerNote);
-
+                
+                $("#inputRestoreMail").attr("placeholder", myLang.inputRestoreMail);
+                $("#btnRestore").html(myLang.btnRestore);
+                
                 // Modal
                 $("#exampleModalLabel").html(myLang.modalTitle);
                 $("#inputRegName").attr("placeholder", myLang.mdlInputName);
@@ -298,6 +301,9 @@
 
                 // Page title
                 document.title = myLang.pageTitle;
+
+                // Links
+                $(".lblChangepassword").html(myLang.lblChangepassword);
             });
         }
     </script>

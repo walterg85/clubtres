@@ -229,17 +229,25 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		} else if($put_vars['_method'] == 'reviewFriendRequest'){
-			$data = array(
-				'uorigin_id' 	=> $_SESSION['authData']->id,
-				'udestiny_id' 	=> $put_vars['userId'],
-				'event_type' 	=> '-1'
-			);
+			if( $put_vars['userId'] == $_SESSION['authData']->id){
+				$response  = array(
+					'codeResponse' 	=> 200,
+					'status'		=> 4
+				);
+			} else {
+				$data = array(
+					'uorigin_id' 	=> $_SESSION['authData']->id,
+					'udestiny_id' 	=> $put_vars['userId'],
+					'event_type' 	=> '-1'
+				);
 
-			$userModel = new Usersmodel();
-			$response  = array(
-				'codeResponse' 	=> 200,
-				'status'		=> $userModel->reviewFriendRequest($data)
-			);
+				$userModel = new Usersmodel();
+				$response  = array(
+					'codeResponse' 	=> 200,
+					'status'		=> $userModel->reviewFriendRequest($data)
+				);
+			}
+			
 
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			

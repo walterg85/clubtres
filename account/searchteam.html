@@ -11,7 +11,10 @@
     <div class="col-4">
         <label for="cityList" class="form-label labelDatalist">Change city</label>
         <input class="form-control" list="datalistOptions" id="cityList" name="cityList" placeholder="Type to search...">
-        <datalist id="datalistOptions"></datalist> 
+        <datalist id="datalistOptions"></datalist>
+    </div>
+    <div class="col-1 pt-4">
+        <button type="button" class="btn btn-danger" id="btnChangeCity">Change</button>
     </div>
 </div>
 
@@ -23,15 +26,36 @@
     </thead>
 </table>
 
+<ul class="list-inline mt-5 countryList"></ul>
+
 <!-- <script src="https://ipinfo.io/json?token=6a6ff9d33edfac&callback=mostrarEquipos"></script> -->
 <!-- <script src="http://api.positionstack.com/v1/forward?access_key=784ef9950842f87a2075ad65dd027260&callback=mostrarEquipos" crossorigin="anonymous"></script> -->
 <script type="text/javascript">
+    var dataTableTeams = null;
     $(document).ready(function(){
         // Se setea en la variable global, la seccion a la que se esta accediendo para la carga de idioma
         currentSection = "searchteam";
 
         // Solicitar permiso para obtener la ubicacion
         GetGeolocation();
+
+        // Listar todas las ciudades
+        getCitys();
+
+        // Listar todos los paises en busqueda de jugadores
+        getCountry();
+
+        // Cambiar de ciudad 
+        $("#btnChangeCity").click( function(){
+            let ciudad = $("#cityList").val();
+
+            let objData = {
+                "_method": "searchByLocation",
+                "miCiuadad": JSON.stringify([ciudad])
+            };
+
+            fnGetTeams(objData, ciudad);
+        });
     });
 
     function mostrarEquipos(data) {
@@ -99,43 +123,7 @@
                     strCitys = `, ${item}`;
             });
 
-            $(".lableCurrentLocation").html(`Show the teams in the ${strCitys} citys`);
-            $.post("../core/controllers/team.php", objData, function(result) {
-                if(result.data.length == 0){
-                    $("#teamList").addClass("d-none");
-                    return false;
-                } else {
-                    $("#teamList").removeClass("d-none");
-                }
-
-                $("#teamList").DataTable({
-                    data: result.data,
-                    order: [[ 1, "desc" ]],
-                    columns:
-                    [
-                        {
-                            data: 'id',
-                            render: function(data, type, row){
-                                return pad(data, 5);
-                            }
-                        },
-                        {
-                            data: 'name',
-                            render: function(data, type, row){
-                                return `<a href="../team/index.php?id=${row.id}" target="_blank" class="text-decoration-none text-dark">${data}</a>`;
-                            }
-                        },
-                        {
-                            data: 'owner'
-                        }
-                    ],
-                    searching: false,
-                    pageLength: 20,
-                    info: false,
-                    lengthChange: false,
-                    paging: false
-                });
-            });
+            fnGetTeams(objData, strCitys);
         });
     }
 
@@ -151,4 +139,84 @@
         });
     }
 
+    function getCitys() {
+        let objData = {
+            "_method": "getCitys"
+        };
+
+        $.post("../core/controllers/team.php", objData, function(result) {
+            $("#datalistOptions").html("");
+
+            let options = "";
+            $.each( result.data, function(index, item){
+                options += `<option value="${item.ciudades.toUpperCase()}">`;
+            });
+
+            $("#datalistOptions").html(options);
+
+            // $("input[name='cityList']").on('input', function(e){
+            //     console.log(this.value);
+            // });
+        });
+    }
+
+    function getCountry() {
+        let objData = {
+            "_method": "getCountry"
+        };
+
+        $.post("../core/controllers/team.php", objData, function(result) {
+            $(".countryList").html("");
+
+            let options = "";
+            $.each( result.data, function(index, item){
+                options += `<li class="list-inline-item">${item.pais.toUpperCase()}</li>`;
+            });
+
+            $(".countryList").html(options);
+        });
+    }
+
+    function fnGetTeams(objData, listCiti){
+        $(".lableCurrentLocation").html(`Show the teams in the ${listCiti} citys`);
+        $.post("../core/controllers/team.php", objData, function(result) {
+            if(result.data.length == 0){
+                $("#teamList").addClass("d-none");
+                return false;
+            } else {
+                $("#teamList").removeClass("d-none");
+            }
+
+            if (dataTableTeams != null)
+                dataTableTeams.destroy();
+
+            dataTableTeams = $("#teamList").DataTable({
+                data: result.data,
+                order: [[ 1, "desc" ]],
+                columns:
+                [
+                    {
+                        data: 'id',
+                        render: function(data, type, row){
+                            return pad(data, 5);
+                        }
+                    },
+                    {
+                        data: 'name',
+                        render: function(data, type, row){
+                            return `<a href="../team/index.php?id=${row.id}" target="_blank" class="text-decoration-none text-dark">${data}</a>`;
+                        }
+                    },
+                    {
+                        data: 'owner'
+                    }
+                ],
+                searching: false,
+                pageLength: 20,
+                info: false,
+                lengthChange: false,
+                paging: false
+            });
+        });
+    }
 </script>

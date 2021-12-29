@@ -17,7 +17,10 @@
 			"mdlInputPass": "Password",
 			"mdlBtn1": "Register",
 			"mdlBtn2": "Cancel",
-			"footerNote": "A project of"
+			"footerNote": "A project of",
+			"lblChangepassword": "Restore password",
+			"inputRestoreMail": "Email to restore",
+			"btnRestore": "Submit"
 		},
 		"main":{
 			"logout": "Sign out",
@@ -230,7 +233,10 @@
 			"mdlInputPass": "Contraseña",
 			"mdlBtn1": "Registrarse",
 			"mdlBtn2": "Cancelar",
-			"footerNote": "Un proyecto de"
+			"footerNote": "Un proyecto de",
+			"lblChangepassword": "Recuperar contraseña",
+			"inputRestoreMail": "Cuenta para recuperar",
+			"btnRestore": "Enviar"
 		},
 		"main":{
 			"logout": "Desconectar",

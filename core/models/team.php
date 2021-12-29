@@ -413,4 +413,28 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		public function getCitys(){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT DISTINCT(city) ciudades FROM team
+			';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function getCountry(){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT DISTINCT(country) AS pais FROM team WHERE receive_requests = 1;
+			';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}
