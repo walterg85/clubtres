@@ -19,11 +19,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `clubtres`
+-- Base de datos: `intelatl_ct`
 --
-DROP DATABASE IF EXISTS `clubtres`;
-CREATE DATABASE IF NOT EXISTS `clubtres` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `clubtres`;
+DROP DATABASE IF EXISTS `intelatl_ct`;
+CREATE DATABASE IF NOT EXISTS `intelatl_ct` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `intelatl_ct`;
 
 -- --------------------------------------------------------
 
