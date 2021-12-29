@@ -3,7 +3,18 @@
         <h1 class="h2 pageTitle">Search Teams</h1>
     </div>
 </div>
-<p class="lead lableCurrentLocation">Wait where the city is located</p>
+
+<div class="row">
+    <div class="col-3">
+        <p class="lead lableCurrentLocation">Wait where the city is located</p>
+    </div>
+    <div class="col-4">
+        <label for="cityList" class="form-label labelDatalist">Change city</label>
+        <input class="form-control" list="datalistOptions" id="cityList" name="cityList" placeholder="Type to search...">
+        <datalist id="datalistOptions"></datalist> 
+    </div>
+</div>
+
 <table class="table" id="teamList">
     <thead class="table-light">
         <th class="colB">#</th>
@@ -90,6 +101,13 @@
 
             $(".lableCurrentLocation").html(`Show the teams in the ${strCitys} citys`);
             $.post("../core/controllers/team.php", objData, function(result) {
+                if(result.data.length == 0){
+                    $("#teamList").addClass("d-none");
+                    return false;
+                } else {
+                    $("#teamList").removeClass("d-none");
+                }
+
                 $("#teamList").DataTable({
                     data: result.data,
                     order: [[ 1, "desc" ]],
@@ -125,6 +143,8 @@
         $(".lableCurrentLocation")
             .html(`To use this module you must <a href="#" class="btnCompartirUbicacion">share your location</a>`)
             .addClass("text-danger");
+
+        $("#teamList").addClass("d-none");
 
         $(".btnCompartirUbicacion").unbind().click( function(){
             console.log("entro");
