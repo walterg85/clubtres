@@ -11,10 +11,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Total registered teams</texto>
+                <texto class="labelUno">Teams registered</texto>
             </h5>
             <div class="card-body">
-                <h3><texto class="labelTres">0</texto></h3>
+                <h6><texto class="labelTres">Total registered:</texto> <texto id="teamTotal"></texto></h6>
+                <h6><texto class="labelCuatro">Total active:</texto> <texto id="teamActive"></texto></h6>
+                <h6><texto class="labelCinco">Total inactive:</texto> <texto id="teamInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -22,10 +24,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Total registered users</texto>
+                <texto class="labelUno">Users registered</texto>
             </h5>
             <div class="card-body">
-                <h3><texto class="labelTres">0</texto></h3>
+                <h6><texto class="labelTres">Total registered:</texto> <texto id="usersTotal"></texto></h6>
+                <h6><texto class="labelCuatro">Total active:</texto> <texto id="usersActive"></texto></h6>
+                <h6><texto class="labelCinco">Total inactive:</texto> <texto id="usersInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -33,10 +37,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Total registered leagues</texto>
+                <texto class="labelUno">Leagues registered</texto>
             </h5>
             <div class="card-body">
-                <h3><texto class="labelTres">0</texto></h3>
+                <h6><texto class="labelTres">Total registered:</texto> <texto id="leaguesTotal"></texto></h6>
+                <h6><texto class="labelCuatro">Total active:</texto> <texto id="leaguesActive"></texto></h6>
+                <h6><texto class="labelCinco">Total inactive:</texto> <texto id="leaguesInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -44,10 +50,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Total registered business</texto>
+                <texto class="labelUno">Business registered</texto>
             </h5>
             <div class="card-body">
-                <h3><texto class="labelTres">0</texto></h3>
+                <h6><texto class="labelTres">Total registered:</texto> <texto id="businessTotal"></texto></h6>
+                <h6><texto class="labelCuatro">Total active:</texto> <texto id="businessActive"></texto></h6>
+                <h6><texto class="labelCinco">Total inactive:</texto> <texto id="businessInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -55,14 +63,97 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Total registered games</texto>
+                <texto class="labelUno">Games registered</texto>
             </h5>
             <div class="card-body">
-                <h3><texto class="labelTres">0</texto></h3>
+                <h6><texto class="labelTres">Total registered:</texto> <texto id="gamesTotal"></texto></h6>
+                <h6><texto class="labelCuatro">Total pending:</texto> <texto id="gamesActive"></texto></h6>
+                <h6><texto class="labelCinco">Total finalized:</texto> <texto id="gamesInactive"></texto></h6>
             </div>
         </div>
     </div>
 </div>
+
+<div class="row secseccionBody">
+    <div class="col-6">
+        <p class="lead mb-0 chartA">Registered users per month</p>
+        <canvas class="my-4 w-100" id="myChartA"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    var arrMes = {
+            "en": ["January","February","March","April","May","June","July", "August","September","October","November","December"],
+            "es": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        };
+
+    $(document).ready(function(){
+        // Buscar el detalle de resumen
+        fnGetReport();
+    });
+
+    function fnGetReport(){
+        let _Data = {
+            "_method": "GET"
+        };
+
+        $.post("../core/controllers/admin.php", _Data, function(result){
+            let dato = result.data;
+
+            $("#teamTotal").html(dato.total_team);
+            $("#teamActive").html(dato.active_team);
+            $("#teamInactive").html(dato.inactive_team);
+
+            $("#usersTotal").html(dato.total_user);
+            $("#usersActive").html(dato.active_user);
+            $("#usersInactive").html(dato.inactive_user);
+
+            $("#leaguesTotal").html(dato.total_league);
+            $("#leaguesActive").html(dato.active_league);
+            $("#leaguesInactive").html(dato.inactive_league);
+
+            $("#businessTotal").html(dato.total_business);
+            $("#businessActive").html(dato.active_business);
+            $("#businessInactive").html(dato.inactive_business);
+
+            $("#gamesTotal").html(dato.total_games);
+            $("#gamesActive").html(dato.pending_games);
+            $("#gamesInactive").html(dato.passed_games);
+        });
+    }
+
+    function generateChart(data){
+        let canvaA   = document.getElementById('myChartA'),
+            myChartA = new Chart(canvaA, {
+                type: 'line',
+                data: {
+                    labels: arrMes["en"],
+                    datasets: [{
+                        data: data,
+                        lineTension: 0,
+                        backgroundColor: 'transparent',
+                        borderColor: '#007bff',
+                        borderWidth: 4,
+                        pointBackgroundColor: '#007bff'
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+    }
+</script>
 
 <?php
     // Se obtiene el contenido del bufer
