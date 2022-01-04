@@ -119,14 +119,18 @@
             }else{
                 $("#btnEnviarSolicitud").addClass("d-none");
 
-                if(intStatus == 1){
-                    $(".btnEnviado").removeClass("d-none");
-                }else if(intStatus == 2){
-                    $(".btnRecibido").removeClass("d-none");
-                }else if(intStatus == 3){
-                    $(".btnFriends").removeClass("d-none");
-                    $(".lblDate").html(result.status[1]);
-                }                
+                switch(intStatus){
+                    case 1:
+                        $(".btnEnviado").removeClass("d-none");
+                        break;
+                    case 2:
+                        $(".btnRecibido").removeClass("d-none");
+                        break;
+                    case 3:
+                        $(".btnFriends").removeClass("d-none");
+                        $(".lblDate").html(result.status[1]);
+                        break;
+                }              
             }
         });
     }

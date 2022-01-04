@@ -47,11 +47,9 @@
                     $("#lblName").html(`#${result.data.id}`);
                     $("#lblName").append(` ${result.data.nombre}`);
 
-                    if(result.data.image){
-                      $("#businessPhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
-                    }else{
-                      $("#businessPhoto").attr("src", `https://www.distribucionactualidad.com/wp-content/uploads/2019/05/grow-my-store.png`);
-                    }
+                    let srcImg = (result.data.image) ? `${base_url}/${result.data.image}?v=${Math.random()}` : `https://www.distribucionactualidad.com/wp-content/uploads/2019/05/grow-my-store.png`;
+
+                    $("#businessPhoto").attr("src", srcImg);
 
                     $("#lblInfo").html(`${result.data.Descripcion}`);
                     $(".lblDir").html(`${result.data.Direccion}`);
@@ -71,7 +69,6 @@
 
     function changePageLang(language) {
         let myLang = language["businessPage"];
-
         $(".labelAbout").html(`${myLang.labelAbout}`);
     }
 </script>

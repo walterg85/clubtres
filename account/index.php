@@ -21,93 +21,22 @@
 
         <!-- Bootstrap, CSS & Icons -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <link href="../assets/css/account.css" rel="stylesheet" >
+        <link href="../assets/css/account.min.css" rel="stylesheet" >
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
         <!-- Datatables -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
 
+        <!-- Admin CSS -->
+        <link rel="stylesheet" href="../assets/css/admin.min.css">
+
         <!-- sweetalert2 -->
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" async></script>
 
         <title>Account Page</title>
     </head>
     <style type="text/css">
-        .dropdown-menu {
-            width: 20rem !important;
-        }
-        td.details-control {
-            background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
-            cursor: pointer;
-        }
-        tr.shown td.details-control {
-            background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
-        }
-        .offcanvas-end{
-            width: 500px !important;
-        }
-        /*Forzar a que se muestre el fondo blanco en el modal del cropperJS*/
-        .cropper-modal{
-            background-color: #fff !important;
-            opacity: .7 !important;
-        }
-        .globoChat {
-            width: 80px;
-            height: 80px;
-            border-radius: 50px;
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            bottom: 30px;
-            cursor: pointer;
-            background-color: #b7b7b7;
-            transition: all 0.4s
-        }
-
-        .wrapper {
-            position: absolute;
-            bottom: 100px;
-            width: 300px;
-            background-color: #383b3f;
-            border-radius: 5px;
-            /*opacity: 0;*/
-            display: none;
-            transition: all 0.4s;
-            z-index: 9;
-        }
-
-        .header {
-            padding: 13px;
-            background-color: #191c1f;
-            border-radius: 5px 5px 0px 0px;
-            margin-bottom: 10px;
-            color: #fff
-        }
-
-        .chat-form {
-            padding: 15px
-        }
-
-        .chat-form input, textarea, button {
-            margin-bottom: 10px
-        }
-
-        .chat-form textarea {
-            resize: none
-        }
-
-        .form-control:focus, .btn:focus {
-            box-shadow: none
-        }
-
-        #chatLog {
-            text-align: left;
-            margin: 0 auto;
-            padding: 10px;
-            height: 250px;
-            width: 100%;
-            overflow: auto;
-        }
+        
 
     </style>
     <body>
@@ -242,8 +171,8 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- Datatables -->
-        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" async></script>
+        <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js" async></script>
 
         <script type="text/javascript">
             var currentLeague   = null,

@@ -1,0 +1,75 @@
+.dropdown-menu {
+    width: 20rem !important;
+}
+td.details-control {
+    background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+}
+.offcanvas-end{
+    width: 500px !important;
+}
+/*Forzar a que se muestre el fondo blanco en el modal del cropperJS*/
+.cropper-modal{
+    background-color: #fff !important;
+    opacity: .7 !important;
+}
+.globoChat {
+    width: 80px;
+    height: 80px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 30px;
+    cursor: pointer;
+    background-color: #b7b7b7;
+    transition: all 0.4s
+}
+
+.wrapper {
+    position: absolute;
+    bottom: 100px;
+    width: 300px;
+    background-color: #383b3f;
+    border-radius: 5px;
+    /*opacity: 0;*/
+    display: none;
+    transition: all 0.4s;
+    z-index: 9;
+}
+
+.header {
+    padding: 13px;
+    background-color: #191c1f;
+    border-radius: 5px 5px 0px 0px;
+    margin-bottom: 10px;
+    color: #fff
+}
+
+.chat-form {
+    padding: 15px
+}
+
+.chat-form input, textarea, button {
+    margin-bottom: 10px
+}
+
+.chat-form textarea {
+    resize: none
+}
+
+.form-control:focus, .btn:focus {
+    box-shadow: none
+}
+
+#chatLog {
+    text-align: left;
+    margin: 0 auto;
+    padding: 10px;
+    height: 250px;
+    width: 100%;
+    overflow: auto;
+}
