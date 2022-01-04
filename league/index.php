@@ -88,13 +88,10 @@
                     $("#lblName").html(`#${result.data.id}`);
                     $("#lblName").append(` ${result.data.name}`);
 
-                    leagueName = result.data.name;
+                    leagueName  = result.data.name;
+                    srcImg      = (result.data.image) ? `${base_url}/${result.data.image}?v=${Math.random()}` : `https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Sport_balls.svg/1200px-Sport_balls.svg.png`;
 
-                    if(result.data.image){
-                      $("#leaguePhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
-                    }else{
-                      $("#leaguePhoto").attr("src", `https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Sport_balls.svg/1200px-Sport_balls.svg.png`);
-                    }
+                    $("#leaguePhoto").attr("src", srcImg);
 
                     dataLeague = {
                         "tipo": result.data.sport,
@@ -120,9 +117,7 @@
                         `;
                     });
 
-                    $("#bdyTeams").html("");
-                    $(rows).appendTo("#bdyTeams");
-
+                    $("#bdyTeams").html(rows);
                     changePageLang(curentLanguage);
 
                 }else{
@@ -137,8 +132,8 @@
     }
 
     function changePageLang(language) {
-        let myLang = language["leaguePage"];
-        curentLanguage = language;
+        let myLang      = language["leaguePage"];
+        curentLanguage  = language;
 
         if(dataLeague){
             $("#lblInfo").html(`${dataLeague.cantidad} ${myLang.title[dataLeague.tipo -1]}`);

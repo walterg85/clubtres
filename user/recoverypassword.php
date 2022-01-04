@@ -45,7 +45,6 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" ></script>
 <script type="text/javascript">
     var userId = <?php echo (array_key_exists('restore', $_GET)) ? $_GET['restore'] : 0; ?>;
     	token  = "<?php echo (array_key_exists('token', $_GET)) ? $_GET['token'] : ''; ?>";
@@ -65,9 +64,8 @@
             continuar = true;
 
         Array.prototype.slice.call(forms).forEach(function (form){ 
-                if (!form.checkValidity()) {
-                        continuar = false;
-                }
+                if (!form.checkValidity())
+                    continuar = false;
 
                 form.classList.add('was-validated');
         });

@@ -71,14 +71,10 @@
                     $("#lblNombreTeam").html(`#${result.data.id}`);
                     $("#lblNombreTeam").append(` ${result.data.name}`);
 
-                    teamName = result.data.name;
+                    teamName    = result.data.name;
+                    srcImg      = (result.data.image) ? `${base_url}/${result.data.image}?v=${Math.random()}` : `https://i.imgur.com/KIKKMcK.jpg`;
 
-                    if(result.data.image){
-                      $("#teamPhoto").attr("src", `${base_url}/${result.data.image}?v=${Math.random()}`);
-                    }else{
-                      $("#teamPhoto").attr("src", `https://i.imgur.com/KIKKMcK.jpg`);
-                    }
-
+                    $("#teamPhoto").attr("src", srcImg);
                     $("#numMember").html(`${(result.data.teamlist).length} Members`);
                     countMember = (result.data.teamlist).length;
 
@@ -94,9 +90,7 @@
                         `;
                     });
 
-                    $("#bdyUser").html("");
-                    $(rows).appendTo("#bdyUser");
-
+                    $("#bdyUser").html(rows);
                     changePageLang(curentLanguage);
 
                 }else{
@@ -110,8 +104,8 @@
     }
 
     function changePageLang(language) {
-        let myLang = language["teamPage"];
-        curentLanguage = language;
+        let myLang      = language["teamPage"];
+        curentLanguage  = language;
 
         if(countMember > 0){
             $("#numMember").html(`${countMember} ${myLang.title}`);
