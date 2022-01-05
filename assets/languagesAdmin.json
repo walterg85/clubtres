@@ -3,14 +3,56 @@
 		"buttonText": "Español",
 		"home":{
 			"linkHome": "Home",
-			"pageTitle": "Home"
+			"pageTitle": "Home",
+			"labelGroupTeam": "Teams registered",
+			"labelGroupUser": "Users registered",
+			"labelGroupLeague": "Leagues registered",
+			"labelGroupBusiness": "Business registered",
+			"labelGroupGames": "Games registered",
+			"labelTeamTotal": "Total registered",
+			"labelTeamActivo": "Total active",
+			"labelTeamInactivo": "Total inactive",
+			"labelUserTotal": "Total registered",
+			"labelUserActivo": "Total active",
+			"labelUserInactivo": "Total inactive",
+			"labelLeagueTotal": "Total registered",
+			"labelLeagueActivo": "Total active",
+			"labelLeagueInactivo": "Total inactive",
+			"labelBusinessTotal": "Total registered",
+			"labelBusinessActivo": "Total active",
+			"labelBusinessInactico": "Total inactive",
+			"labelGameTotal": "Total registered",
+			"labelGameActivo": "Total pending",
+			"labelGameInactivo": "Total finalized",
+			"labelTitutloGrafico": "Registered users per month in the current year"
 		}
 	},
 	"es":{
 		"buttonText": "English",
 		"home":{
 			"linkHome": "Inicio",
-			"pageTitle": "Inicio"
+			"pageTitle": "Inicio",
+			"labelGroupTeam": "Equipos registrados",
+			"labelGroupUser": "Usuarios registrados",
+			"labelGroupLeague": "Ligas registradas",
+			"labelGroupBusiness": "Negocios registrados",
+			"labelGroupGames": "Juegos registrados",
+			"labelTeamTotal": "Total registrados",
+			"labelTeamActivo": "Total activos",
+			"labelTeamInactivo": "Total inactivos",
+			"labelUserTotal": "Total registrados",
+			"labelUserActivo": "Total activos",
+			"labelUserInactivo": "Total inactivos",
+			"labelLeagueTotal": "Total registrados",
+			"labelLeagueActivo": "Total activos",
+			"labelLeagueInactivo": "Total inactivos",
+			"labelBusinessTotal": "Total registrados",
+			"labelBusinessActivo": "Total activos",
+			"labelBusinessInactico": "Total inactivos",
+			"labelGameTotal": "Total registrados",
+			"labelGameActivo": "Total pendientes",
+			"labelGameInactivo": "Total finalizados",
+			"labelTitutloGrafico": "Usuarios registrados por mes en el año actual"
 		}
 	}
 }

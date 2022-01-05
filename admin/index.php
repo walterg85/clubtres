@@ -11,12 +11,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Teams registered</texto>
+                <texto class="labelGroupTeam">Teams registered</texto>
             </h5>
             <div class="card-body">
-                <h6><texto class="labelTres">Total registered:</texto> <texto id="teamTotal"></texto></h6>
-                <h6><texto class="labelCuatro">Total active:</texto> <texto id="teamActive"></texto></h6>
-                <h6><texto class="labelCinco">Total inactive:</texto> <texto id="teamInactive"></texto></h6>
+                <h6><texto class="labelTeamTotal">Total registered:</texto> <texto id="teamTotal"></texto></h6>
+                <h6><texto class="labelTeamActivo">Total active:</texto> <texto id="teamActive"></texto></h6>
+                <h6><texto class="labelTeamInactivo">Total inactive:</texto> <texto id="teamInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -24,12 +24,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Users registered</texto>
+                <texto class="labelGroupUser">Users registered</texto>
             </h5>
             <div class="card-body">
-                <h6><texto class="labelTres">Total registered:</texto> <texto id="usersTotal"></texto></h6>
-                <h6><texto class="labelCuatro">Total active:</texto> <texto id="usersActive"></texto></h6>
-                <h6><texto class="labelCinco">Total inactive:</texto> <texto id="usersInactive"></texto></h6>
+                <h6><texto class="labelUserTotal">Total registered:</texto> <texto id="usersTotal"></texto></h6>
+                <h6><texto class="labelUserActivo">Total active:</texto> <texto id="usersActive"></texto></h6>
+                <h6><texto class="labelUserInactivo">Total inactive:</texto> <texto id="usersInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -37,12 +37,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Leagues registered</texto>
+                <texto class="labelGroupLeague">Leagues registered</texto>
             </h5>
             <div class="card-body">
-                <h6><texto class="labelTres">Total registered:</texto> <texto id="leaguesTotal"></texto></h6>
-                <h6><texto class="labelCuatro">Total active:</texto> <texto id="leaguesActive"></texto></h6>
-                <h6><texto class="labelCinco">Total inactive:</texto> <texto id="leaguesInactive"></texto></h6>
+                <h6><texto class="labelLeagueTotal">Total registered:</texto> <texto id="leaguesTotal"></texto></h6>
+                <h6><texto class="labelLeagueActivo">Total active:</texto> <texto id="leaguesActive"></texto></h6>
+                <h6><texto class="labelLeagueInactivo">Total inactive:</texto> <texto id="leaguesInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -50,12 +50,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Business registered</texto>
+                <texto class="labelGroupBusiness">Business registered</texto>
             </h5>
             <div class="card-body">
-                <h6><texto class="labelTres">Total registered:</texto> <texto id="businessTotal"></texto></h6>
-                <h6><texto class="labelCuatro">Total active:</texto> <texto id="businessActive"></texto></h6>
-                <h6><texto class="labelCinco">Total inactive:</texto> <texto id="businessInactive"></texto></h6>
+                <h6><texto class="labelBusinessTotal">Total registered:</texto> <texto id="businessTotal"></texto></h6>
+                <h6><texto class="labelBusinessActivo">Total active:</texto> <texto id="businessActive"></texto></h6>
+                <h6><texto class="labelBusinessInactico">Total inactive:</texto> <texto id="businessInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -63,12 +63,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                <texto class="labelUno">Games registered</texto>
+                <texto class="labelGroupGames">Games registered</texto>
             </h5>
             <div class="card-body">
-                <h6><texto class="labelTres">Total registered:</texto> <texto id="gamesTotal"></texto></h6>
-                <h6><texto class="labelCuatro">Total pending:</texto> <texto id="gamesActive"></texto></h6>
-                <h6><texto class="labelCinco">Total finalized:</texto> <texto id="gamesInactive"></texto></h6>
+                <h6><texto class="labelGameTotal">Total registered:</texto> <texto id="gamesTotal"></texto></h6>
+                <h6><texto class="labelGameActivo">Total pending:</texto> <texto id="gamesActive"></texto></h6>
+                <h6><texto class="labelGameInactivo">Total finalized:</texto> <texto id="gamesInactive"></texto></h6>
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
 
 <div class="row secseccionBody">
     <div class="col-6">
-        <p class="lead mb-0 chartA">Registered users per month in the current year</p>
+        <p class="lead mb-0 chartA labelTitutloGrafico">Registered users per month in the current year</p>
         <canvas class="my-4 w-100" id="myChartA"></canvas>
     </div>
 </div>
@@ -87,7 +87,8 @@
     var arrMes = {
             "en": ["January","February","March","April","May","June","July", "August","September","October","November","December"],
             "es": ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-        };
+        },
+        datosGrafica = null;
 
     $(document).ready(function(){
         // Buscar el detalle de resumen
@@ -122,18 +123,20 @@
             $("#gamesActive").html(dato.pending_games);
             $("#gamesInactive").html(dato.passed_games);
 
-            generateChart(result.chart1);
+            datosGrafica = result.chart1;
+
+            generateChart();
         });
     }
 
-    function generateChart(data){
+    function generateChart(){
         let canvaA   = document.getElementById('myChartA'),
             myChartA = new Chart(canvaA, {
                 type: 'line',
                 data: {
-                    labels: arrMes["en"],
+                    labels: arrMes[lang],
                     datasets: [{
-                        data: data,
+                        data: datosGrafica,
                         lineTension: 0,
                         backgroundColor: 'transparent',
                         borderColor: '#007bff',
@@ -158,6 +161,30 @@
 
     function changePageLang(myLang){
         $(".pageTitle").html(myLang.pageTitle);
+
+        $(".pageTitle").html(myLang.pageTitle);
+        $(".labelGroupTeam").html(myLang.labelGroupTeam);
+        $(".labelGroupUser").html(myLang.labelGroupUser);
+        $(".labelGroupLeague").html(myLang.labelGroupLeague);
+        $(".labelGroupBusiness").html(myLang.labelGroupBusiness);
+        $(".labelGroupGames").html(myLang.labelGroupGames);
+        $(".labelTeamTotal").html(myLang.labelTeamTotal);
+        $(".labelTeamActivo").html(myLang.labelTeamActivo);
+        $(".labelTeamInactivo").html(myLang.labelTeamInactivo);
+        $(".labelUserTotal").html(myLang.labelUserTotal);
+        $(".labelUserActivo").html(myLang.labelUserActivo);
+        $(".labelUserInactivo").html(myLang.labelUserInactivo);
+        $(".labelLeagueTotal").html(myLang.labelLeagueTotal);
+        $(".labelLeagueActivo").html(myLang.labelLeagueActivo);
+        $(".labelLeagueInactivo").html(myLang.labelLeagueInactivo);
+        $(".labelBusinessTotal").html(myLang.labelBusinessTotal);
+        $(".labelBusinessActivo").html(myLang.labelBusinessActivo);
+        $(".labelBusinessInactico").html(myLang.labelBusinessInactico);
+        $(".labelGameTotal").html(myLang.labelGameTotal);
+        $(".labelGameInactivo").html(myLang.labelGameInactivo);
+        $(".labelTitutloGrafico").html(myLang.labelTitutloGrafico);
+
+        generateChart();
     }
 </script>
 
