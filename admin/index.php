@@ -76,7 +76,7 @@
 
 <div class="row secseccionBody">
     <div class="col-6">
-        <p class="lead mb-0 chartA">Registered users per month</p>
+        <p class="lead mb-0 chartA">Registered users per month in the current year</p>
         <canvas class="my-4 w-100" id="myChartA"></canvas>
     </div>
 </div>
@@ -121,6 +121,8 @@
             $("#gamesTotal").html(dato.total_games);
             $("#gamesActive").html(dato.pending_games);
             $("#gamesInactive").html(dato.passed_games);
+
+            generateChart(result.chart1);
         });
     }
 
@@ -152,6 +154,10 @@
                     }
                 }
             });
+    }
+
+    function changePageLang(myLang){
+        $(".pageTitle").html(myLang.pageTitle);
     }
 </script>
 

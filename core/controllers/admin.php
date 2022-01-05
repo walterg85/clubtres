@@ -11,9 +11,20 @@
         $adminModel  = new Adminmodel();
 
         if($_POST['_method'] == 'GET'){
+
+            $currentYear    = date("Y");
+            $chart1         = [];
+
+            for ($i=1; $i < 13; $i++) { 
+                $result     = $adminModel->getChart1( $currentYear . '-' . str_pad($i, 2, '0', STR_PAD_LEFT) );
+                $userCount  = ($result->user_count) ? intval($result->user_count) : 0;
+                $chart1[]   = $userCount;
+            }
+
             $response = array(
                 'codeResponse'  => 200,
-                'data'          => $adminModel->getReport()
+                'data'          => $adminModel->getReport(),
+                'chart1'        => $chart1
             );
 
             header('HTTP/1.1 200 Ok');

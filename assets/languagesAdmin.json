@@ -1,0 +1,16 @@
+{
+	"en":{
+		"buttonText": "Español",
+		"home":{
+			"linkHome": "Home",
+			"pageTitle": "Home"
+		}
+	},
+	"es":{
+		"buttonText": "English",
+		"home":{
+			"linkHome": "Inicio",
+			"pageTitle": "Inicio"
+		}
+	}
+}

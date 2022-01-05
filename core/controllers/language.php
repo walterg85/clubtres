@@ -1,6 +1,12 @@
 <?php
 	header("Access-Control-Allow-Origin: *");
 
+	if($_POST['side'] == 'admin'){
+		$filename = '../../assets/languagesAdmin.json';
+	} else if($_POST['side'] == 'account'){
+		$filename = '../../assets/languages.json';
+	}
+
 	$arrContextOptions = array(
 		"ssl"=>array(
 			"verify_peer"=>false,
@@ -8,7 +14,7 @@
 		)
 	);
 
-	$json 		= file_get_contents('../../assets/languages.json', false, stream_context_create($arrContextOptions));
+	$json 		= file_get_contents($filename, false, stream_context_create($arrContextOptions));
 	$details 	= json_decode($json, true);			
 
 	header('HTTP/1.1 200 Ok');

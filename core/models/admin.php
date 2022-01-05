@@ -31,4 +31,22 @@
 			
 			return $sql->fetch();
 		}
+
+		public function getChart1($data){
+			$pdo = new Conexion();
+
+	    	$cmd = '
+	    		SELECT COUNT(id) AS user_count FROM `user` WHERE register_date LIKE :fecha
+	    	';
+
+	    	$parametros = array(
+	    		':fecha' => $data . '%'
+	    	);
+
+	    	$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
 	}

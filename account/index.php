@@ -425,7 +425,11 @@
             }
 
             function switchLanguage(lang){
-                $.post("../core/controllers/language.php", {}, function(data) {
+                let _Data = {
+                    "side": "account"
+                };
+
+                $.post("../core/controllers/language.php", _Data, function(data) {
                     $(".changeLang").html('<i class="bi bi-globe2"></i> ' + data[lang]["buttonText"]);
                     $(".lableSaludo").html(`${data[lang]["lableSaludo"]}`);
                 

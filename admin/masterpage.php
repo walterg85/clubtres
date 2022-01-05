@@ -79,7 +79,10 @@
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="javascript:void(0);" id="linkHome">
+                                <a class="nav-link changeLang" href="javascript:void(0);"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="javascript:void(0);" id="linkHome">
                                     <i class="bi bi-house-door-fill"></i> Home
                                 </a>
                             </li>
@@ -96,10 +99,29 @@
         <!-- Option 1: Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-        <script type="text/javascript">            
-            $(document).ready(function(){
-                
+        <script type="text/javascript">
+            // Detectar el idioma del navegador
+            var lang = (window.navigator.language).substring(0,2);
 
+            $(document).ready(function(){
+                if( localStorage.getItem("adminCurrentLag") ){
+                    lang = localStorage.getItem("adminCurrentLag");
+                }else{
+                    localStorage.setItem("adminCurrentLag", lang);
+                }
+
+                $(".changeLang").click( function(){
+                    if (localStorage.getItem("currentLag") == "es") {
+                        localStorage.setItem("currentLag", "en");
+                        lang = "en";
+                    }else{
+                        localStorage.setItem("currentLag", "es");
+                        lang = "es";
+                    }
+                    switchLanguage();
+                });
+
+                switchLanguage();
             });
 
             // Metodo para mostrar una alerta de notificaicon
@@ -144,6 +166,22 @@
                     cancelButtonColor: '#d33',
                     confirmButtonText: confirmButtonText,
                     allowOutsideClick: false
+                });
+            }
+
+            // Metodo para cambio de idioma
+            function switchLanguage(){
+                let _Data = {
+                    "side": "admin"
+                };
+
+                $.post("../core/controllers/language.php", _Data, function(data) {
+                    $(".changeLang").html('<i class="bi bi-globe2"></i> ' + data[lang]["buttonText"]);
+                
+                    let myLang = data[lang]["home"];
+                    $("#linkHome").html(`<i class="bi bi-house-door-fill"></i> ${myLang.linkHome}`);
+
+                    changePageLang(myLang);
                 });
             }
         </script>
